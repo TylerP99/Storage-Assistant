@@ -36,7 +36,7 @@ mongoose.connect(
 })
 .catch(e => {
     console.error(e);
-}) 
+});
 
 
 // Root Router
