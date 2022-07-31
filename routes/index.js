@@ -16,5 +16,11 @@ router.get("/register", /*forwardAuthenticate,*/ (req, res) => {
     res.render("register.ejs");
 });
 
+// Login route
+router.get("/login", /*forwardAuthenticate,*/ (req,res) => {
+    console.log("GET login");
+    res.render("login.ejs");
+});
+
 
 module.exports = router;
