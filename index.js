@@ -1,4 +1,3 @@
-const { urlencoded } = require("express");
 const express = require("express");
 
 const app = express();
@@ -8,6 +7,8 @@ const PORT = process.env.PORT || 3000;
 
 // EJS - View Engine
 app.set("view engine", "ejs");
+
+// Express Middleware
 app.use(express.json()); // Parses JSON requests and puts the data in body
 app.use(express.urlencoded({ extended:true})); // Parses incoming url options and puts the data in the body
 app.use(express.static("public")); // Allows router to easily grab from public folder (mainly used for js and css on client side)
