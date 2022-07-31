@@ -26,7 +26,7 @@ const dbConnectionString = process.env.MONGODB_CONNECTION_STRING;
 mongoose.connect(
     dbConnectionString,
     //Options
-    { 
+    {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
@@ -37,6 +37,16 @@ mongoose.connect(
 .catch(e => {
     console.error(e);
 });
+
+// Express Session
+const session = require("express-session");
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: true,
+        saveUninitialized: true
+    })
+);
 
 
 // Root Router
