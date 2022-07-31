@@ -33,4 +33,24 @@ async function submit_registration_request(event) {
     const data = await res.json();
 
     console.log(data);
+
+    if(!data.valid) {
+        return display_errors(data.errors);
+    }
+
+    window.location.replace("/login");
+}
+
+function display_errors(errors) {
+    if(errors.emailInUse) {
+
+    }
+
+    if(errors.passwordWeak) {
+
+    }
+
+    if(errors.passwordNotMatch) {
+        
+    }
 }
