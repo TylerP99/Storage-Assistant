@@ -17,6 +17,7 @@ app.use(express.static("public")); // Allows router to easily grab from public f
 app.use("/", require("./routes/index.js"));
 
 // Api Router
+app.use("/api", require("./routes/api.js"));
 
 app.listen(PORT, () =>{
     console.log(`Listening on ${PORT}`);
