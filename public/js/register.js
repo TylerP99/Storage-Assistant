@@ -16,7 +16,7 @@ async function submit_registration_request(event) {
     const account = {
         email: emailField.value,
         password1: password1Field.value,
-        password2: password1Field.value
+        password2: password2Field.value
     };
 
     const res = await fetch(

@@ -12,17 +12,23 @@ const saltRounds = 10;
 router.post("/create", async (req, res) => {
     const account = req.body.account;
 
-    const valid = validate_account(account);
+    const valid = await validate_account(account);
 
-    if(valid) {
+    if(valid.valid) {
         // Add to database, send back success
-        bcrypt.hash(account.password1, saltRounds, async (err, hash) => {
+        try {
+            const hashedPassword = await bcrypt.hash(account.password1, saltRounds);
             const newAccount = {
                 email: account.email,
-                password: hash
+                password: hashedPassword
             }
             await User.create(newAccount);
-        });
+            console.log("Account Created");
+        }
+        catch(e) {
+            console.error(e);
+            // Send bad res
+        }
     }
 
     res.json(valid);
@@ -30,6 +36,8 @@ router.post("/create", async (req, res) => {
 
 async function validate_account(account) {
     const MIN_PASSWORD_LEN = 6;
+
+    console.log(account);
 
     // Validation object that contains overall valid boolean, and error booleans for client side warnings
     let validation = {
