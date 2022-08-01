@@ -71,4 +71,14 @@ async function validate_account(account) {
     return validation;
 }
 
+
+
+
+//LOGIN/Authenticate Account Route
+router.post("/authenticate", (req,res) => {
+    console.log(req.body);
+    res.json("Received");
+});
+
+
 module.exports = router
