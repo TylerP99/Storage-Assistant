@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const passport = require("passport");
+
 const User = require("../../models/User.js");
 
 const bcrypt = require("bcrypt");
@@ -75,10 +77,28 @@ async function validate_account(account) {
 
 
 //LOGIN/Authenticate Account Route
-router.post("/authenticate", (req,res) => {
-    console.log(req.body);
-    res.json("Received");
+router.post("/authenticate", (req,res,next) => {
+    console.log("Passport auth");
+
+    passport.authenticate("local", (e, user, info, status) => {
+        if(e) {
+            console.log("err")
+            return next(err);
+        }
+        if(!user) {
+            console.log("res sent")
+            return res.status(401).json({success:false, error:info.message}).end();
+        }
+
+        req.login(user, err => {
+            console.log("Log in");
+            if(err) {
+                return next(err);
+            }
+            res.json({success:true, error:""});
+        })
+    })(req,res,next);
 });
 
 
-module.exports = router
+module.exports = router;

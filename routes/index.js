@@ -22,5 +22,10 @@ router.get("/login", /*forwardAuthenticate,*/ (req,res) => {
     res.render("login.ejs");
 });
 
+// Storage Route
+router.get("/storage", (req, res) => {
+    res.render("storage.ejs");
+});
+
 
 module.exports = router;

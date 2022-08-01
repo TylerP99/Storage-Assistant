@@ -14,11 +14,11 @@
 
         <form class="login-form" action="/api/account/authenticate" method="POST">
 
-            <section>
+            <section class="error hidden">
+                <span class="error-content"></span>
+            </section>
 
-                <section class="error hidden">
-                    <span class="email-error"></span>
-                </section>
+            <section>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter Email Here" required>
 

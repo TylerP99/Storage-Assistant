@@ -8,6 +8,10 @@ const PORT = process.env.PORT || 3000;
 // EJS - View Engine
 app.set("view engine", "ejs");
 
+// Logger
+const logger = require("morgan");
+app.use(logger("dev"));
+
 // Express Middleware
 app.use(express.json()); // Parses JSON requests and puts the data in body
 app.use(express.urlencoded({ extended:true})); // Parses incoming url options and puts the data in the body
@@ -47,6 +51,14 @@ app.use(
         saveUninitialized: true
     })
 );
+
+// Passport
+const passport = require("passport");
+const init_passport_local = require("./config/passport-config.js");
+init_passport_local(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 
 // Root Router

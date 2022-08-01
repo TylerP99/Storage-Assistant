@@ -15,10 +15,13 @@ async function submit_login_request(event) {
         password: passwordField.value
     }
 
+    console.log("Req sent");
+
     const res = await fetch(
         "/api/account/authenticate",
         {
             method: "POST",
+            redirect: "follow",
             headers: {
                 "Content-Type":"application/json"
             },
@@ -28,5 +31,14 @@ async function submit_login_request(event) {
 
     const data = await res.json();
 
-    console.log(data);
+    if(!data.success) {
+        return display_errors(data.error);
+    }
+
+    window.location.replace("/storage");
+}
+
+function display_errors(error) {
+    const errorContainer = document.querySelector(".error-content");
+    errorContainer.innerText = error;
 }
