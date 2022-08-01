@@ -43,14 +43,29 @@ async function submit_registration_request(event) {
 
 function display_errors(errors) {
     if(errors.emailInUse) {
-
+        display_email_error("That email is already registered!");
     }
 
     if(errors.passwordWeak) {
-
+        display_password1_error("Password must be at least 6 characters long!");
     }
 
     if(errors.passwordNotMatch) {
-        
+        display_password2_error("Passwords must match!");
     }
+}
+
+function display_email_error(message) {
+    const errContainer = document.querySelector(".email-error");
+    errContainer.innerText = message;
+}
+
+function display_password1_error(message) {
+    const errContainer = document.querySelector(".password1-error");
+    errContainer.innerText = message;  
+}
+
+function display_password2_error(message) {
+    const errContainer = document.querySelector(".password2-error");
+    errContainer.innerText = message;
 }
