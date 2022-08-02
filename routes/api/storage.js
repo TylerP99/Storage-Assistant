@@ -130,6 +130,15 @@ router.put("/add/StorageLocation", (req,res,next) => {
 });
 
 // Delete StorageLocation (and all contents!!)
+router.delete("/delete/StorageLocation", (req, res, next) => {
+    const id = req.body.location.id;
+
+    // Get the thing from the database first
+    const location = StorageLocation.findById(id);
+
+    // Go through the contents and delete each item
+    // Fuck...
+});
 
 
 // Container Operations
