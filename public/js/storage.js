@@ -50,7 +50,7 @@ async function update_storage_location(event) {
     const id = "";
 
     // Construct object
-    const updatedLocation = new StorageLocation(name, desc, len. wid, hei);
+    const updatedLocation = new StorageLocation(name, desc, len, wid, hei);
 
     // Send put request to update properties
     const response = await fetch(
@@ -79,6 +79,92 @@ async function update_storage_location(event) {
     window.location.reload();
 }
 
+// Add object to storageLocation
+async function add_to_storage_location(event) {
+    // Prevent html form submission
+    event.preventDefault();
+
+    // Get data from form
+    // Form will have dropdown menu that will submit type of object and form used
+    const type = "";
+    let obj = {};
+
+    if(type == "container") {
+        const name = "";
+        const desc = "";
+        const len = "";
+        const wid = "";
+        const hei = "";
+        obj = new Container(name,desc,len,wid,hei);
+    }
+    else if(type == "item") {
+        const name = "";
+        const desc = "";
+        const quan = "";
+        const val = "";
+        const len = "";
+        const wid = "";
+        const hei = "";
+        obj = new Item(name,desc,quan,val,len,wid,hei)
+    }
+
+    // Send request with obj to add and its type
+    const response = await fetch(
+        "/api/storage/add/StorageLocation",
+        {
+            method:"PUT",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                obj:obj, 
+                type:type
+            })
+        }
+    );
+
+    // Parse response and save
+    const data = await response.json();
+
+    // If invalid, provide feedback
+    if(!data.valid) {
+        return display_errors(data.errors);
+    }
+
+    // Reload page to see changes
+    window.location.reload();
+}
+
+// Delete StorageLocation
+async function delete_storage_location(event) {
+    event.preventDefault();
+
+    // Get id from object
+    const id = "";
+
+    // Send request with id
+    const response = await fetch(
+        "/api/storage/delete/StorageLocation",
+        {
+            method:"DELETE",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringigy({id:id});
+        }
+    )
+
+    // Parse response
+    const data = await response.json();
+
+    if(!data.valid) {
+        // Shouldn't be any user error since its a button press...
+        return display_errors(data.errors);
+    }
+
+    // Reload window for changes
+    window.location.reload();
+}
 
 
 class StorageLocation {
