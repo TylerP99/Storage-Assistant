@@ -276,6 +276,19 @@ router.put("/add/Container", (req,res,next) => {
     }
 });
 
+// Delete container request
+router.delete("/delete/Container", async (req, res, next) => {
+    const id = req.body.id;
+
+    const validation = await delete_container(id);
+
+    if(!validation.valid) {
+        return res.status(400).json(validation);
+    }
+
+    res.status(200).json(validation);
+});
+
 // Delete container from db
 async function delete_container(id) {
     try{
