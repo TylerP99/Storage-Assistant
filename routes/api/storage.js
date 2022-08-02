@@ -105,9 +105,27 @@ router.put("/add/StorageLocation", (req,res,next) => {
     else if (req.body.type == "item") {
         validation = create_new_item(req.body);
     }
-    else {
-        // Invalid req
+
+    if(!validation.valid) {
+        // Req invalid
         return res.status(400).json(validation);
+    }
+
+    // Add new item now
+    try {
+        await StorageLocation.findByIdAndUpdate(
+            req.body.location.id,
+            { $push: {contents: validation.newObj}},
+            {
+                upsert:false
+            }
+        )
+        console.log("Successfully added");
+        return res.status(200).json(validation);
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
     }
 });
 
