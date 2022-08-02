@@ -56,7 +56,7 @@ function is_valid_storage_location(location) {
 }
 
 // Edit StorageLocation properties
-router.put("/update/StorageLocation", (req, res, next) => {
+router.put("/update/StorageLocation", async (req, res, next) => {
     // Construct object from req
     const updatedLocation = {
         name: req.body.location.name,
@@ -92,7 +92,7 @@ router.put("/update/StorageLocation", (req, res, next) => {
 });
 
 // Add object to StorageLocation (put) (object is either item or container)
-router.put("/add/StorageLocation", (req,res,next) => {
+router.put("/add/StorageLocation", async (req,res,next) => {
     // Add user id to obj to be created
     req.body.item.owner = req.user.id;
     // Determine resource to be created
@@ -149,7 +149,7 @@ router.delete("/delete/StorageLocation", async (req, res, next) => {
         const location = await StorageLocation.findById(id);
 
         // Go through the contents and delete each item
-        location.contents.forEach( x => {
+        location.contents.forEach(async x => {
             if(x.type == "container") {
                 const validation = delete_container(x.id);
                 if(!validation.valid) {
@@ -201,7 +201,7 @@ function is_valid_container(container) {
 }
 
 // Edit Container properties
-router.put("/update/Container", (req,res) => {
+router.put("/update/Container", async (req,res) => {
     const validation = is_valid_container(req.body.container);
 
     if(!validation.valid) {
@@ -224,7 +224,7 @@ router.put("/update/Container", (req,res) => {
 });
 
 // Add object to Container (object is either item or container [smaller containers can be put into larger ones])
-router.put("/add/Container", (req,res,next) => {
+router.put("/add/Container", async (req,res,next) => {
     // Determine type
     const obj = req.body.obj;
 
@@ -295,7 +295,7 @@ async function delete_container(id) {
         const container = await Container.findById(id);
 
         // Delete each item in the container
-        container.contents.forEach( x => {
+        container.contents.forEach(async x => {
             if(x.type == "container") {
                 delete_container(x.id);
             }
@@ -345,7 +345,7 @@ function is_valid_item(item) {
 }
 
 // Edit item properties
-router.put("/update/Item", (req, res, next) => {
+router.put("/update/Item", async (req, res, next) => {
     const updatedItem = {
         name: req.body.item.name,
         description: req.body.item.description,
@@ -379,7 +379,7 @@ router.put("/update/Item", (req, res, next) => {
 });
 
 // Delete item from db
-router.delete("/delete/Item", (req,res,next) => {
+router.delete("/delete/Item", async (req,res,next) => {
     try{
         await Item.findByIdAndDelete(req.body.item.id);
         res.status(200).json({valid: true})

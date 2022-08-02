@@ -28,6 +28,9 @@ router.get("/login", forwardIfAuthenticated, (req,res) => {
 router.get("/storage", ensureAuthenticated, (req, res) => {
 
     // Get all the data :o
+    let locations = undefined;
+    let containers = undefined;
+    let items = undefined;
 
     res.render("storage.ejs", {locations, containers, items});
 });
