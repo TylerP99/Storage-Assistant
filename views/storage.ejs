@@ -9,6 +9,105 @@
 <body>
 
     <h1>Storage</h1>
+
+    <section class="storage-location-display">
+
+        <% if(locations) { %>
+
+            <% for(let i = 0; i < locations.length; ) { %>
+                <ul id="<%=locations[i]._id%>">
+                    <li>
+                        <span>Name: <%=locations[i].name%></span>
+                    </li>
+                    <li>
+                        <span>Description: <%=locations[i].description%></span>
+                    </li>
+                    <li>
+                        <span>Length: <%=locations[i].length%></span>
+                    </li>
+                    <li>
+                        <span>Width: <%=locations[i].width%></span>
+                    </li>
+                    <li>
+                        <span>Height: <%=locations[i].height%></span>
+                    </li>
+                </ul>
+
+            <% } %>
+
+        <% } else { %>
+            <h2>No locations</h2>
+        <% } %>
+
+    </section>
+
+    <section class="storage-container-display">
+
+        <% if(containers) { %>
+
+            <% for(let i = 0; i < containers.length; ) { %>
+                <ul id="<%=containers[i]._id%>">
+                    <li>
+                        <span>Name: <%=containers[i].name%></span>
+                    </li>
+                    <li>
+                        <span>Description: <%=containers[i].description%></span>
+                    </li>
+                    <li>
+                        <span>Length: <%=containers[i].length%></span>
+                    </li>
+                    <li>
+                        <span>Width: <%=containers[i].width%></span>
+                    </li>
+                    <li>
+                        <span>Height: <%=containers[i].height%></span>
+                    </li>
+                </ul>
+
+            <% } %>
+
+        <% } else { %>
+            <h2>No containers</h2>
+        <% } %>
+
+    </section>
+
+    <section class="storage-item-display">
+
+        <% if(items) { %>
+
+            <% for(let i = 0; i < items.length; ) { %>
+                <ul id="<%=items[i]._id%>">
+                    <li>
+                        <span>Name: <%=items[i].name%></span>
+                    </li>
+                    <li>
+                        <span>Description: <%=items[i].description%></span>
+                    </li>
+                    <li>
+                        <span>Quantity: <%=items[i].quantity%></span>
+                    </li>
+                    <li>
+                        <span>Estimated Value: <%=items[i].estimatedValue%></span>
+                    </li>
+                    <li>
+                        <span>Length: <%=items[i].length%></span>
+                    </li>
+                    <li>
+                        <span>Width: <%=items[i].width%></span>
+                    </li>
+                    <li>
+                        <span>Height: <%=items[i].height%></span>
+                    </li>
+                </ul>
+
+            <% } %>
+
+        <% } else { %>
+            <h2>No locations</h2>
+        <% } %>
+
+    </section>
     
 </body>
 </html>
