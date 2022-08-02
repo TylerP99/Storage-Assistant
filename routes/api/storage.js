@@ -93,6 +93,8 @@ router.put("/update/StorageLocation", (req, res, next) => {
 
 // Add object to StorageLocation (put) (object is either item or container)
 router.put("/add/StorageLocation", (req,res,next) => {
+    // Add user id to obj to be created
+    req.body.item.owner = req.user.id;
     // Determine resource to be created
     let validation = {
         newObj: {},
@@ -101,11 +103,17 @@ router.put("/add/StorageLocation", (req,res,next) => {
         error: "Requested resource type does not exist"
     }
     if(req.body.type == "container") {
-        validation = create_new_container(req.body);
+        validation = create_new_container(req.body.object);
+        if(!validation.valid) {
+            throw(validation.error);
+        }
         validation.type = "container";
     }
     else if (req.body.type == "item") {
-        validation = create_new_item(req.body);
+        validation = create_new_item(req.body.object);
+        if(!validation.valid) {
+            throw(validation.error);
+        }
         validation.type = "item";
     }
 
@@ -166,6 +174,109 @@ router.delete("/delete/StorageLocation", async (req, res, next) => {
     }
 });
 
+
+// Container Operations
+
+// Create new Container in db (pushing onto Location handled by Location)
+async function create_new_container(container) {
+    const validation = is_valid_container(container);
+
+    if(!validation.valid) {
+        return res.status(400).json(validation);
+    }
+
+    try{
+        await Container.create(container);
+        return validation;
+    }
+    catch(e) {
+        console.error(e);
+        validation.error = e;
+        return validation;
+    }
+}
+
+function is_valid_container(container) {
+    return true;
+}
+
+// Edit Container properties
+router.put("/update/Container", (req,res) => {
+    const validation = is_valid_container(req.body.container);
+
+    if(!validation.valid) {
+        return res.status(400).json(validation);
+    }
+
+    try{
+        await Container.findByIdAndUpdate(
+            req.body.container.id,
+            req.body.container,
+            {
+                upsert: false
+            }
+        );
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+// Add object to Container (object is either item or container [smaller containers can be put into larger ones])
+router.put("/add/Container", (req,res,next) => {
+    // Determine type
+    const obj = req.body.obj;
+
+    let validation = {
+        newObj: {},
+        type: undefined,
+        valid: false,
+        error: "Requested resource type does not exist"
+    }
+
+    if(req.body.type == "container") {
+        const validation = create_new_container(obj);
+
+        if(!validation.valid) {
+            throw(validation.error);
+        }
+
+        validation.type = "container";
+    }
+    else if(req.body.type == "item") {
+        const validation = create_new_item(obj);
+
+        if(!validation.valid) {
+            throw(validation.error);
+        }
+
+        validation.type = "item";
+    }
+
+    if(!validation.valid) {
+        return res.status(400).json(validation);
+    }
+
+    try{
+        await Container.findByIdAndUpdate(
+            req.body.obj.id,
+            {
+                $push: {contents:{id:obj.id, type:validation.type}}
+            },
+            {
+                upsert: false
+            }
+        )
+        return res.status(200).json(validation);
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+// Delete container from db
 async function delete_container(id) {
     try{
         const container = await Container.findById(id);
@@ -192,24 +303,79 @@ async function delete_container(id) {
 }
 
 
-// Container Operations
-
-// Create new Container in db (pushing onto Location handled by Location)
-
-// Edit Container properties
-
-// Add object to Container (object is either item or container [smaller containers can be put into larger ones])
-
-// Delete container from db
-
-
 // Item Operations
 
-// Create new Item in db
+// Create new Item in db to be pushed by storageLocation
+async function create_new_item(item) {
+    // Validate item first
+    const validation = is_valid_item(item);
+
+    if(!validation.valid) {
+        return validation;
+    }
+
+    try{
+        await Item.create(item);
+        return validation;
+    }
+    catch(e) {
+        console.error(e);
+        return validation;
+    }
+}
+
+function is_valid_item(item) {
+    //Check all properties
+
+    //For now, return true
+    return true;
+}
 
 // Edit item properties
+router.put("/update/Item", (req, res, next) => {
+    const updatedItem = {
+        name: req.body.item.name,
+        description: req.body.item.description,
+        quantity: req.body.item.quantity,
+        estimatedValue: req.body.item.value,
+        length: req.body.item.length,
+        width: req.body.item.width,
+        height: req.body.item.height
+    }
+
+    const validation = is_valid_item(updatedItem);
+
+    if(!validation.valid) {
+        // Bad request
+        return res.status(400).json(validation);
+    }
+    try {
+        // Valid, update item
+        await Item.findByIdAndUpdate(
+            req.body.item.id,
+            updatedItem,
+            {
+                upsert: false // Dont want a new item
+            }
+        );
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
 
 // Delete item from db
+router.delete("/delete/Item", (req,res,next) => {
+    try{
+        await Item.findByIdAndDelete(req.body.item.id);
+        res.status(200).json({valid: true})
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
 
 
 module.exports = router;
