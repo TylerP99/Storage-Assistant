@@ -96,14 +96,17 @@ router.put("/add/StorageLocation", (req,res,next) => {
     // Determine resource to be created
     let validation = {
         newObj: {},
+        type: undefined,
         valid: false,
         error: "Requested resource type does not exist"
     }
     if(req.body.type == "container") {
         validation = create_new_container(req.body);
+        validation.type = "container";
     }
     else if (req.body.type == "item") {
         validation = create_new_item(req.body);
+        validation.type = "item";
     }
 
     if(!validation.valid) {
@@ -130,15 +133,63 @@ router.put("/add/StorageLocation", (req,res,next) => {
 });
 
 // Delete StorageLocation (and all contents!!)
-router.delete("/delete/StorageLocation", (req, res, next) => {
+router.delete("/delete/StorageLocation", async (req, res, next) => {
     const id = req.body.location.id;
 
-    // Get the thing from the database first
-    const location = StorageLocation.findById(id);
+    try {
+        // Get the thing from the database first
+        const location = await StorageLocation.findById(id);
 
-    // Go through the contents and delete each item
-    // Fuck...
+        // Go through the contents and delete each item
+        location.contents.forEach( x => {
+            if(x.type == "container") {
+                const validation = delete_container(x.id);
+                if(!validation.valid) {
+                    throw validation.error;
+                }
+            }
+            else
+            {
+                await Item.findByIdAndDelete(x.id);
+            }
+        });
+
+        // Next delete the location
+        await StorageLocation.findByIdAndDelete(location.id);
+
+        // Done, send success
+        res.status(200).json({success:true});
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
 });
+
+async function delete_container(id) {
+    try{
+        const container = await Container.findById(id);
+
+        // Delete each item in the container
+        container.contents.forEach( x => {
+            if(x.type == "container") {
+                delete_container(x.id);
+            }
+            else
+            {
+                await Item.findByIdAndDelete(x.id);
+            }
+        });
+
+        // Now delete the container itself
+        await Container.findByIdAndDelete(id);
+        return {valid: true, error:""};
+    }
+    catch(e) {
+        console.error(e);
+        return {valid: false, error:e};
+    }
+}
 
 
 // Container Operations
