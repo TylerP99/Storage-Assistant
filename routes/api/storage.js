@@ -124,7 +124,7 @@ router.put("/add/StorageLocation", async (req,res,next) => {
 
     if(!newObj.validation.valid) {
         // Req invalid
-        return res.status(400).json(newObj);
+        return res.status(400).json(newObj.validation);
     }
 
     // Add new item now
@@ -137,7 +137,7 @@ router.put("/add/StorageLocation", async (req,res,next) => {
             }
         )
         console.log("Successfully added");
-        return res.status(200).json(newObj);
+        return res.status(200).json(newObj.validation);
     }
     catch(e) {
         console.error(e);
@@ -147,7 +147,7 @@ router.put("/add/StorageLocation", async (req,res,next) => {
 
 // Delete StorageLocation (and all contents!!)
 router.delete("/delete/StorageLocation", async (req, res, next) => {
-    const id = req.body.location.id;
+    const id = req.body.id;
 
     try {
         // Get the thing from the database first
@@ -157,9 +157,6 @@ router.delete("/delete/StorageLocation", async (req, res, next) => {
         location.contents.forEach(async x => {
             if(x.type == "container") {
                 const validation = delete_container(x.id);
-                if(!validation.valid) {
-                    throw validation.error;
-                }
             }
             else
             {
@@ -171,7 +168,7 @@ router.delete("/delete/StorageLocation", async (req, res, next) => {
         await StorageLocation.findByIdAndDelete(location.id);
 
         // Done, send success
-        res.status(200).json({success:true});
+        res.status(200).json({valid: true, errors: ""});
     }
     catch(e) {
         console.error(e);

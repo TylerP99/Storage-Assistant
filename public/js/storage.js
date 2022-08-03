@@ -117,12 +117,19 @@ async function add_to_storage_location(event) {
 }
 
 // Delete StorageLocation
+const deleteLocationButtons = document.querySelectorAll(".delete-location-button");
+
+deleteLocationButtons.forEach( x => {
+    x.addEventListener("click", delete_storage_location);
+});
+
+
 async function delete_storage_location(event) {
     event.preventDefault();
 
     // Get id from object
     const reqData = {
-        id:""
+        id:event.target.parentElement.parentElement.id
     };
     const reqLoc = "/api/storage/delete/StorageLocation";
 
@@ -275,7 +282,7 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
     console.log(data);
 
     // If there are errors, handle them
-    if(!data.validation.valid) {
+    if(!data.valid) {
         return error_function(data.errors)
     }
 
