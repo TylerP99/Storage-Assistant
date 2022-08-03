@@ -28,16 +28,27 @@ async function create_new_container(event) {
     await request_and_handle_res(reqData, reqLoc, "POST", display);
 }
 
+// Update storage location properties
+// There is a form for each storage location added, get them all
+const updateLocationForms = document.querySelectorAll(".update-storage-location-form");
+
+// Then add the event listeners to each form
+updateLocationForms.forEach( x => {
+    x.addEventListener("submit", update_storage_location);
+});
+
 async function update_storage_location(event) {
     event.preventDefault(); // Stop normal form submission
 
     // Grab items from form
-    const name = "";
-    const desc = "";
-    const len = "";
-    const wid = "";
-    const hei = "";
-    const id = "";
+    const name = document.querySelector("#location-name-update").value;
+    const desc = document.querySelector("#location-description-update").value;
+    const len  = document.querySelector("#location-length-update").value;
+    const wid  = document.querySelector("#location-width-update").value;
+    const hei  = document.querySelector("#location-height-update").value;
+    const id   = event.target.parentElement.id;
+
+    console.log(id);
 
     // Construct object
     const updatedLocation = new StorageLocation(name, desc, len, wid, hei);

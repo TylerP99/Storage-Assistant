@@ -62,6 +62,7 @@ function is_valid_storage_location(location) {
 
 // Edit StorageLocation properties
 router.put("/update/StorageLocation", async (req, res, next) => {
+    console.log(req.body);
     // Construct object from req
     const updatedLocation = {
         name: req.body.location.name,
@@ -70,6 +71,8 @@ router.put("/update/StorageLocation", async (req, res, next) => {
         width: req.body.location.width,
         height: req.body.location.height
     };
+
+    console.log(updatedLocation);
 
     // Verify object again baby
     const validation = is_valid_storage_location(updatedLocation);
@@ -80,8 +83,9 @@ router.put("/update/StorageLocation", async (req, res, next) => {
 
     // Update object by id
     try {
+        console.log("Mongoose access");
         await StorageLocation.findByIdAndUpdate(
-            req.body.location.id, // Id to find
+            req.body.id, // Id to find
             updatedLocation, // Properties to update
             { // Options
                 upsert: false // Dont make a new one if the one to update isnt found..
