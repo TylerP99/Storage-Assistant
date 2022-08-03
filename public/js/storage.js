@@ -41,11 +41,11 @@ async function update_storage_location(event) {
     event.preventDefault(); // Stop normal form submission
 
     // Grab items from form
-    const name = document.querySelector("#location-name-update").value;
-    const desc = document.querySelector("#location-description-update").value;
-    const len  = document.querySelector("#location-length-update").value;
-    const wid  = document.querySelector("#location-width-update").value;
-    const hei  = document.querySelector("#location-height-update").value;
+    const name = event.target.querySelector("#location-name-update").value;
+    const desc = event.target.querySelector("#location-description-update").value;
+    const len  = event.target.querySelector("#location-length-update").value;
+    const wid  = event.target.querySelector("#location-width-update").value;
+    const hei  = event.target.querySelector("#location-height-update").value;
     const id   = event.target.parentElement.id;
 
     console.log(id);
@@ -64,38 +64,51 @@ async function update_storage_location(event) {
 }
 
 // Add object to storageLocation
+const addItemForms = document.querySelectorAll(".add-item-to-storage-location-form");
+const addContainerForms = document.querySelectorAll(".add-container-to-storage-location-form");
+
+// Add event listeners to all the forms for now
+addItemForms.forEach( x => {
+    x.addEventListener("submit",add_to_storage_location);
+});
+addContainerForms.forEach( x => {
+    x.addEventListener("submit", add_to_storage_location);
+});
+
+
 async function add_to_storage_location(event) {
     // Prevent html form submission
     event.preventDefault();
 
     // Get data from form
     // Form will have dropdown menu that will submit type of object and form used
-    const type = "";
+
+    const type = event.target.id;
     let obj = {};
 
     if(type == "container") {
-        const name = "";
-        const desc = "";
-        const len = "";
-        const wid = "";
-        const hei = "";
+        const name = event.target.querySelector("#container-name").value;
+        const desc = event.target.querySelector("#container-description").value;
+        const len  = event.target.querySelector("#container-length").value;
+        const wid  = event.target.querySelector("#container-width").value;
+        const hei  = event.target.querySelector("#container-height").value;
         obj = new Container(name,desc,len,wid,hei);
     }
     else if(type == "item") {
-        const name = "";
-        const desc = "";
-        const quan = "";
-        const val = "";
-        const len = "";
-        const wid = "";
-        const hei = "";
+        const name = event.target.querySelector("#item-name").value;
+        const desc = event.target.querySelector("#item-description").value;
+        const quan = event.target.querySelector("#item-quantity").value;
+        const val  = event.target.querySelector("#item-value").value;
+        const len  = event.target.querySelector("#item-length").value;
+        const wid  = event.target.querySelector("#item-width").value;
+        const hei  = event.target.querySelector("#item-height").value;
         obj = new Item(name,desc,quan,val,len,wid,hei)
     }
 
     const reqData = {
         obj:obj,
         type:type,
-        id:""
+        id: event.target.parentElement.id
     };
     const reqLoc = "/api/storage/add/StorageLocation";
 
@@ -262,12 +275,14 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
     console.log(data);
 
     // If there are errors, handle them
-    if(!data.valid) {
+    if(!data.validation.valid) {
         return error_function(data.errors)
     }
 
     // Otherwise, reload the page to display the page
-    window.location.reload();
+    console.log("Reload");
+    location.reload();
+    console.log("Reloaded");
 }
 
 function display(error) {

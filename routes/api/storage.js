@@ -103,45 +103,41 @@ router.put("/update/StorageLocation", async (req, res, next) => {
 // Add object to StorageLocation (put) (object is either item or container)
 router.put("/add/StorageLocation", async (req,res,next) => {
     // Add user id to obj to be created
-    req.body.item.owner = req.user.id;
+    req.body.obj.owner = req.user.id;
     // Determine resource to be created
-    let validation = {
-        newObj: {},
-        type: undefined,
-        valid: false,
-        error: "Requested resource type does not exist"
-    }
-    if(req.body.type == "container") {
-        validation = create_new_container(req.body.object);
-        if(!validation.valid) {
-            throw(validation.error);
+    let newObj = {
+        obj: {},
+        validation: {
+            valid: false,
+            errors: "Request type not recognized."
         }
-        validation.type = "container";
-    }
-    else if (req.body.type == "item") {
-        validation = create_new_item(req.body.object);
-        if(!validation.valid) {
-            throw(validation.error);
-        }
-        validation.type = "item";
     }
 
-    if(!validation.valid) {
+    if(req.body.type == "container") {
+        newObj = await create_new_container(req.body.obj);
+    }
+    else if (req.body.type == "item") {
+        newObj = await create_new_item(req.body.obj);
+    }
+
+    console.log(newObj);
+
+    if(!newObj.validation.valid) {
         // Req invalid
-        return res.status(400).json(validation);
+        return res.status(400).json(newObj);
     }
 
     // Add new item now
     try {
         await StorageLocation.findByIdAndUpdate(
-            req.body.location.id,
-            { $push: {contents: validation.newObj}},
+            req.body.id,
+            { $push: {contents: newObj.obj}},
             {
                 upsert:false
             }
         )
         console.log("Successfully added");
-        return res.status(200).json(validation);
+        return res.status(200).json(newObj);
     }
     catch(e) {
         console.error(e);
@@ -189,24 +185,40 @@ router.delete("/delete/StorageLocation", async (req, res, next) => {
 // Create new Container in db (pushing onto Location handled by Location)
 async function create_new_container(container) {
     const validation = is_valid_container(container);
-
-    if(!validation.valid) {
-        return res.status(400).json(validation);
+    const newObj = {
+        obj: {},
+        validation: validation
     }
 
+    if(!validation.valid) {
+        return newObj;
+    }
+
+    console.log("New Container:")
+    console.log(container)
+
     try{
-        await Container.create(container);
-        return validation;
+        const newContainer = await Container.create(container);
+        newObj.obj = { 
+            id:newContainer._id,
+            type: "container" 
+        }
+        return newObj;
     }
     catch(e) {
         console.error(e);
-        validation.error = e;
-        return validation;
+        newObj.validation.errors = e;
+        return newObj;
     }
 }
 
 function is_valid_container(container) {
-    return true;
+    const validation = {
+        valid: true,
+        errors: ""
+    }
+
+    return validation;
 }
 
 // Edit Container properties
@@ -236,6 +248,9 @@ router.put("/update/Container", async (req,res) => {
 router.put("/add/Container", async (req,res,next) => {
     // Determine type
     const obj = req.body.obj;
+    obj.owner = req.user.id;
+
+    console.log(obj);
 
     let validation = {
         newObj: {},
@@ -330,27 +345,39 @@ async function delete_container(id) {
 // Create new Item in db to be pushed by storageLocation
 async function create_new_item(item) {
     // Validate item first
-    const validation = is_valid_item(item);
+    const newObj = {
+        obj: {},
+        validation: is_valid_item(item)
+    };
 
-    if(!validation.valid) {
-        return validation;
+    if(!newObj.validation.valid) {
+        return newObj;
     }
 
     try{
-        await Item.create(item);
-        return validation;
+        const newItem = await Item.create(item);
+        console.log(newItem);
+        newObj.obj = {
+            id: newItem._id,
+            type:"item"
+        };
+        return newObj;
     }
     catch(e) {
         console.error(e);
-        return validation;
+        return newObj;
     }
 }
 
 function is_valid_item(item) {
     //Check all properties
+    const validation = {
+        valid: true,
+        errors: ""
+    }
 
     //For now, return true
-    return true;
+    return validation;
 }
 
 // Edit item properties

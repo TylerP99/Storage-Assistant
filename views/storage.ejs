@@ -11,6 +11,7 @@
     <h1>Storage</h1>
 
     <section class="storage-location-display">
+        <h2>Locations</h2>
 
         <% if(locations) {%>
 
@@ -70,7 +71,87 @@
                         </section>
                     </form>
 
+                    <form id="item" class="add-item-to-storage-location-form" action="/api/storage/add/StorageLocation" method="PUT">
+                        <h2>Add item to this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="item-name" name="name" placeholder="Enter name here" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="item-description" name="description" placeholder="Enter description here" required>
+                        </section>
+    
+                        <section>
+                            <label for="quantity">Quantity:</label>
+                            <input type="text" id="item-quantity" name="name" placeholder="Enter quantity here" required>
+                        </section>
+    
+                        <section>
+                            <label for="value">Estimated Value:</label>
+                            <input type="text" id="item-value" name="value" placeholder="Enter value here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Length:</label>
+                            <input type="text" id="item-length" name="length" placeholder="Enter length here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Width:</label>
+                            <input type="text" id="item-width" name="width" placeholder="Enter width here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Height:</label>
+                            <input type="text" id="item-height" name="height" placeholder="Enter height here" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Update</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
+
+                    <form id="container" class="add-container-to-storage-location-form" action="/api/storage/add/StorageLocation" method="PUT">
+                        <h2>Add container to this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="container-name" name="name" placeholder="Enter name here" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="container-description" name="description" placeholder="Enter description here" required>
+                        </section>
+            
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="container-length" name="length" placeholder="Enter length here" required>
+                        </section>
+            
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="container-width" name="width" placeholder="Enter width here" required>
+                        </section>
+            
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="container-height" name="height" placeholder="Enter height here" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Update</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
+
                 </section>
+
+
 
             <% } %>
 
@@ -115,10 +196,10 @@
     </section>
 
     <section class="storage-container-display">
-
+        <h2>Containers</h2>
         <% if(containers) { %>
 
-            <% for(let i = 0; i < containers.length; ) { %>
+            <% for(let i = 0; i < containers.length; ++i) { %>
                 <section id="<%=containers[i]._id%>">
                     <ul id="<%=containers[i]._id%>">
                         <li>
@@ -148,10 +229,10 @@
     </section>
 
     <section class="storage-item-display">
-
+        <h2>Items</h2>
         <% if(items) { %>
 
-            <% for(let i = 0; i < items.length; ) { %>
+            <% for(let i = 0; i < items.length; ++i) { %>
                 <ul id="<%=items[i]._id%>">
                     <li>
                         <span>Name: <%=items[i].name%></span>

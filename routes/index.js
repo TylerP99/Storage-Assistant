@@ -32,8 +32,8 @@ router.get("/storage", ensureAuthenticated, async (req, res) => {
 
     // Get all the data :o
     let locations = await StorageLocation.find();
-    let containers = undefined//await Container.find();
-    let items = undefined//await Item.find();
+    let containers = await Container.find();
+    let items = await Item.find();
 
     console.log(locations);
 
