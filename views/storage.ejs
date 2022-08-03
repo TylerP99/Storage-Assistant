@@ -15,23 +15,62 @@
         <% if(locations) {%>
 
             <% for(let i = 0; i < locations.length; ++i) { %>
-                <ul id="<%=locations[i]._id%>">
-                    <li>
-                        <span>Name: <%=locations[i].name%></span>
-                    </li>
-                    <li>
-                        <span>Description: <%=locations[i].description%></span>
-                    </li>
-                    <li>
-                        <span>Length: <%=locations[i].length%></span>
-                    </li>
-                    <li>
-                        <span>Width: <%=locations[i].width%></span>
-                    </li>
-                    <li>
-                        <span>Height: <%=locations[i].height%></span>
-                    </li>
-                </ul>
+
+                <section id="<%=locations[i]._id%>">
+
+                    <ul id="<%=locations[i]._id%>">
+                        <li>
+                            <span>Name: <%=locations[i].name%></span>
+                        </li>
+                        <li>
+                            <span>Description: <%=locations[i].description%></span>
+                        </li>
+                        <li>
+                            <span>Length: <%=locations[i].length%></span>
+                        </li>
+                        <li>
+                            <span>Width: <%=locations[i].width%></span>
+                        </li>
+                        <li>
+                            <span>Height: <%=locations[i].height%></span>
+                        </li>
+                    </ul>
+
+                    <form class="update-storage-location-form" action="/api/storage/create/StorageLocation" method="POST">
+                        <h2>Update this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="location-name-update" name="name" placeholder="Enter name here" value="<%=locations[i].name%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="location-description-update" name="description" placeholder="Enter description here" value="<%=locations[i].description%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Length:</label>
+                            <input type="text" id="location-length-update" name="length" placeholder="Enter length here" value="<%=locations[i].length%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Width:</label>
+                            <input type="text" id="location-width-update" name="width" placeholder="Enter width here" value="<%=locations[i].width%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Height:</label>
+                            <input type="text" id="location-height-update" name="height" placeholder="Enter height here" value="<%=locations[i].height%>" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Create</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
+
+                </section>
 
             <% } %>
 
@@ -80,24 +119,26 @@
         <% if(containers) { %>
 
             <% for(let i = 0; i < containers.length; ) { %>
-                <ul id="<%=containers[i]._id%>">
-                    <li>
-                        <span>Name: <%=containers[i].name%></span>
-                    </li>
-                    <li>
-                        <span>Description: <%=containers[i].description%></span>
-                    </li>
-                    <li>
-                        <span>Length: <%=containers[i].length%></span>
-                    </li>
-                    <li>
-                        <span>Width: <%=containers[i].width%></span>
-                    </li>
-                    <li>
-                        <span>Height: <%=containers[i].height%></span>
-                    </li>
-                </ul>
+                <section id="<%=containers[i]._id%>">
+                    <ul id="<%=containers[i]._id%>">
+                        <li>
+                            <span>Name: <%=containers[i].name%></span>
+                        </li>
+                        <li>
+                            <span>Description: <%=containers[i].description%></span>
+                        </li>
+                        <li>
+                            <span>Length: <%=containers[i].length%></span>
+                        </li>
+                        <li>
+                            <span>Width: <%=containers[i].width%></span>
+                        </li>
+                        <li>
+                            <span>Height: <%=containers[i].height%></span>
+                        </li>
+                    </ul>
 
+                </section>
             <% } %>
 
         <% } else { %>
