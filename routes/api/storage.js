@@ -219,7 +219,7 @@ function is_valid_container(container) {
 }
 
 // Edit Container properties
-router.put("/update/Container", async (req,res) => {
+router.put("/update/Container", async (req,res,next) => {
     const validation = is_valid_container(req.body.container);
 
     if(!validation.valid) {
@@ -228,12 +228,13 @@ router.put("/update/Container", async (req,res) => {
 
     try{
         await Container.findByIdAndUpdate(
-            req.body.container.id,
+            req.body.id,
             req.body.container,
             {
                 upsert: false
             }
         );
+        res.status(200).json(validation);
     }
     catch(e) {
         console.error(e);

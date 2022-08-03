@@ -223,6 +223,44 @@
                         </li>
                     </ul>
 
+                    <form class="update-container-form" action="/api/storage/update/Container" method="PUT">
+                        <h2>Change this container</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="container-name-update" name="name" placeholder="Enter name here" value="<%=containers[i].name%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="container-description-update" name="description" placeholder="Enter description here" value="<%=containers[i].description%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="container-length-update" name="length" placeholder="Enter length here" value="<%=containers[i].length%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="container-width-update" name="width" placeholder="Enter width here" value="<%=containers[i].width%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="container-height-update" name="height" placeholder="Enter height here" value="<%=containers[i].height%>" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Update</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
+
+                    <section>
+                        <button class="delete-task-button" type="button">Delete this Container</button>
+                    </section>
+
                 </section>
             <% } %>
 

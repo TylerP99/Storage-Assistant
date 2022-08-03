@@ -140,18 +140,24 @@ async function delete_storage_location(event) {
 // Container Operations
 
 // Update container properties
+const updateContainerForms = document.querySelectorAll(".update-container-form");
+
+updateContainerForms.forEach( x => {
+    x.addEventListener("submit", update_container);
+});
+
 async function update_container(event) {
     // Stop default form behavior
     event.preventDefault();
 
     // Get updated object from form
-    const name = "";
-    const desc = "";
-    const len = "";
-    const wid = "";
-    const hei = "";
+    const name = event.target.querySelector("#container-name-update").value;
+    const desc = event.target.querySelector("#container-description-update").value;
+    const len  = event.target.querySelector("#container-length-update").value;
+    const wid  = event.target.querySelector("#container-width-update").value;
+    const hei  = event.target.querySelector("#container-height-update").value;
     // Get id from document
-    const id = "";
+    const id = event.target.parentElement.id;
 
     // Create storage obj
     const updatedContainer = new Container(name,desc,len,wid,hei);
