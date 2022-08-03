@@ -2,15 +2,19 @@
 
 // Storage Location Operations
 // Create new storageLocation
+const createLocationForm = document.querySelector(".create-storage-location-form");
+
+createLocationForm.addEventListener("submit", create_new_container);
+
 async function create_new_container(event) {
     event.preventDefault(); // Stop form from submitting itself
 
     // Grab items from form
-    const name = "";
-    const desc = "";
-    const len = "";
-    const wid = "";
-    const hei = "";
+    const name = document.querySelector("#location-name").value;
+    const desc = document.querySelector("#location-description").value;
+    const len = document.querySelector("#location-length").value;
+    const wid = document.querySelector("#location-width").value;
+    const hei = document.querySelector("#location-height").value;
 
     // Construct object from form
     const storageLocation = new StorageLocation(name, desc, len, wid, hei);
@@ -21,7 +25,7 @@ async function create_new_container(event) {
     const reqLoc = "/api/storage/create/StorageLocation";
 
     // Send request containing storageLocation
-    await request_and_handle_res(reqData, reqLoc, "PUT", display);
+    await request_and_handle_res(reqData, reqLoc, "POST", display);
 }
 
 async function update_storage_location(event) {
@@ -244,13 +248,20 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
     // Parse response to check for errors
     const data = await response.json();
 
+    console.log(data);
+
     // If there are errors, handle them
     if(!data.valid) {
         return error_function(data.errors)
     }
 
     // Otherwise, reload the page to display the page
-    window.location.reload;
+    window.location.reload();
+}
+
+function display(error) {
+    //Placeholder until client side is more formed
+    const errContainer = document.querySelector(".errors");
 }
 
 class StorageLocation {

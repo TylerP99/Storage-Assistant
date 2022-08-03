@@ -17,6 +17,7 @@ const Item = require("../../models/Item");
 
 // Create new StorageLocation
 router.post("/create/StorageLocation", ensureAuthenticated, async (req, res, next) => {
+    console.log(req.body);
     // Will receive object from req, construct object
     const newLocation = {
         name: req.body.location.name,
@@ -50,9 +51,13 @@ router.post("/create/StorageLocation", ensureAuthenticated, async (req, res, nex
 
 function is_valid_storage_location(location) {
     // Will validate the location, and give good error info
+    const validation = {
+        valid: true,
+        errors: ""
+    }
 
     // For now, just return true
-    return true;
+    return validation;
 }
 
 // Edit StorageLocation properties

@@ -4,7 +4,10 @@ const router = express.Router();
 
 const { ensureAuthenticated, forwardIfAuthenticated } = require("../config/auth-middleware.js");
 
-
+const User = require("../models/User.js");
+const StorageLocation = require("../models/StorageLocation.js");
+const Container = require("../models/Container.js");
+const Item = require("../models/Item");
 
 // Root/Landing Route
 router.get("/", (req, res) => {
@@ -25,14 +28,16 @@ router.get("/login", forwardIfAuthenticated, (req,res) => {
 });
 
 // Storage Route
-router.get("/storage", ensureAuthenticated, (req, res) => {
+router.get("/storage", ensureAuthenticated, async (req, res) => {
 
     // Get all the data :o
-    let locations = undefined;
-    let containers = undefined;
-    let items = undefined;
+    let locations = await StorageLocation.find();
+    let containers = undefined//await Container.find();
+    let items = undefined//await Item.find();
 
-    res.render("storage.ejs", {locations, containers, items});
+    console.log(locations);
+
+    res.render("storage.ejs", {locations:locations, containers:containers, items:items});
 });
 
 

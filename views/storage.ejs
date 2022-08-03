@@ -12,9 +12,9 @@
 
     <section class="storage-location-display">
 
-        <% if(locations) { %>
+        <% if(locations) {%>
 
-            <% for(let i = 0; i < locations.length; ) { %>
+            <% for(let i = 0; i < locations.length; ++i) { %>
                 <ul id="<%=locations[i]._id%>">
                     <li>
                         <span>Name: <%=locations[i].name%></span>
@@ -38,6 +38,40 @@
         <% } else { %>
             <h2>No locations</h2>
         <% } %>
+
+        <form class="create-storage-location-form" action="/api/storage/create/StorageLocation" method="POST">
+            <h2>Create new storage location</h2>
+
+            <section>
+                <label for="name">Name:</label>
+                <input type="text" id="location-name" name="name" placeholder="Enter name here" required>
+            </section>
+
+            <section>
+                <label for="description">Description:</label>
+                <input type="text" id="location-description" name="description" placeholder="Enter description here" required>
+            </section>
+
+            <section>
+                <label for="">Length:</label>
+                <input type="text" id="location-length" name="length" placeholder="Enter length here" required>
+            </section>
+
+            <section>
+                <label for="">Width:</label>
+                <input type="text" id="location-width" name="width" placeholder="Enter width here" required>
+            </section>
+
+            <section>
+                <label for="">Height:</label>
+                <input type="text" id="location-height" name="height" placeholder="Enter height here" required>
+            </section>
+
+            <section>
+                <button type="submit">Create</button>
+                <button type="reset">Reset</button>
+            </section>
+        </form>
 
     </section>
 
@@ -109,5 +143,6 @@
 
     </section>
     
+    <script src="/js/storage.js"></script>
 </body>
 </html>
