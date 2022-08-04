@@ -29,6 +29,10 @@ const ContainerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    parent: {
+        type:mongoose.Types.ObjectId,
+        required: true
+    },
     owner: {
         type: mongoose.Types.ObjectId,
         required: true
