@@ -1,0 +1,31 @@
+<% for(let i = 0; i < length; ++i) { %>
+
+    <section id="<%=item[i]._id%>" class="item-card-detailed">
+
+        <h2><%=item[i].name%></h2>
+
+        <section>
+            <p><%=item[i].quantity%></p>
+            <p><%=item[i].estimatedValue%></p>
+            <p><%=item[i].length%> x <%=item[i].width%> x <%=item[i].height%></p>
+        </section>
+
+        <section>
+            <div>
+                <button>Edit Item</button>
+            </div>
+            <div>
+                <button>Move Item</button>
+            </div>
+            <div>
+                <button>Delete Item</button>
+            </div>
+        </section>
+
+        <section>
+            <p><%=item[i].description%></p>
+        </section>
+
+    </section>
+
+<% } %>

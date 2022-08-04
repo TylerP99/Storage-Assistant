@@ -1,0 +1,48 @@
+<% for(let i = 0; i < length; ++i) { %>
+
+
+    <section class="container-card-detailed">
+
+        <h2><%= container[i].name %></h2>
+
+        <section>
+
+            <p><%= container[i].dimensions %></p>
+
+        </section>
+
+        <section>
+
+            <section>
+                <button>Add to Container</button>
+            </section>
+
+            <section>
+                <button>Edit Container</button>
+            </section>
+
+            <section>
+                <button>Move Container</button>
+            </section>
+
+            <section>
+                <button>Delete Container</button>
+            </section>
+
+        </section>
+
+        <section>
+
+            <p><%=container[i].description%></p>
+
+        </section>
+
+        <section>
+            <h3>Contents:</h3>
+        </section>
+
+
+    </section>
+
+
+<% } %>
