@@ -250,47 +250,38 @@ router.put("/add/Container", async (req,res,next) => {
 
     console.log(obj);
 
-    let validation = {
-        newObj: {},
-        type: undefined,
-        valid: false,
-        error: "Requested resource type does not exist"
-    }
+    let newObj = {
+        obj: {},
+        validation: {
+            valid: false,
+            errors: ""
+        }
+    };
 
     if(req.body.type == "container") {
-        const validation = create_new_container(obj);
-
-        if(!validation.valid) {
-            throw(validation.error);
-        }
-
-        validation.type = "container";
+        newObj = await create_new_container(obj);
     }
     else if(req.body.type == "item") {
-        const validation = create_new_item(obj);
-
-        if(!validation.valid) {
-            throw(validation.error);
-        }
-
-        validation.type = "item";
+        newObj = await create_new_item(obj);
     }
 
-    if(!validation.valid) {
-        return res.status(400).json(validation);
+    console.log(newObj);
+
+    if(!newObj.validation.valid) {
+        return res.status(400).json(newObj.validation);
     }
 
     try{
         await Container.findByIdAndUpdate(
-            req.body.obj.id,
+            req.body.id,
             {
-                $push: {contents:{id:obj.id, type:validation.type}}
+                $push: {contents:{id:obj.id, type:req.body.type}}
             },
             {
                 upsert: false
             }
         )
-        return res.status(200).json(validation);
+        return res.status(200).json(newObj.validation);
     }
     catch(e) {
         console.error(e);

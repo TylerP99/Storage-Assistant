@@ -64,14 +64,14 @@ async function update_storage_location(event) {
 }
 
 // Add object to storageLocation
-const addItemForms = document.querySelectorAll(".add-item-to-storage-location-form");
-const addContainerForms = document.querySelectorAll(".add-container-to-storage-location-form");
+const addItemToLocationForms = document.querySelectorAll(".add-item-to-storage-location-form");
+const addContainerToLocationForms = document.querySelectorAll(".add-container-to-storage-location-form");
 
 // Add event listeners to all the forms for now
-addItemForms.forEach( x => {
+addItemToLocationForms.forEach( x => {
     x.addEventListener("submit",add_to_storage_location);
 });
-addContainerForms.forEach( x => {
+addContainerToLocationForms.forEach( x => {
     x.addEventListener("submit", add_to_storage_location);
 });
 
@@ -173,38 +173,48 @@ async function update_container(event) {
 }
 
 // Add to container
+const addItemToContainerForm = document.querySelectorAll(".add-item-to-container-form");
+const addContainerToContainerForm = document.querySelectorAll(".add-container-to-container-form");
+
+addContainerToContainerForm.forEach( x => {
+    x.addEventListener("submit", add_to_container);
+});
+addItemToContainerForm.forEach( x => {
+    x.addEventListener("submit", add_to_container);
+});
+
 async function add_to_container(event) {
     // Prevent default form submission
     event.preventDefault();
 
     // Get data from form
     // Form will have dropdown menu that will submit type of object and form used
-    const type = "";
+    const type = event.target.id;
     let obj = {};
 
     if(type == "container") {
-        const name = "";
-        const desc = "";
-        const len = "";
-        const wid = "";
-        const hei = "";
+        const name = event.target.querySelector("#container-name").value;
+        const desc = event.target.querySelector("#container-description").value;
+        const len  = event.target.querySelector("#container-length").value;
+        const wid  = event.target.querySelector("#container-width").value;
+        const hei  = event.target.querySelector("#container-height").value;
         obj = new Container(name,desc,len,wid,hei);
     }
     else if(type == "item") {
-        const name = "";
-        const desc = "";
-        const quan = "";
-        const val = "";
-        const len = "";
-        const wid = "";
-        const hei = "";
+        const name = event.target.querySelector("#item-name").value;
+        const desc = event.target.querySelector("#item-description").value;
+        const quan = event.target.querySelector("#item-quantity").value;
+        const val  = event.target.querySelector("#item-value").value;
+        const len  = event.target.querySelector("#item-length").value;
+        const wid  = event.target.querySelector("#item-width").value;
+        const hei  = event.target.querySelector("#item-height").value;
         obj = new Item(name,desc,quan,val,len,wid,hei)
     }
 
     const reqData = {
         obj:obj,
         type:type,
-        id:""
+        id:event.target.parentElement.id
     };
     const reqLoc = "/api/storage/add/Container";
 

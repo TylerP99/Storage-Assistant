@@ -1,0 +1,106 @@
+.storage-location-display > section, .storage-container-display > section, .storage-item-display > section {
+    border: 1px solid;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    border: 1px solid;
+    width: 100%;
+
+    font-size: 2rem;
+}
+
+header ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    width: 90%;
+}
+
+header li {
+    border: 1px solid;
+    text-decoration: none;
+    list-style-type: none;
+}
+header a {
+    text-decoration: none;
+    color: inherit;
+}
+
+main {
+    width: 95%;
+    margin: 0 auto;
+    padding: 3rem;
+
+    border: 5px solid #999;
+    border-radius: 25px;
+}
+
+.storage-location-card {
+    border: 5px solid;
+
+    padding: 1rem;
+    width: 45%;
+    display: grid;
+    grid-template-rows: 3fr 1fr 1fr 1fr;
+    grid-template-columns: 50% 50%;
+}
+
+.location-name {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.location-dimensions {
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+.location-description {
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+.location-options {
+    grid-area: 3 / 1 / 4 / 3;
+}
+
+.location-contents-container {
+    grid-area: 4 / 1 / 5 / 3;
+}
+
+.location-edit-container {
+    position: relative;
+}
+
+.location-addto-container {
+    position: relative;
+}
+
+.update-storage-location-form {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #eee;
+    z-index: 3;
+}
+
+
+
+
+
+
+
+.hidden {
+    display: none
+}
