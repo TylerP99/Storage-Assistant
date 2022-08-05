@@ -57,8 +57,12 @@ router.get("/location/:id", ensureAuthenticated, async (req, res) => {
     console.log(containers);
 
     let items = location.contents.filter( x => x.type == "item");
+    items = items.map ( x => x.id);
+    items = await Item.find({
+        "_id": {$in:items}
+    })
 
-    res.render("storage-location-page.ejs", {location:location});
+    res.render("storage-location-page.ejs", {location:location, containers:containers, items:items});
 });
 
 

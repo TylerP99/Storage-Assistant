@@ -1,29 +1,29 @@
-<% for(let i = 0; i < length; ++i) { %>
+<% for(let i = 0; i < items.length; ++i) { %>
 
-    <section id="<%=item[i]._id%>" class="item-card-detailed">
+    <section id="<%=items[i]._id%>" class="items-card-detailed">
 
-        <h2><%=item[i].name%></h2>
+        <h2><%=items[i].name%></h2>
 
         <section>
-            <p><%=item[i].quantity%></p>
-            <p><%=item[i].estimatedValue%></p>
-            <p><%=item[i].length%> x <%=item[i].width%> x <%=item[i].height%></p>
+            <p><%=items[i].quantity%></p>
+            <p><%=items[i].estimatedValue%></p>
+            <p><%=items[i].length%> x <%=items[i].width%> x <%=items[i].height%></p>
         </section>
 
         <section>
             <div>
-                <button>Edit Item</button>
+                <button>Edit items</button>
             </div>
             <div>
-                <button>Move Item</button>
+                <button>Move items</button>
             </div>
             <div>
-                <button>Delete Item</button>
+                <button>Delete items</button>
             </div>
         </section>
 
         <section>
-            <p><%=item[i].description%></p>
+            <p><%=items[i].description%></p>
         </section>
 
     </section>

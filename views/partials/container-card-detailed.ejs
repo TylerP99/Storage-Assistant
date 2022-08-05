@@ -1,13 +1,13 @@
-<% for(let i = 0; i < length; ++i) { %>
+<% for(let i = 0; i < containers.length; ++i) { %>
 
 
     <section class="container-card-detailed">
 
-        <h2><%= container[i].name %></h2>
+        <h2><%= containers[i].name %></h2>
 
         <section>
 
-            <p><%= container[i].dimensions %></p>
+            <p><%= containers[i].dimensions %></p>
 
         </section>
 
@@ -33,14 +33,9 @@
 
         <section>
 
-            <p><%=container[i].description%></p>
+            <p><%=containers[i].description%></p>
 
         </section>
-
-        <section>
-            <h3>Contents:</h3>
-        </section>
-
 
     </section>
 

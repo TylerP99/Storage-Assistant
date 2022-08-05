@@ -109,6 +109,7 @@
             <section>
 
                 <!--EJS Include-->
+                <%- include("./partials/container-card-detailed.ejs") %>
 
             </section>
 
@@ -121,12 +122,56 @@
                 <h2>Items:</h2>
                 <div>
                     <button>Add new</button>
+                    <form id="item" class="add-item-to-storage-location-form" action="/api/storage/add/StorageLocation" method="PUT">
+                        <h2>Add item to this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="item-name" name="name" placeholder="Enter name here" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="item-description" name="description" placeholder="Enter description here" required>
+                        </section>
+    
+                        <section>
+                            <label for="quantity">Quantity:</label>
+                            <input type="text" id="item-quantity" name="name" placeholder="Enter quantity here" required>
+                        </section>
+    
+                        <section>
+                            <label for="value">Estimated Value:</label>
+                            <input type="text" id="item-value" name="value" placeholder="Enter value here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Length:</label>
+                            <input type="text" id="item-length" name="length" placeholder="Enter length here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Width:</label>
+                            <input type="text" id="item-width" name="width" placeholder="Enter width here" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Height:</label>
+                            <input type="text" id="item-height" name="height" placeholder="Enter height here" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Create</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
                 </div>
             </header>
 
             <section>
 
                 <!--EJS Include-->
+                <%- include("./partials/item-card-detailed.ejs") %>
 
             </section>
 

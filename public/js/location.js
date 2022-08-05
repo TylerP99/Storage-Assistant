@@ -30,19 +30,62 @@ async function add_container_to_location(event) {
         type: "container",
         id: locationID
     }
+    const reqLoc = "/api/storage/add/StorageLocation"
 
-    const res = await fetch(
-        "/api/storage/add/StorageLocation",
+    await request_and_handle_res(reqData, reqLoc, "PUT");
+}
+
+// Add Item to Location
+const addItemForm = document.querySelector(".add-item-to-storage-location-form");
+
+addItemForm.addEventListener("submit", add_item_to_location);
+
+async function add_item_to_location(event) {
+    event.preventDefault();
+
+    const obj = {
+        name: event.target.querySelector("#item-name").value,
+        description: event.target.querySelector("#item-description").value,
+        quantity: event.target.querySelector("#item-quantity").value,
+        estimatedValue: event.target.querySelector("#item-value").value,
+        length: event.target.querySelector("#item-length").value,
+        width: event.target.querySelector("#item-width").value,
+        height: event.target.querySelector("#item-height").value
+    };
+
+    const reqData = {
+        obj:obj,
+        type: "item",
+        id: locationID
+    };
+    const reqLoc = "/api/storage/add/StorageLocation";
+
+    await request_and_handle_res(reqData, reqLoc, "PUT");
+}
+
+async function request_and_handle_res(reqData, reqLoc, reqType, error_function) {
+    // Make request to target route
+    const response = await fetch(
+        reqLoc,
         {
-            method:"PUT",
-            headers: {
+            method:reqType,
+            headers:{
                 "Content-Type":"application/json"
             },
             body: JSON.stringify(reqData)
         }
     )
 
-    const data = await res.json();
+    // Parse response to check for errors
+    const data = await response.json();
 
+    console.log(data);
+
+    // If there are errors, handle them
+    if(!data.valid) {
+        return
+    }
+
+    // Otherwise, reload the page to display the page
     window.location.reload();
 }
