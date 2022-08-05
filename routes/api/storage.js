@@ -104,6 +104,7 @@ router.put("/update/StorageLocation", async (req, res, next) => {
 router.put("/add/StorageLocation", async (req,res,next) => {
     // Add user id to obj to be created
     req.body.obj.owner = req.user.id;
+    req.body.obj.parent = req.body.id;
     // Determine resource to be created
     let newObj = {
         obj: {},

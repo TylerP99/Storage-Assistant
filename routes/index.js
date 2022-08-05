@@ -44,8 +44,22 @@ router.get("/location/:id", ensureAuthenticated, async (req, res) => {
     // Get location from db to pass to ejs
     const location = await StorageLocation.findById(req.params.id);
 
+    // Next, need to get the containers and items
+    let containers = location.contents.filter( x => x.type == "container");
+    containers = containers.map( x => x.id);
+
+    console.log(containers);
+
+    containers = await Container.find({
+        "_id": {$in:containers}
+    })
+
+    console.log(containers);
+
+    let items = location.contents.filter( x => x.type == "item");
+
     res.render("storage-location-page.ejs", {location:location});
-})
+});
 
 
 module.exports = router;

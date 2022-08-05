@@ -10,20 +10,53 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/location.css">
 </head>
-<body>
+<body id="<%=location._id%>">
 
     <%- include("./partials/navbar.ejs") %>
 
     <main>
 
-        <header>
-            <section>
+        <header class="location-header">
+            <section class="location-header-info">
                 <h1><%=location.name%></h1>
                 <p><%=location.description%></p>
             </section>
-            <section>
+            <section class="location-header-options">
                 <div>
-                    <button>Edit this Location</button>
+                    <button class="open-update-storage-location-button">Edit this Location</button>
+                    <form class="update-storage-location-form hidden" action="/api/storage/create/StorageLocation" method="POST">
+                        <h2>Update this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="location-name-update" name="name" placeholder="Enter name here" value="<%=location.name%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="location-description-update" name="description" placeholder="Enter description here" value="<%=location.description%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Length:</label>
+                            <input type="text" id="location-length-update" name="length" placeholder="Enter length here" value="<%=location.length%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Width:</label>
+                            <input type="text" id="location-width-update" name="width" placeholder="Enter width here" value="<%=location.width%>" required>
+                        </section>
+            
+                        <section>
+                            <label for="">Height:</label>
+                            <input type="text" id="location-height-update" name="height" placeholder="Enter height here" value="<%=location.height%>" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Update</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
                 </div>
                 <div>
                     <button>Delete this Location</button>
@@ -37,6 +70,39 @@
                 <h2>Containers:</h2>
                 <div>
                     <button>Add new</button>
+                    <form id="container" class="add-container-to-storage-location-form" action="/api/storage/add/StorageLocation" method="PUT">
+                        <h2>Add container to this storage location</h2>
+            
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="container-name" name="name" placeholder="Enter name here" required>
+                        </section>
+            
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="container-description" name="description" placeholder="Enter description here" required>
+                        </section>
+            
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="container-length" name="length" placeholder="Enter length here" required>
+                        </section>
+            
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="container-width" name="width" placeholder="Enter width here" required>
+                        </section>
+            
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="container-height" name="height" placeholder="Enter height here" required>
+                        </section>
+            
+                        <section>
+                            <button type="submit">Create</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
                 </div>
             </header>
 
@@ -68,5 +134,6 @@
 
     </main>
     
+<script src="/js/location.js"></script>
 </body>
 </html>
