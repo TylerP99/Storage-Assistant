@@ -28,7 +28,7 @@ router.get("/login", forwardIfAuthenticated, (req,res) => {
 });
 
 // Storage Route
-router.get("/storage", ensureAuthenticated, async (req, res) => {
+router.get("/dashboard", ensureAuthenticated, async (req, res) => {
 
     // Get all the data :o
     let locations = await StorageLocation.find();
@@ -37,8 +37,15 @@ router.get("/storage", ensureAuthenticated, async (req, res) => {
 
     console.log(locations);
 
-    res.render("storage.ejs", {locations:locations, containers:containers, items:items});
+    res.render("dashboard.ejs", {locations:locations, containers:containers, items:items});
 });
+
+router.get("/location/:id", ensureAuthenticated, async (req, res) => {
+    // Get location from db to pass to ejs
+    const location = await StorageLocation.findById(req.params.id);
+
+    res.render("storage-location-page.ejs", {location:location});
+})
 
 
 module.exports = router;

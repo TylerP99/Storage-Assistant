@@ -1,0 +1,13 @@
+<% for(let i = 0; i < locations.length; ++i) { %>
+
+    <section class="location-card-simple" id="<%=locations[i]._id%>">
+
+        <h2><%=locations[i].name%></h2>
+
+        <p><%=locations[i].description%></p>
+
+        <a href="/location/<%=locations[i]._id%>">View Location</a>
+
+    </section>
+
+<% } %>

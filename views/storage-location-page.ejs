@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title><%=location.name%></title>
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/location.css">
 </head>
 <body>
 
@@ -13,7 +17,10 @@
     <main>
 
         <header>
-            <h1>Location Name</h1>
+            <section>
+                <h1><%=location.name%></h1>
+                <p><%=location.description%></p>
+            </section>
             <section>
                 <div>
                     <button>Edit this Location</button>

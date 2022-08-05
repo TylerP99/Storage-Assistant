@@ -35,7 +35,7 @@ async function submit_login_request(event) {
         return display_errors(data.error);
     }
 
-    window.location.replace("/storage");
+    window.location.replace("/dashboard");
 }
 
 function display_errors(error) {
