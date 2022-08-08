@@ -34,10 +34,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Storage Assistant (name temporary)</h3>
 
   <p align="center">
-    project_description
+    A webapp to track and organize storage. A user can create a location where items are being stored, then log the individual containers and items stored there. Eventually, changes to the webapp will be tracked, so that the user can print a changelog to use while organizing the physical items.
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
