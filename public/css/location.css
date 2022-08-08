@@ -36,6 +36,28 @@
     margin-bottom: 2rem;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: auto;
+    gap: 1rem;
+    justify-items: center;
+    align-items: center;
+}
+
+.container-card-simple {
+    border: 1px solid;
+    width: 100%;
+
+    padding: 0.5rem 1rem;
+}
+
+.container-card-simple h2 {
+    border-bottom: 3px solid #999;
+    font-size: 2rem;
+    width: 95%;
+    margin: 0 auto;
+}
+.container-card-simple p {
+    font-size: 1.6rem;
+    width: 90%;
+    margin: 0 auto;
 }
