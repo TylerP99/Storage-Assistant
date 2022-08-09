@@ -93,7 +93,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+* [![Express][ExpressJS.com]][Express-url]
 * [![React][React.js]][React-url]
 * [![Vue][Vue.js]][Vue-url]
 * [![Angular][Angular.io]][Angular-url]
@@ -245,3 +245,15 @@ Project Link: [https://github.com/TylerP99/Storage-Assistant](https://github.com
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+
+[MongoDB.com]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+
+[NodeJS.com]: https://nodejs.org/en/
+[NodeJS-url]: https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white
+
+[ExpressJS.com]: https://img.shields.io/badge/Express.js-404D59?style=for-the-badge
+[ExpressJS-url]: https://expressjs.com/
+
+[Heroku.com]: https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white
+[Heroku-url]: https://dashboard.heroku.com/
