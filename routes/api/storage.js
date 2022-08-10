@@ -104,7 +104,10 @@ router.put("/update/StorageLocation", async (req, res, next) => {
 router.put("/add/StorageLocation", async (req,res,next) => {
     // Add user id to obj to be created
     req.body.obj.owner = req.user.id;
-    req.body.obj.parent = req.body.id;
+    req.body.obj.parent = {
+        id: req.body.id,
+        type: "storageLocation"
+    };
     // Determine resource to be created
     let newObj = {
         obj: {},
@@ -247,7 +250,10 @@ router.put("/update/Container", async (req,res,next) => {
 router.put("/add/Container", async (req,res,next) => {
     // Determine type
     const obj = req.body.obj;
-    obj.owner = req.user.id;
+    obj.owner = {
+        id: req.user.id,
+        type: "container"
+    };
 
     console.log(obj);
 
