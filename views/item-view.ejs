@@ -6,16 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body id="<%=item.id%>">
 
     <!--Navbar/header-->
     <%- include("./partials/navbar.ejs") %>
 
-    <!-- Back button to parent element -->
-    <a href="/<%=item.parent.type%>/<%=item.parent.id%>">Back to Parent</a>
-    <!-- Route ending in item name -->
+    <main>
+        <section>
+            <!-- Back button to parent element -->
+            <a href="/<%=item.parent.type%>/<%=item.parent.id%>">Back to Parent</a>
+            <!-- Route ending in item name -->
+            <h1><%=item.name%></h1>
+        </section>
 
-    <!-- Item information with edit, delete, and move buttons -->
+        <!-- Item information with edit, delete, and move buttons -->
+        <section>
+            <section>
+                <p>Quantity</p>
+                <p><%=item.quantity%></p>
+            </section>
+
+            <section>
+                <p>Estimated Value</p>
+                <p><%=item.estimatedValue%></p>
+            </section>
+
+            <section>
+                <p>Dimensions</p>
+                <p><%=item.length%> x <%=item.width%> x <%=item.height%></p>
+            </section>
+
+            <section>
+                <p>Description</p>
+                <p><%=item.description%></p>
+            </section>
+
+        </section>
+    </main>
     
 </body>
 </html>

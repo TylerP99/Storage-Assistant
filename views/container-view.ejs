@@ -17,16 +17,16 @@
     <main>
         <!-- Route to container ending with underlined name of container, routes are hrefs to other containers -->
         <section>
-            <div>Back Button</div>
+            <a href="<%=container.parent.type%>/<%=container.parent.id%>">Back to Parent</a>
 
-            <h1>Route to container</h1>
+            <h1><%=container.name%></h1>
         </section>
 
         <!-- Container information with edit, move, and delete buttons -->
         <section>
             <section>
-                <p>Dimentions</p>
-                <p>Description</p>
+                <p><%=container.length%> x <%=container.width%> x <%=container.height%></p>
+                <p><%=container.description%></p>
             </section>
 
             <section>
@@ -48,9 +48,22 @@
 
         <!-- Container contents with simple cards that link to child page with add button -->
         <section>
+            <h2>Contents</h2>
+            <section>
+                <h3>Containers</h3>
 
-            <!-- Likely an include to a partial with the generic loop code -->
-            <!-- Likely separated by item vs container, containers first -->
+                <section>
+                    <%- include("./partials/container-card-simple.ejs") %>
+                </section>
+            </section>
+
+            <section>
+                <h3>Items</h3>
+
+                <section>
+                    <%- include("./partials/item-card-simple.ejs") %>
+                </section>
+            </section>
 
         </section>
     </main>
