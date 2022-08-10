@@ -41,28 +41,69 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
 });
 
 router.get("/location/:id", ensureAuthenticated, async (req, res) => {
-    // Get location from db to pass to ejs
-    const location = await StorageLocation.findById(req.params.id);
+    try{
+        // Get location from db to pass to ejs
+        const location = await StorageLocation.findById(req.params.id);
 
-    // Next, need to get the containers and items
-    let containers = location.contents.filter( x => x.type == "container");
-    containers = containers.map( x => x.id);
+        // Next, need to get the containers and items
+        let containers = location.contents.filter( x => x.type == "container");
+        containers = containers.map( x => x.id);
 
-    console.log(containers);
+        console.log(containers);
 
-    containers = await Container.find({
-        "_id": {$in:containers}
-    })
+        containers = await Container.find({
+            "_id": {$in:containers}
+        })
 
-    console.log(containers);
+        console.log(containers);
 
-    let items = location.contents.filter( x => x.type == "item");
-    items = items.map ( x => x.id);
-    items = await Item.find({
-        "_id": {$in:items}
-    })
+        let items = location.contents.filter( x => x.type == "item");
+        items = items.map ( x => x.id);
+        items = await Item.find({
+            "_id": {$in:items}
+        })
 
-    res.render("storage-location-page.ejs", {location:location, containers:containers, items:items});
+        res.render("storage-location-view.ejs", {location:location, containers:containers, items:items});
+    }
+    catch(e) {
+        console.error(e);
+        res.render("404.ejs");
+    }
+});
+
+router.get("/container/:id", ensureAuthenticated, async (req, res) => {
+    try{
+        // Get container from the db
+        const container = await Container.findById(req.params.id);
+
+        // Filter contents into containers and items
+        let items = container.contents.filter( x => x.type == "item").map( x => x.id );
+        let containers = container.contents.filter(x => x.type == "container").map( x => x.id );
+
+        // Get contents from db
+        items = await Item.find({"_id": {$in:items}});
+        containers = await Container.find({"_id": {$in:containers}});
+
+        res.render("container-view.ejs", {container:container, items:items, containers:containers});
+    }
+    catch(e) {
+        console.error(e);
+        res.render("404.ejs");
+    }
+});
+
+router.get("/item/:id", ensureAuthenticated, async (req, res) => {
+    try{
+        // Get the item from the database
+        const item = await Item.findById(req.params.id);
+
+        // Render the page, sending the item
+        res.render("item-view.ejs", {item:item});
+    }
+    catch(e) {
+        console.error(e);
+        res.render("404.ejs");
+    }
 });
 
 

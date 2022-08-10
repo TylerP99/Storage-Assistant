@@ -1,0 +1,13 @@
+<% for(let i = 0; i < items.length; ++i) { %>
+
+    <section id="<%= items[i]._id%>">
+
+        <h2><%= items[i].name %></h2>
+
+        <p><%= items[i].description %></p>
+
+        <a href="/item/<%=items[i]._id%>">View Item</a>
+
+    </section>
+
+<% } %>

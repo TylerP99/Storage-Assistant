@@ -35,8 +35,14 @@ const ItemSchema = new mongoose.Schema({
         default: Date.now()
     },
     parent: {
-        type:mongoose.Types.ObjectId,
-        required: true
+        id: {
+            type: mongoose.Types.ObjectId,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
     },
     owner: {
         type: mongoose.Types.ObjectId,
