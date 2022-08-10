@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%=item.name%></title>
+
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="view.css">
 </head>
 <body id="<%=item.id%>">
 
@@ -19,7 +22,74 @@
             <h1><%=item.name%></h1>
         </section>
 
-        <!-- Item information with edit, delete, and move buttons -->
+        <!-- Edit, delete, and move buttons -->
+        <section> <!--Forms handled by js-->
+
+            <section>
+                <button>Edit</button>
+                <form action="/api/storage/item/update" method="PUT">
+
+                    <section>
+                        <label for="name">Name:</label>
+                        <input type="text" id="item-name" name="name" placeholder="Enter name here" value="<%=item.name%>" required>
+                    </section>
+        
+                    <section>
+                        <label for="description">Description:</label>
+                        <input type="text" id="item-description" name="description" placeholder="Enter description here" value="<%=item.description%>" required>
+                    </section>
+
+                    <section>
+                        <label for="quantity">Quantity:</label>
+                        <input type="text" id="item-quantity" name="name" placeholder="Enter quantity here" value="<%=item.quantity%>" required>
+                    </section>
+
+                    <section>
+                        <label for="value">Estimated Value:</label>
+                        <input type="text" id="item-value" name="value" placeholder="Enter value here" value="<%=item.estimatedValue%>" required>
+                    </section>
+        
+                    <section>
+                        <label for="">Length:</label>
+                        <input type="text" id="item-length" name="length" placeholder="Enter length here" value="<%=item.length%>" required>
+                    </section>
+        
+                    <section>
+                        <label for="">Width:</label>
+                        <input type="text" id="item-width" name="width" placeholder="Enter width here" value="<%=item.width%>" required>
+                    </section>
+        
+                    <section>
+                        <label for="">Height:</label>
+                        <input type="text" id="item-height" name="height" placeholder="Enter height here" value="<%=item.height%>" required>
+                    </section>
+        
+                    <section>
+                        <button type="submit">Update</button>
+                        <button type="reset">Reset</button>
+                    </section>
+
+                </form>
+            </section>
+
+            <section>
+                <button>Move</button>
+                <form action="/api/storage/item/move" method="PUT"> 
+
+                </form>
+            </section>
+
+            <section>
+                <button>Delete</button>
+                <form action="/api/storage/item/delete" method="DELETE">
+                    <h2>Are you sure you want to delete this item?</h2>
+                    <button type="submit">Confirm Deletion</button>                    
+                </form>
+            </section>
+
+        </section>
+
+        <!-- Item information -->
         <section>
             <section>
                 <p>Quantity</p>
