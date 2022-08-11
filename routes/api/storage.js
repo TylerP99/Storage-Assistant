@@ -236,8 +236,9 @@ router.put("/update/Container", async (req,res,next) => {
 router.put("/add/Container", async (req,res,next) => {
     // Determine type
     const obj = req.body.obj;
-    obj.owner = {
-        id: req.user.id,
+    obj.owner = req.user.id;
+    obj.parent = {
+        id: req.body.id,
         type: "container"
     };
 
@@ -268,7 +269,7 @@ router.put("/add/Container", async (req,res,next) => {
         await Container.findByIdAndUpdate(
             req.body.id,
             {
-                $push: {contents:{id:obj.id, type:req.body.type}}
+                $push: {contents: newObj.obj}
             },
             {
                 upsert: false
