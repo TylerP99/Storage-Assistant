@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%=container.name%></title>
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/view.css">
 </head>
 <body>
 
@@ -22,28 +25,26 @@
             <h1><%=container.name%></h1>
         </section>
 
-        <!-- Container information with edit, move, and delete buttons -->
+        <!-- Container operations -->
         <section>
+            <!-- Button will open a card in the center of the screen with relevant form -->
             <section>
-                <p><%=container.length%> x <%=container.width%> x <%=container.height%></p>
-                <p><%=container.description%></p>
+                <button>Edit</button>
             </section>
 
             <section>
-                <!-- Button will open a card in the center of the screen with relevant form -->
-                <section>
-                    <button>Edit</button>
-                </section>
-
-                <section>
-                    <button>Move</button>
-                </section>
-
-                <section>
-                    <button>Delete</button>
-                </section>
+                <button>Move</button>
             </section>
 
+            <section>
+                <button>Delete</button>
+            </section>
+        </section>
+
+        <!-- Container Information -->
+        <section class="options">
+            <p><%=container.length%> x <%=container.width%> x <%=container.height%></p>
+            <p><%=container.description%></p>
         </section>
 
         <!-- Container contents with simple cards that link to child page with add button -->
@@ -51,6 +52,9 @@
             <h2>Contents</h2>
             <section>
                 <h3>Containers</h3>
+                <section>
+
+                </section>
 
                 <section>
                     <%- include("./partials/container-card-simple.ejs") %>

@@ -64,13 +64,7 @@ function is_valid_storage_location(location) {
 router.put("/update/StorageLocation", async (req, res, next) => {
     console.log(req.body);
     // Construct object from req
-    const updatedLocation = {
-        name: req.body.location.name,
-        description: req.body.location.description,
-        length: req.body.location.length,
-        width: req.body.location.width,
-        height: req.body.location.height
-    };
+    const updatedLocation = req.body.location;
 
     console.log(updatedLocation);
 

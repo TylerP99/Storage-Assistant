@@ -27,6 +27,11 @@ router.get("/login", forwardIfAuthenticated, (req,res) => {
     res.render("login.ejs");
 });
 
+// Account Route
+router.get("/settings", ensureAuthenticated, (req,res) => {
+    res.render("settings.ejs");
+});
+
 // Storage Route
 router.get("/dashboard", ensureAuthenticated, async (req, res) => {
 
@@ -40,6 +45,7 @@ router.get("/dashboard", ensureAuthenticated, async (req, res) => {
     res.render("dashboard.ejs", {locations:locations, containers:containers, items:items});
 });
 
+// Storage Location View
 router.get("/location/:id", ensureAuthenticated, async (req, res) => {
     try{
         // Get location from db to pass to ejs
@@ -71,6 +77,7 @@ router.get("/location/:id", ensureAuthenticated, async (req, res) => {
     }
 });
 
+// Container View
 router.get("/container/:id", ensureAuthenticated, async (req, res) => {
     try{
         // Get container from the db
@@ -92,6 +99,7 @@ router.get("/container/:id", ensureAuthenticated, async (req, res) => {
     }
 });
 
+// Item View
 router.get("/item/:id", ensureAuthenticated, async (req, res) => {
     try{
         // Get the item from the database

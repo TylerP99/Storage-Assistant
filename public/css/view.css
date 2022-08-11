@@ -8,6 +8,48 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+/*
+    Specific Styles
+*/
+.options {
+    
+}
+
+
+
+
+/*
+    General Styles
+*/
+
+nav {
+    border: 1px solid;
+    background: #ccc;
+    width: 100%;
+}
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+nav li {
+    border-left: 1px solid;
+    padding: 2rem 1rem;
+    font-size: 2rem;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 main {
     max-width: 1200px;
     margin: 0 auto;

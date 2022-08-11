@@ -1,67 +1,186 @@
-// Open and close update form
-const openUpdateLocationFormButton = document.querySelector(".open-update-storage-location-button");
-openUpdateLocationFormButton.addEventListener("click", open_location_update_form);
-
-const updateLocationForm = document.querySelector(".update-storage-location-form");
-
-function open_location_update_form(event) {
-    updateLocationForm.classList.toggle("hidden");
-}
-
+/*===============================================*/
+/*          Button and Form Handlers             */
+/*===============================================*/
+// Element id for database
 const locationID = document.querySelector("body").id;
 
-const addContainerForm = document.querySelector(".add-container-to-storage-location-form");
+// Forms are handled in the order they appear within storage-location-view.ejs
+
+//=========================//
+// Update Storage Location //
+//=========================//
+const updateLocationButton = document.querySelector(".update-location-button");
+const updateLocationForm = document.querySelector(".update-location-form");
+
+// Toggle update location form open and close
+updateLocationButton.addEventListener("click", () => {
+    updateLocationForm.classList.toggle("hidden");
+});
+
+updateLocationForm.addEventListener("submit", update_location);
+
+async function update_location(event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Get target form
+    const form = event.target;
+
+    // Construct new location object from form fields
+    const updatedLocation = {
+        name: form.querySelector("#location-name-update").value,
+        description: form.querySelector("#location-description-update").value,
+        length: form.querySelector("#location-length-update").value,
+        width: form.querySelector("#location-width-update").value,
+        height: form.querySelector("#location-height-update").value
+    };
+
+    // Construct request data object
+    const reqData = {
+        location: updatedLocation,
+        id: locationID
+    };
+
+    // Define route to send request
+    const reqLoc = "/api/storage/update/StorageLocation";
+
+    // Define type of request
+    const reqType = "PUT";
+
+    // Send request and handle response
+    request_and_handle_res(reqData, reqLoc, reqType);
+}
+
+//=========================//
+// Delete Storage Location //
+//=========================//
+const deleteLocationButton = document.querySelector(".delete-location-button");
+const deleteLocationForm = document.querySelector(".delete-location-form");
+
+deleteLocationButton.addEventListener("click", () => {
+    deleteLocationForm.classList.toggle("hidden");
+});
+
+deleteLocationForm.addEventListener("submit", delete_location);
+
+async function delete_location(event) {
+    // Prevent default form submission
+    event.preventDefault();
+
+    // Prepare request data object
+    const reqData = {
+        id: locationID
+    }
+
+    // Define route for request
+    const reqLoc = "/api/storage/delete/StorageLocation";
+
+    // Define request type
+    const reqType = "DELETE";
+
+    // Send request
+    await request_and_handle_res(reqData, reqLoc, reqType);
+}
+
+
+//===================//
+// Add new Container //
+//===================//
+const addContainerButton = document.querySelector(".add-container-button");
+const addContainerForm = document.querySelector(".add-container-to-location-form");
+
+addContainerButton.addEventListener("click", () => {
+    addContainerForm.classList.toggle("hidden")
+});
 
 addContainerForm.addEventListener("submit", add_container_to_location);
 
 async function add_container_to_location(event) {
+    // Prevent default form submission
     event.preventDefault();
 
-    const obj = {
-        name: event.target.querySelector("#container-name").value,
-        description: event.target.querySelector("#container-description").value,
-        length: event.target.querySelector("#container-length").value,
-        width: event.target.querySelector("#container-width").value,
-        height: event.target.querySelector("#container-height").value
+    // Get form from event
+    const form = event.target;
+
+    // Construct new container object
+    const container = {
+        name: form.querySelector("#container-name").value,
+        description: form.querySelector("#container-description").value,
+        length: form.querySelector("#container-length").value,
+        width: form.querySelector("#container-width").value,
+        height: form.querySelector("#container-height").value
     }
 
+    // Construct request data object containing container to add, the type of object to add, and the id of the location to add to
     const reqData = {
-        obj: obj,
+        obj: container,
         type: "container",
         id: locationID
     }
+
+    // Define the route to take to add to location
     const reqLoc = "/api/storage/add/StorageLocation"
 
-    await request_and_handle_res(reqData, reqLoc, "PUT");
+    // Define the type of request
+    const reqType = "PUT";
+
+    // Send request and handle the response
+    await request_and_handle_res(reqData, reqLoc, reqType);
 }
 
-// Add Item to Location
-const addItemForm = document.querySelector(".add-item-to-storage-location-form");
+//==============//
+// Add new Item //
+//==============//
+const addItemButton = document.querySelector(".add-item-button");
+const addItemForm = document.querySelector(".add-item-to-location-form");
+
+addItemButton.addEventListener("click", () => {
+    addItemForm.classList.toggle("hidden");
+});
 
 addItemForm.addEventListener("submit", add_item_to_location);
 
 async function add_item_to_location(event) {
+    // Prevent default form submission
     event.preventDefault();
 
-    const obj = {
-        name: event.target.querySelector("#item-name").value,
-        description: event.target.querySelector("#item-description").value,
-        quantity: event.target.querySelector("#item-quantity").value,
-        estimatedValue: event.target.querySelector("#item-value").value,
-        length: event.target.querySelector("#item-length").value,
-        width: event.target.querySelector("#item-width").value,
-        height: event.target.querySelector("#item-height").value
+    // Get form from event
+    const form = event.target;
+
+    // Construct new item from form data
+    const item = {
+        name: form.querySelector("#item-name").value,
+        description: form.querySelector("#item-description").value,
+        quantity: form.querySelector("#item-quantity").value,
+        estimatedValue: form.querySelector("#item-value").value,
+        length: form.querySelector("#item-length").value,
+        width: form.querySelector("#item-width").value,
+        height: form.querySelector("#item-height").value
     };
 
+    // Construct request data object
     const reqData = {
-        obj:obj,
+        obj: item,
         type: "item",
         id: locationID
     };
+
+    // Define location of request
     const reqLoc = "/api/storage/add/StorageLocation";
 
-    await request_and_handle_res(reqData, reqLoc, "PUT");
+    // Define request type
+    const reqType = "PUT"
+
+    // Send request and handle the response
+    await request_and_handle_res(reqData, reqLoc, reqType);
 }
+
+
+
+
+//====================================//
+//          Request Handler           //
+//====================================//
 
 async function request_and_handle_res(reqData, reqLoc, reqType, error_function) {
     // Make request to target route
