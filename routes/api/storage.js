@@ -19,16 +19,8 @@ const Item = require("../../models/Item");
 router.post("/create/StorageLocation", ensureAuthenticated, async (req, res, next) => {
     console.log(req.body);
     // Will receive object from req, construct object
-    const newLocation = {
-        name: req.body.location.name,
-        description: req.body.location.description,
-        // Contents are modified by app
-        length: req.body.location.length,
-        width: req.body.location.width,
-        height: req.body.location.height,
-        // Date set by mongoose
-        owner: req.user.id
-    };
+    const newLocation = req.body.location;
+    newLocation.owner = req.user.id;
 
     // Then validate object
     const validation = is_valid_storage_location(newLocation);

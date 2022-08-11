@@ -20,7 +20,7 @@
             <p><%=location.description%></p>
         </section>
 
-        <section class="location-header-options">
+        <section class="location-options">
             <section>
                 <button class="update-location-button">Edit this Location</button>
                 <form class="update-location-form hidden" action="/api/storage/create/StorageLocation" method="POST">
@@ -37,17 +37,17 @@
                     </section>
             
                     <section>
-                        <label for="">Length:</label>
+                        <label for="length">Length:</label>
                         <input type="text" id="location-length-update" name="length" placeholder="Enter length here" value="<%=location.length%>" required>
                     </section>
             
                     <section>
-                        <label for="">Width:</label>
+                        <label for="width">Width:</label>
                         <input type="text" id="location-width-update" name="width" placeholder="Enter width here" value="<%=location.width%>" required>
                     </section>
             
                     <section>
-                        <label for="">Height:</label>
+                        <label for="height">Height:</label>
                         <input type="text" id="location-height-update" name="height" placeholder="Enter height here" value="<%=location.height%>" required>
                     </section>
             

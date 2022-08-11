@@ -15,9 +15,54 @@
 
     <main>
 
-        <h1>Storage Locations</h1>
+        <header>
+            <h1>Storage Locations</h1>
+        </header>
 
-        <section>
+        <section class="location-display">
+            <h2>Locations:</h2>
+
+            <section class="location-options">
+                <section>
+                    <button class="create-location-button">Create New Location</button>
+                    <form class="create-location-form hidden" action="/api/storage/create/StorageLocation" method="POST">
+    
+                        <h2>Create New Location</h2>
+                        
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="location-name" name="name" placeholder="Enter name here" required>
+                        </section>
+                
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="location-description" name="description" placeholder="Enter description here" required>
+                        </section>
+                
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="location-length" name="length" placeholder="Enter length here" required>
+                        </section>
+                
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="location-width" name="width" placeholder="Enter width here" required>
+                        </section>
+                
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="location-height" name="height" placeholder="Enter height here" required>
+                        </section>
+                
+                        <section>
+                            <button type="submit">Create</button>
+                            <button type="reset">Reset</button>
+                        </section>
+    
+                    </form>
+                </section>
+            </section>
+
             <%- include("./partials/location-card-simple.ejs")%>
         </section>
 
