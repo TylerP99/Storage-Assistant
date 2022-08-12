@@ -145,8 +145,14 @@
                     </section>
                 </section>
 
-                <section class="container-display">
-                    <%- include("./partials/container-card-simple.ejs") %>
+                <section>
+                    <% if(containers) { %>
+                        <section class="container-display">
+                            <%- include("./partials/container-card-simple.ejs") %>
+                        </section>
+                    <% }else{ %>
+                        <h6>No containers found</h6>
+                    <% } %>
                 </section>
             </section>
 
@@ -202,8 +208,14 @@
                     </section>
                 </section>
 
-                <section class="item-display">
-                    <%- include("./partials/item-card-simple.ejs") %>
+                <section>
+                    <% if(containers) { %>
+                        <section class="item-display">
+                            <%- include("./partials/item-card-simple.ejs") %>
+                        </section>
+                    <% }else{ %>
+                        <h6>No items found</h6>
+                    <% } %>
                 </section>
             </section>
 

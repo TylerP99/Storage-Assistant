@@ -20,8 +20,6 @@
         </header>
 
         <section>
-            <h2>Locations:</h2>
-
             <section class="options">
                 <section>
                     <button class="create-location-button">Create New Location</button>
@@ -63,8 +61,14 @@
                 </section>
             </section>
 
-            <section class="location-display">
-                <%- include("./partials/location-card-simple.ejs")%>
+            <section>
+                <% if(locations) { %>
+                    <section class="location-display">
+                        <%- include("./partials/location-card-simple.ejs")%>
+                    </section>
+                <% }else{ %>
+                    <h6>No containers found</h6>
+                <% } %>
             </section>
         </section>
 

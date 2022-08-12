@@ -67,8 +67,10 @@
         </section>
 
         <section>
+            <h2>Contents</h2>
+
             <header>
-                <h2>Containers:</h2>
+                <h3>Containers:</h3>
                 <section class="options">
                     <section>
                         <button class="add-container-button">Add new</button>
@@ -109,10 +111,16 @@
                 </section>
             </header>
 
-            <section class="container-display">
+            <section>
 
                 <!--EJS Include-->
-                <%- include("./partials/container-card-simple.ejs") %>
+                <% if(containers) { %>
+                    <section class="container-display">
+                        <%- include("./partials/container-card-simple.ejs") %>
+                    </section>
+                <% }else{ %>
+                    <h6>No containers found</h6>
+                <% } %>
 
             </section>
 
@@ -122,7 +130,7 @@
         <section>
 
             <header>
-                <h2>Items:</h2>
+                <h3>Items:</h3>
                 <section class="options">
                     <section>
                         <button class="add-item-button">Add new</button>
@@ -173,10 +181,16 @@
                 </section>
             </header>
 
-            <section class="item-display">
+            <section>
 
                 <!--EJS Include-->
-                <%- include("./partials/item-card-simple.ejs") %>
+                <% if(containers) { %>
+                    <section class="item-display">
+                        <%- include("./partials/item-card-simple.ejs") %>
+                    </section>
+                <% }else{ %>
+                    <h6>No items found</h6>
+                <% } %>
 
             </section>
 
