@@ -55,7 +55,10 @@ async function move_container(event) {
     const form = event.target;
 
     const reqData = {
-        destinationID: form.querySelector("#container-destination").value,
+        destination:{
+            id: form.querySelector("#container-destination").value,
+            type: form.querySelector("container-destination").name
+        },
         id: containerID
     };
 

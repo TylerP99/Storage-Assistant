@@ -232,6 +232,104 @@ router.put("/update/Container", async (req,res,next) => {
     }
 });
 
+router.put("/move/Container", async (req,res,next) => {
+    const target = req.body.id;
+    const destination = req.body.destination;
+    const validation = {
+        valid: true,
+        errors: ""
+    }
+
+    try{
+        // Get target from db, so we can access parent id
+        target = await Container.findById(target.id);
+
+        // Remove target from origins content array
+        if(target.parent.type == "location") {
+            origin = await StorageLocation.findByIdAndUpdate(
+                target.parent.id,
+                {
+                    $pull: {
+                        contents: {id: target.id}
+                    }
+                },
+                {
+                    upsert: false
+                }
+            );
+        }
+        else {
+            origin = await Container.findByIdAndUpdate(
+                target.parent.id,
+                {
+                    $pull: {
+                        contents: {id: target.id}
+                    }
+                },
+                {
+                    upsert: false
+                }
+            );
+        }
+
+        // Now, add the container to the new parent
+        if(destination.type == "location") {
+            await StorageLocation.findByIdAndUpdate(
+                destination.id,
+                {
+                    $push: {
+                        contents: {
+                            id: target.id,
+                            type: "container"
+                        }
+                    }
+                },
+                {
+                    upsert: false
+                }
+            );
+        }
+        else {
+            await Container.findByIdAndUpdate(
+                destination.id,
+                {
+                    $push: {
+                        contents: {
+                            id: target.id,
+                            type: "container"
+                        }
+                    }
+                },
+                {
+                    upsert: false
+                }
+            );
+        }
+
+        // Finally, update target parent
+        await Container.findByIdAndUpdate(
+            target.id,
+            {
+                $set: {
+                    parent: {
+                        id: destination.id,
+                        type: destination.type
+                    }
+                },
+            },
+            {
+                upsert: false
+            }
+        );
+
+        res.status(400).json(validation);
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+})
+
 // Add object to Container (object is either item or container [smaller containers can be put into larger ones])
 router.put("/add/Container", async (req,res,next) => {
     // Determine type
