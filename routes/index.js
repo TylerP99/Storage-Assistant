@@ -27,6 +27,22 @@ router.get("/login", forwardIfAuthenticated, (req,res) => {
     res.render("login.ejs");
 });
 
+// Logout route
+router.delete("/logout", ensureAuthenticated, async (req,res) => {
+    req.logout((e) => {
+        if(e) {
+            console.error(e);
+            return res.json({valid:false});
+        }
+        res.json({valid:true});
+    });
+});
+
+// Logout page route
+router.get("/logout", (req,res) => {
+    res.render("logged-out.ejs");
+});
+
 // Account Route
 router.get("/settings", ensureAuthenticated, (req,res) => {
     res.render("settings.ejs");
@@ -91,6 +107,9 @@ router.get("/container/:id", ensureAuthenticated, async (req, res) => {
         items = await Item.find({"_id": {$in:items}});
         containers = await Container.find({"_id": {$in:containers}});
 
+        // Get all elligable destinations for a move operation
+        const destinations = await get_destinations(req.user.id);
+
         res.render("container-view.ejs", {container:container, items:items, containers:containers});
     }
     catch(e) {
@@ -113,6 +132,10 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
         res.render("404.ejs");
     }
 });
+
+async function get_destinations(user) {
+    // Get all locations and containers from db, convert to id, type pairs, return combined array
+}
 
 
 module.exports = router;
