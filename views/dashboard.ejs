@@ -19,10 +19,10 @@
             <h1>Storage Locations</h1>
         </header>
 
-        <section class="location-display">
+        <section>
             <h2>Locations:</h2>
 
-            <section class="location-options">
+            <section class="options">
                 <section>
                     <button class="create-location-button">Create New Location</button>
                     <form class="create-location-form hidden" action="/api/storage/create/StorageLocation" method="POST">
@@ -63,7 +63,9 @@
                 </section>
             </section>
 
-            <%- include("./partials/location-card-simple.ejs")%>
+            <section class="location-display">
+                <%- include("./partials/location-card-simple.ejs")%>
+            </section>
         </section>
 
     </main>
