@@ -48,17 +48,15 @@ router.get("/settings", ensureAuthenticated, (req,res) => {
     res.render("settings.ejs");
 });
 
-// Storage Route
+// Dashboard/All Storage Locations Route
 router.get("/dashboard", ensureAuthenticated, async (req, res) => {
 
-    // Get all the data :o
-    let locations = await StorageLocation.find();
-    let containers = await Container.find();
-    let items = await Item.find();
+    // Get locations that belong to the user...
+    let locations = await StorageLocation.find({owner: req.user.id});
 
     console.log(locations);
 
-    res.render("dashboard.ejs", {locations:locations, containers:containers, items:items});
+    res.render("dashboard.ejs", {locations:locations});
 });
 
 // Storage Location View
@@ -66,6 +64,10 @@ router.get("/location/:id", ensureAuthenticated, async (req, res) => {
     try{
         // Get location from db to pass to ejs
         const location = await StorageLocation.findById(req.params.id);
+
+        if(location.owner != req.user.id) {
+            return res.render("unauthorized.ejs");
+        }
 
         // Next, need to get the containers and items
         let containers = location.contents.filter( x => x.type == "container");
@@ -99,6 +101,10 @@ router.get("/container/:id", ensureAuthenticated, async (req, res) => {
         // Get container from the db
         const container = await Container.findById(req.params.id);
 
+        if(container.owner != req.user.id) {
+            res.render("unauthorized.ejs");
+        }
+
         // Filter contents into containers and items
         let items = container.contents.filter( x => x.type == "item").map( x => x.id );
         let containers = container.contents.filter(x => x.type == "container").map( x => x.id );
@@ -123,6 +129,10 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
     try{
         // Get the item from the database
         const item = await Item.findById(req.params.id);
+
+        if(item.owner != req.user.id) {
+            res.render("unauthorized.ejs");
+        }
 
         // Render the page, sending the item
         res.render("item-view.ejs", {item:item});

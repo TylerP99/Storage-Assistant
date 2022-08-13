@@ -62,12 +62,12 @@
             </section>
 
             <section>
-                <% if(locations) { %>
+                <% if(locations.length > 0) { %>
                     <section class="location-display">
                         <%- include("./partials/location-card-simple.ejs")%>
                     </section>
                 <% }else{ %>
-                    <h6>No containers found</h6>
+                    <h6>No locations found</h6>
                 <% } %>
             </section>
         </section>

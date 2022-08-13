@@ -114,7 +114,7 @@
             <section>
 
                 <!--EJS Include-->
-                <% if(containers) { %>
+                <% if(containers.length > 0) { %>
                     <section class="container-display">
                         <%- include("./partials/container-card-simple.ejs") %>
                     </section>
@@ -184,7 +184,7 @@
             <section>
 
                 <!--EJS Include-->
-                <% if(containers) { %>
+                <% if(items.length > 0) { %>
                     <section class="item-display">
                         <%- include("./partials/item-card-simple.ejs") %>
                     </section>
