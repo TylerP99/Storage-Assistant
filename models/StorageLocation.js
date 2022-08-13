@@ -29,6 +29,10 @@ const StorageLocationSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    type: {
+        type: String,
+        default: "location"
+    },
     owner: {
         type: mongoose.Types.ObjectId,
         required: true

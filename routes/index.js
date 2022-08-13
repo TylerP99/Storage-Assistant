@@ -136,7 +136,9 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
             res.render("unauthorized.ejs");
         }
 
-        const destinations = get_destinations(req.user.id);
+        let destinations = await get_destinations(req.user.id);
+        destinations = destinations.filter(x => x.id != item.parent.id)
+
 
         // Render the page, sending the item
         res.render("item-view.ejs", {item:item, destinations:destinations});
@@ -147,15 +149,14 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
     }
 });
 
-async function get_destinations(user) {
+async function get_destinations(userID) {
     // Get all locations and containers from db, convert to id, type pairs, return combined array
-    let locations = await StorageLocation.find({owner:user.id});
-    let containers = await StorageLocation.find({owner:user.id});
-    locations = locations.map(x => x = {id: x.id , type: "location"});
-    containers = containers.map(x => x = {id: x.id, type: "container"});
+    let locations = await StorageLocation.find({owner:userID});
+    let containers = await Container.find({owner:userID});
 
     const destinations = locations.concat(containers);
 
+    console.log("Destinations");
     console.log(destinations);
 
     return destinations;

@@ -72,8 +72,10 @@
                     <section>
                         <label for="destinations">Choose a new location or container for this container</label>
                         <select>
-                            <!--Later-->
-                        </select>
+                            <% for(let i = 0; i < destinations.length; ++ i) { %>
+                                <option class="destination" id="<%=destinations[i].id%>" name="<%=destinations[i].type%>"><%=destinations[i].name%></option>
+                            <% } %>
+                        </select>    
                     </section>
 
                     <section>

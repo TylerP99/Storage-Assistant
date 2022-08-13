@@ -463,15 +463,7 @@ function is_valid_item(item) {
 
 // Edit item properties
 router.put("/update/Item", async (req, res, next) => {
-    const updatedItem = {
-        name: req.body.item.name,
-        description: req.body.item.description,
-        quantity: req.body.item.quantity,
-        estimatedValue: req.body.item.value,
-        length: req.body.item.length,
-        width: req.body.item.width,
-        height: req.body.item.height
-    }
+    const updatedItem = req.body.item
 
     const validation = is_valid_item(updatedItem);
 
@@ -482,12 +474,14 @@ router.put("/update/Item", async (req, res, next) => {
     try {
         // Valid, update item
         await Item.findByIdAndUpdate(
-            req.body.item.id,
+            req.body.id,
             updatedItem,
             {
                 upsert: false // Dont want a new item
             }
         );
+
+        res.json(validation);
     }
     catch(e) {
         console.error(e);
@@ -498,7 +492,7 @@ router.put("/update/Item", async (req, res, next) => {
 // Delete item from db
 router.delete("/delete/Item", async (req,res,next) => {
     try{
-        await Item.findByIdAndDelete(req.body.item.id);
+        await Item.findByIdAndDelete(req.body.id);
         res.status(200).json({valid: true})
     }
     catch(e) {

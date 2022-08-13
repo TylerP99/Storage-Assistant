@@ -29,6 +29,10 @@ const ContainerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    type: {
+        type: String,
+        default: "container"
+    },
     parent: {
         id: {
             type: mongoose.Types.ObjectId,
