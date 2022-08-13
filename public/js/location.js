@@ -79,7 +79,25 @@ async function delete_location(event) {
     const reqType = "DELETE";
 
     // Send request
-    await request_and_handle_res(reqData, reqLoc, reqType);
+    const res = await fetch(
+        reqLoc,
+        {
+            method: reqType,
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(reqData)
+        }
+    )
+
+    const data = await res.json();
+
+    if(!data.valid) {
+        console.error(data.errors);
+        return;
+    }
+
+    window.location.replace("/dashboard");
 }
 
 

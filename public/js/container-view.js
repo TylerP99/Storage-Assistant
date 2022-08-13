@@ -90,7 +90,27 @@ async function delete_container(event) {
 
     const reqType = "DELETE";
 
-    request_and_handle_res(reqData, reqLoc, reqType);
+    const res = await fetch(
+        reqLoc,
+        {
+            method: reqType,
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(reqData)
+        }
+    )
+
+    const data = await res.json();
+
+    if(!data.valid) {
+        console.error(data.errors);
+        return;
+    }
+
+    const backLocation = document.querySelector(".back-button").href;
+
+    window.location.replace(backLocation);
 }
 
 // Add Container

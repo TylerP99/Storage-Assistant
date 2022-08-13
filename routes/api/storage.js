@@ -92,7 +92,7 @@ router.put("/add/StorageLocation", async (req,res,next) => {
     req.body.obj.owner = req.user.id;
     req.body.obj.parent = {
         id: req.body.id,
-        type: "storageLocation"
+        type: "location"
     };
     // Determine resource to be created
     let newObj = {

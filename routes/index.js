@@ -114,9 +114,11 @@ router.get("/container/:id", ensureAuthenticated, async (req, res) => {
         containers = await Container.find({"_id": {$in:containers}});
 
         // Get all elligable destinations for a move operation
-        const destinations = await get_destinations(req.user.id);
+        let destinations = await get_destinations(req.user.id);
+        // Dont save the current container as a destination
+        destinations = destinations.filter(x => x.id != container.id);
 
-        res.render("container-view.ejs", {container:container, items:items, containers:containers});
+        res.render("container-view.ejs", {container:container, items:items, containers:containers, destinations:destinations});
     }
     catch(e) {
         console.error(e);
@@ -134,8 +136,10 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
             res.render("unauthorized.ejs");
         }
 
+        const destinations = get_destinations(req.user.id);
+
         // Render the page, sending the item
-        res.render("item-view.ejs", {item:item});
+        res.render("item-view.ejs", {item:item, destinations:destinations});
     }
     catch(e) {
         console.error(e);
@@ -145,6 +149,16 @@ router.get("/item/:id", ensureAuthenticated, async (req, res) => {
 
 async function get_destinations(user) {
     // Get all locations and containers from db, convert to id, type pairs, return combined array
+    let locations = await StorageLocation.find({owner:user.id});
+    let containers = await StorageLocation.find({owner:user.id});
+    locations = locations.map(x => x = {id: x.id , type: "location"});
+    containers = containers.map(x => x = {id: x.id, type: "container"});
+
+    const destinations = locations.concat(containers);
+
+    console.log(destinations);
+
+    return destinations;
 }
 
 
