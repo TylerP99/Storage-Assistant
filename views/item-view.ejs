@@ -78,14 +78,18 @@
                     <h3>Choose a new place to store this item</h3>
 
                     <% if(destinations.length > 0) {%>
-                        <select>
+                        <select class="destination">
                             <% for(let i = 0; i < destinations.length; ++ i) { %>
-                                <option class="destination" id="<%=destinations[i].id%>" name="<%=destinations[i].type%>"><%=destinations[i].name%></option>
+                                <option id="<%=destinations[i].id%>" name="<%=destinations[i].type%>"><%=destinations[i].name%></option>
                             <% } %>
                         </select>
                     <% }else{ %>
                         <p>No other destinations found</p>
                     <% } %>
+
+                    <section>
+                        <button type="submit">Submit</button>
+                    </section>
 
                 </form>
             </section>

@@ -3,6 +3,8 @@ const express = require("express");
 
 const router = express.Router();
 
+const mongoose = require("mongoose");
+
 const { ensureAuthenticated, forwardIfAuthenticated } = require("../../config/auth-middleware.js");
 
 const User = require("../../models/User.js");
@@ -482,6 +484,104 @@ router.put("/update/Item", async (req, res, next) => {
         );
 
         res.json(validation);
+    }
+    catch(e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+// Move item
+router.put("/move/Item", async (req, res, next) => {
+    try{
+        // Get things to be edited
+        // Item to move
+        const item = await Item.findById(req.body.id);
+
+        console.log("Found item")
+        console.log(item.id);
+        
+
+        // Remove item from contents of origin
+        if(item.parent.type == "location") {
+            const loc = await StorageLocation.findByIdAndUpdate(
+                item.parent.id,
+                {
+                    $pull: {
+                        contents: { id: new mongoose.mongo.ObjectId(item.id)}
+                    }
+                },
+                {
+                    safe: true,
+                    upsert: false,
+                }
+            );
+            console.log(loc);
+
+            console.log("Item deleted from location");
+        }
+        else if(item.parent.type == "container") {
+            await Container.findByIdAndUpdate(
+                item.parent.id,
+                {
+                    $pull: {
+                        contents: { id: new mongoose.mongo.ObjectId(item.id) }
+                    }
+                },
+                {
+                    safe: true,
+                    upsert: false,
+                }
+            );
+            console.log("Item deleted from container");
+        }
+
+        // Add item to contents of destination
+        if(req.body.destination.type == "location") {
+            await StorageLocation.findByIdAndUpdate(
+                req.body.destination.id,
+                {
+                    $push: {
+                        contents: {id: item.id, type: "item"}
+                    }
+                },
+                {
+                    upsert: false,
+                }
+            );
+            console.log("Item added to location");
+        }
+        else if(req.body.destination.type == "container") {
+            await Container.findByIdAndUpdate(
+                req.body.destination.id,
+                {
+                    $push: {
+                        contents: {id: item.id, type: "item"}
+                    }
+                },
+                {
+                    upsert: false,
+                }
+            );
+            console.log("Item added to container");
+        }
+
+        // Change item parent
+        await Item.findByIdAndUpdate(
+            req.body.id,
+            {
+                $set: {
+                    parent: req.body.destination
+                }
+            },
+            {
+                upsert: false,
+            }
+        );
+        console.log("Item parent changed");
+
+        // Respond
+        res.status(200).json({valid: true});
     }
     catch(e) {
         console.error(e);

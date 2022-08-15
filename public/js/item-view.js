@@ -39,6 +39,7 @@ async function edit_item(event) {
     await request_and_handle_res(reqData, reqLoc, reqType);
 }
 
+
 // Move Item
 const moveItemButton = document.querySelector(".move-item-button");
 const moveItemForm = document.querySelector(".move-item-form");
@@ -54,14 +55,22 @@ async function move_item(event) {
 
     const form = event.target;
 
+    const selection = form.querySelector(".destination");
+    const option = selection.options[selection.selectedIndex];
+
     const reqData = {
-        destination: form.querySelector(".destination").value,
+        destination: {
+            id: option.id,
+            type: option.getAttribute("name")
+        },
         id: itemID
     };
 
     const reqLoc = "/api/storage/move/Item";
 
     const reqType = "PUT";
+
+    console.log(reqData);
 
     await request_and_handle_res(reqData, reqLoc, reqType);
 }
