@@ -25,6 +25,8 @@ main {
 
     margin-top: -10%;
     padding: 2rem 10rem;
+
+    max-width: 95%;
 }
 
 h1 {

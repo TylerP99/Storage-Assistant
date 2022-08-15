@@ -16,7 +16,7 @@
     <main>
 
         <section class="location-header-info">
-            <a href="/dashboard">Back to locations</a>
+            <a class="back-button" href="/dashboard"> < <span>Back to locations</span></a>
             <h1><%=location.name%></h1>
         </section>
 
@@ -67,7 +67,16 @@
         </section>
 
         <section>
-            <p><%=location.description%></p>
+            <h2>Location Information</h2>
+            <section class="info-container">
+                <h4>Description:</h4> 
+                <p><%=location.description%></p>
+            </section>
+
+            <section class="info-container">
+                <h4>Dimensions</h4>
+                <p> <%=location.length%> x <%=location.width%> x <%=location.height%> </p>
+            </section>
         </section>
 
         <section>
