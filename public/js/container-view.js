@@ -53,11 +53,13 @@ async function move_container(event) {
     event.preventDefault();
 
     const form = event.target;
+    const selection = event.target.querySelector(".destination");
+    const option = selection.options[selection.selectedIndex];
 
     const reqData = {
         destination:{
-            id: form.querySelector("#container-destination").value,
-            type: form.querySelector("container-destination").name
+            id: option.id,
+            type: option.getAttribute("name")
         },
         id: containerID
     };

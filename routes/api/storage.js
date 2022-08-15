@@ -93,7 +93,7 @@ router.put("/add/StorageLocation", async (req,res,next) => {
     // Add user id to obj to be created
     req.body.obj.owner = req.user.id;
     req.body.obj.parent = {
-        id: req.body.id,
+        id: new mongoose.mongo.ObjectId(req.body.id),
         type: "location"
     };
     // Determine resource to be created
@@ -235,53 +235,47 @@ router.put("/update/Container", async (req,res,next) => {
 });
 
 router.put("/move/Container", async (req,res,next) => {
-    const target = req.body.id;
-    const destination = req.body.destination;
-    const validation = {
-        valid: true,
-        errors: ""
-    }
-
     try{
         // Get target from db, so we can access parent id
-        target = await Container.findById(target.id);
+        const container = await Container.findById(req.body.id);
 
         // Remove target from origins content array
-        if(target.parent.type == "location") {
-            origin = await StorageLocation.findByIdAndUpdate(
-                target.parent.id,
+        if(container.parent.type == "location") {
+            console.log("RETURN")
+            console.log(await StorageLocation.findByIdAndUpdate(
+                container.parent.id,
                 {
                     $pull: {
-                        contents: {id: target.id}
+                        contents: {id: new mongoose.mongo.ObjectId(container.id)}
                     }
                 },
                 {
                     upsert: false
                 }
-            );
+            ));
         }
-        else {
-            origin = await Container.findByIdAndUpdate(
-                target.parent.id,
+        else if(container.parent.type == "container") {
+            console.log(await Container.findByIdAndUpdate(
+                container.parent.id,
                 {
                     $pull: {
-                        contents: {id: target.id}
+                        contents: {id: new mongoose.mongo.ObjectId(container.id)}
                     }
                 },
                 {
                     upsert: false
                 }
-            );
+            ));
         }
 
         // Now, add the container to the new parent
-        if(destination.type == "location") {
+        if(req.body.destination.type == "location") {
             await StorageLocation.findByIdAndUpdate(
-                destination.id,
+                req.body.destination.id,
                 {
                     $push: {
                         contents: {
-                            id: target.id,
+                            id: new mongoose.mongo.ObjectId(container.id),
                             type: "container"
                         }
                     }
@@ -291,13 +285,13 @@ router.put("/move/Container", async (req,res,next) => {
                 }
             );
         }
-        else {
+        else if(req.body.destination.type == "container") {
             await Container.findByIdAndUpdate(
-                destination.id,
+                req.body.destination.id,
                 {
                     $push: {
                         contents: {
-                            id: target.id,
+                            id: new mongoose.mongo.ObjectId(container.id),
                             type: "container"
                         }
                     }
@@ -310,12 +304,12 @@ router.put("/move/Container", async (req,res,next) => {
 
         // Finally, update target parent
         await Container.findByIdAndUpdate(
-            target.id,
+            container.id,
             {
                 $set: {
                     parent: {
-                        id: destination.id,
-                        type: destination.type
+                        id: new mongoose.mongo.ObjectId(req.body.destination.id),
+                        type: req.body.destination.type
                     }
                 },
             },
@@ -324,7 +318,7 @@ router.put("/move/Container", async (req,res,next) => {
             }
         );
 
-        res.status(400).json(validation);
+        res.status(200).json({valid:true});
     }
     catch(e) {
         console.error(e);
@@ -338,7 +332,7 @@ router.put("/add/Container", async (req,res,next) => {
     const obj = req.body.obj;
     obj.owner = req.user.id;
     obj.parent = {
-        id: req.body.id,
+        id: new mongoose.mongo.ObjectId(req.body.id),
         type: "container"
     };
 
@@ -425,44 +419,6 @@ async function delete_container(id) {
 
 // Item Operations
 
-// Create new Item in db to be pushed by storageLocation
-async function create_new_item(item) {
-    // Validate item first
-    const newObj = {
-        obj: {},
-        validation: is_valid_item(item)
-    };
-
-    if(!newObj.validation.valid) {
-        return newObj;
-    }
-
-    try{
-        const newItem = await Item.create(item);
-        console.log(newItem);
-        newObj.obj = {
-            id: newItem._id,
-            type:"item"
-        };
-        return newObj;
-    }
-    catch(e) {
-        console.error(e);
-        return newObj;
-    }
-}
-
-function is_valid_item(item) {
-    //Check all properties
-    const validation = {
-        valid: true,
-        errors: ""
-    }
-
-    //For now, return true
-    return validation;
-}
-
 // Edit item properties
 router.put("/update/Item", async (req, res, next) => {
     const updatedItem = req.body.item
@@ -542,7 +498,10 @@ router.put("/move/Item", async (req, res, next) => {
                 req.body.destination.id,
                 {
                     $push: {
-                        contents: {id: item.id, type: "item"}
+                        contents: {
+                            id: new mongoose.mongo.ObjectId(item.id), 
+                            type: "item"
+                        }
                     }
                 },
                 {
@@ -556,7 +515,10 @@ router.put("/move/Item", async (req, res, next) => {
                 req.body.destination.id,
                 {
                     $push: {
-                        contents: {id: item.id, type: "item"}
+                        contents: {
+                            id: new mongoose.mongo.ObjectId(item.id), 
+                            type: "item"
+                        }
                     }
                 },
                 {
@@ -571,7 +533,10 @@ router.put("/move/Item", async (req, res, next) => {
             req.body.id,
             {
                 $set: {
-                    parent: req.body.destination
+                    parent: {
+                        id: new mongoose.mongo.ObjectId(req.body.destination.id),
+                        type: req.body.destination.type
+                    }
                 }
             },
             {
@@ -600,6 +565,47 @@ router.delete("/delete/Item", async (req,res,next) => {
         next(e);
     }
 });
+
+// Item Helpers
+
+// Create new Item in db to be pushed by storageLocation or container add routes
+async function create_new_item(item) {
+    // Validate item first
+    const newObj = {
+        obj: {},
+        validation: is_valid_item(item)
+    };
+
+    if(!newObj.validation.valid) {
+        return newObj;
+    }
+
+    try{
+        const newItem = await Item.create(item);
+        console.log(newItem);
+        newObj.obj = {
+            id: newItem._id,
+            type:"item"
+        };
+        return newObj;
+    }
+    catch(e) {
+        console.error(e);
+        return newObj;
+    }
+}
+
+// Item validation
+function is_valid_item(item) {
+    //Check all properties
+    const validation = {
+        valid: true,
+        errors: ""
+    }
+
+    //For now, return true
+    return validation;
+}
 
 
 module.exports = router;
