@@ -30,20 +30,7 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
 }
 
 // Only need to be able to create a new location from here
-const createLocationButton = document.querySelector(".create-location-button");
 const createLocationForm = document.querySelector(".create-location-form");
-const createLocationFormContainer = document.querySelector(".create-location-form-container");
-
-createLocationButton.addEventListener("click", () => {
-    createLocationFormContainer.classList.toggle("hidden");
-});
-
-// Close overlay if clicked off
-createLocationFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".create-location-form")) {
-        createLocationFormContainer.classList.toggle("hidden");
-    }
-});
 
 createLocationForm.addEventListener("submit", create_location);
 

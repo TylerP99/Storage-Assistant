@@ -1,19 +1,8 @@
+// Get item id for use in form submissions
 const itemID = document.querySelector("body").id;
 
 // Update Item
-const editItemButton = document.querySelector(".edit-item-button");
 const editItemForm = document.querySelector(".edit-item-form");
-const editItemFormContainer = document.querySelector(".edit-item-form-container");
-
-editItemButton.addEventListener("click", () => {
-    editItemFormContainer.classList.toggle("hidden");
-});
-
-editItemFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".edit-item-form")) {
-        editItemFormContainer.classList.toggle("hidden");
-    }
-});
 
 editItemForm.addEventListener("submit", edit_item);
 
@@ -48,19 +37,7 @@ async function edit_item(event) {
 
 
 // Move Item
-const moveItemButton = document.querySelector(".move-item-button");
 const moveItemForm = document.querySelector(".move-item-form");
-const moveItemFormContainer = document.querySelector(".move-item-form-container");
-
-moveItemButton.addEventListener("click", () => {
-    moveItemFormContainer.classList.toggle("hidden");
-});
-
-moveItemFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".move-item-form")) {
-        moveItemFormContainer.classList.toggle("hidden");
-    }
-});
 
 moveItemForm.addEventListener("submit", move_item);
 
@@ -90,19 +67,7 @@ async function move_item(event) {
 }
 
 // Delete Item
-const deleteItemButton = document.querySelector(".delete-item-button");
 const deleteItemForm = document.querySelector(".delete-item-form");
-const deleteItemFormContainer = document.querySelector(".delete-item-form-container");
-
-deleteItemButton.addEventListener("click", () => {
-    deleteItemFormContainer.classList.toggle("hidden");
-});
-
-deleteItemFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".delete-item-form")) {
-        deleteItemFormContainer.classList.toggle("hidden");
-    }
-});
 
 deleteItemForm.addEventListener("submit", delete_item);
 

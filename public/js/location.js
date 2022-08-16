@@ -9,21 +9,7 @@ const locationID = document.querySelector("body").id;
 //=========================//
 // Update Storage Location //
 //=========================//
-const updateLocationButton = document.querySelector(".update-location-button");
 const updateLocationForm = document.querySelector(".update-location-form");
-const updateLocationFormContainer = document.querySelector(".update-location-form-container");
-
-// Toggle update location form open and close
-updateLocationButton.addEventListener("click", () => {
-    updateLocationFormContainer.classList.toggle("hidden");
-});
-
-// Close form and overlay when overlay is clicked
-updateLocationFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".update-location-form")) {
-        updateLocationFormContainer.classList.toggle("hidden");
-    }
-});
 
 updateLocationForm.addEventListener("submit", update_location);
 
@@ -62,20 +48,7 @@ async function update_location(event) {
 //=========================//
 // Delete Storage Location //
 //=========================//
-const deleteLocationButton = document.querySelector(".delete-location-button");
 const deleteLocationForm = document.querySelector(".delete-location-form");
-const deleteLocationFormContainer = document.querySelector(".delete-location-form-container");
-
-// Open/Close when button is clicked
-deleteLocationButton.addEventListener("click", () => {
-    deleteLocationFormContainer.classList.toggle("hidden");
-});
-
-deleteLocationFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".delete-location-form")) {
-        deleteLocationFormContainer.classList.toggle("hidden");
-    }
-});
 
 deleteLocationForm.addEventListener("submit", delete_location);
 
@@ -120,19 +93,7 @@ async function delete_location(event) {
 //===================//
 // Add new Container //
 //===================//
-const addContainerButton = document.querySelector(".add-container-button");
 const addContainerForm = document.querySelector(".add-container-to-location-form");
-const addContainerFormContainer = document.querySelector(".add-container-to-location-form-container");
-
-addContainerButton.addEventListener("click", () => {
-    addContainerFormContainer.classList.toggle("hidden")
-});
-
-addContainerFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".add-container-to-location-form")) {
-        addContainerFormContainer.classList.toggle("hidden");
-    }
-});
 
 addContainerForm.addEventListener("submit", add_container_to_location);
 
@@ -172,19 +133,7 @@ async function add_container_to_location(event) {
 //==============//
 // Add new Item //
 //==============//
-const addItemButton = document.querySelector(".add-item-button");
 const addItemForm = document.querySelector(".add-item-to-location-form");
-const addItemFormContainer = document.querySelector(".add-item-to-location-form-container");
-
-addItemButton.addEventListener("click", () => {
-    addItemFormContainer.classList.toggle("hidden");
-});
-
-addItemFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".add-item-to-location-form")) {
-        addItemFormContainer.classList.toggle("hidden");
-    }
-});
 
 addItemForm.addEventListener("submit", add_item_to_location);
 
