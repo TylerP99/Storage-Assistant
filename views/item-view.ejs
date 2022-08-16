@@ -27,8 +27,8 @@
 
             <section>
                 <button class="edit-item-button">Edit</button>
-                <section class="overlay edit-item-form-container">
-                    <form class="edit-item-form hidden" action="/api/storage/item/update" method="PUT">
+                <section class="overlay edit-item-form-container hidden">
+                    <form class="edit-item-form" action="/api/storage/item/update" method="PUT">
 
                         <section>
                             <label for="name">Name:</label>
@@ -77,8 +77,8 @@
 
             <section>
                 <button class="move-item-button">Move</button>
-                <section class="overlay move-item-form-container">
-                    <form class="move-item-form hidden" action="/api/storage/item/move" method="PUT"> 
+                <section class="overlay move-item-form-container hidden">
+                    <form class="move-item-form" action="/api/storage/item/move" method="PUT"> 
                         <h3>Choose a new place to store this item</h3>
 
                         <% if(destinations.length > 0) {%>
@@ -100,8 +100,8 @@
 
             <section>
                 <button class="delete-item-button">Delete</button>
-                <section class="overlay delete-item-form-container">
-                    <form class="delete-item-form hidden" action="/api/storage/item/delete" method="DELETE">
+                <section class="overlay delete-item-form-container hidden">
+                    <form class="delete-item-form" action="/api/storage/item/delete" method="DELETE">
                         <h2>Are you sure you want to delete this item?</h2>
                         <button type="submit">Confirm Deletion</button>                    
                     </form>

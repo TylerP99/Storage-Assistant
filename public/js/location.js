@@ -181,7 +181,7 @@ addItemButton.addEventListener("click", () => {
 });
 
 addItemFormContainer.addEventListener("click", (e) => {
-    if(!e.target.closest(".add-container-to-location-form")) {
+    if(!e.target.closest(".add-item-to-location-form")) {
         addItemFormContainer.classList.toggle("hidden");
     }
 });
