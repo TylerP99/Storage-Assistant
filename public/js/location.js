@@ -122,9 +122,16 @@ async function delete_location(event) {
 //===================//
 const addContainerButton = document.querySelector(".add-container-button");
 const addContainerForm = document.querySelector(".add-container-to-location-form");
+const addContainerFormContainer = document.querySelector(".add-container-to-location-form-container");
 
 addContainerButton.addEventListener("click", () => {
-    addContainerForm.classList.toggle("hidden")
+    addContainerFormContainer.classList.toggle("hidden")
+});
+
+addContainerFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".add-container-to-location-form")) {
+        addContainerFormContainer.classList.toggle("hidden");
+    }
 });
 
 addContainerForm.addEventListener("submit", add_container_to_location);
@@ -167,9 +174,16 @@ async function add_container_to_location(event) {
 //==============//
 const addItemButton = document.querySelector(".add-item-button");
 const addItemForm = document.querySelector(".add-item-to-location-form");
+const addItemFormContainer = document.querySelector(".add-item-to-location-form-container");
 
 addItemButton.addEventListener("click", () => {
-    addItemForm.classList.toggle("hidden");
+    addItemFormContainer.classList.toggle("hidden");
+});
+
+addItemFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".add-container-to-location-form")) {
+        addItemFormContainer.classList.toggle("hidden");
+    }
 });
 
 addItemForm.addEventListener("submit", add_item_to_location);
