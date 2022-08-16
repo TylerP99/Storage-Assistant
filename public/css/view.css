@@ -46,15 +46,56 @@ nav a:hover {
     text-decoration: underline;
 }
 
+@media screen and (max-width: 700px) {
+    nav li {
+        width: 33.3333%;
+    }    
+}
 
-/*
-    Specific Styles
-*/
+/*====================*/
+/*    Page Heading    */
+/*====================*/
 .options {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
 }
+
+.info-container {
+    width: 50%;
+    margin-bottom: 2rem;
+}
+
+.back-button {
+    display: block;
+    font-size: 1.6rem;
+
+    margin-bottom: 1rem;
+}
+
+.back-button:hover span {
+    text-decoration: underline;
+}
+
+.options {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-left: 2rem;
+}
+.options > * {
+    margin-right: 2rem;
+}
+
+main > section {
+    margin-bottom: 2rem;
+}
+
+
+/*====================*/
+/*    Display/Card    */
+/*====================*/
 
 .location-display, .container-display, .item-display {
     display: grid;
@@ -102,45 +143,76 @@ nav a:hover {
     transition: background 0.5s;
 }
 
-.info-container {
-    width: 50%;
-    margin-bottom: 2rem;
-}
-
 .view-button:hover {
     background: #eee;
     border-color: #B21314;
 }
 
-.back-button {
-    display: block;
-    font-size: 1.6rem;
+/*====================*/
+/*    Form Overlay    */
+/*====================*/
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background: rgba(240, 240, 240, 0.7);
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 99;
+}
+
+form {
+    padding: 3rem 5rem;
+    background: #eee;
+    border: 10px solid #ddd;
+    border-radius: 25px;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+form label {
+    font-size: 1.6rem;
+}
+
+form h2 {
+    width: 100%;
+}
+
+form > section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    width: 100%;
     margin-bottom: 1rem;
 }
 
-.back-button:hover span {
-    text-decoration: underline;
-}
-
-.options {
+form > section:last-child {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 2rem;
-    margin-left: 2rem;
-}
-.options > * {
-    margin-right: 2rem;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 50%;
 }
 
-main > section {
-    margin-bottom: 2rem;
-}
 
-/*
-    General Styles
-*/
+
+/*====================*/
+/*   General Styles   */
+/*====================*/
+
 body {
     height: 100%;
     position: relative;
@@ -224,24 +296,6 @@ button {
 button:hover {
     background: #eee;
     border-color: #B21314;
-}
-
-form {
-    position: fixed;
-
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-
-
-    padding: 3rem 5rem;
-    background: #eee;
-    z-index: 100;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: flex-start;
 }
 
 .hidden {

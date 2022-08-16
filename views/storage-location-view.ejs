@@ -23,46 +23,50 @@
         <section class="options">
             <section>
                 <button class="update-location-button">Edit this Location</button>
-                <form class="update-location-form hidden" action="/api/storage/create/StorageLocation" method="POST">
-                    <h2>Update this storage location</h2>
-            
-                    <section>
-                        <label for="name">Name:</label>
-                        <input type="text" id="location-name-update" name="name" placeholder="Enter name here" value="<%=location.name%>" required>
-                    </section>
-            
-                    <section>
-                        <label for="description">Description:</label>
-                        <input type="text" id="location-description-update" name="description" placeholder="Enter description here" value="<%=location.description%>" required>
-                    </section>
-            
-                    <section>
-                        <label for="length">Length:</label>
-                        <input type="text" id="location-length-update" name="length" placeholder="Enter length here" value="<%=location.length%>" required>
-                    </section>
-            
-                    <section>
-                        <label for="width">Width:</label>
-                        <input type="text" id="location-width-update" name="width" placeholder="Enter width here" value="<%=location.width%>" required>
-                    </section>
-            
-                    <section>
-                        <label for="height">Height:</label>
-                        <input type="text" id="location-height-update" name="height" placeholder="Enter height here" value="<%=location.height%>" required>
-                    </section>
-            
-                    <section>
-                        <button type="submit">Update</button>
-                        <button type="reset">Reset</button>
-                    </section>
-                </form>
+                <section class="overlay update-location-form-container hidden">
+                    <form class="update-location-form" action="/api/storage/create/StorageLocation" method="POST">
+                        <h2>Update this storage location</h2>
+                
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="location-name-update" name="name" placeholder="Enter name here" value="<%=location.name%>" required>
+                        </section>
+                
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="location-description-update" name="description" placeholder="Enter description here" value="<%=location.description%>" required>
+                        </section>
+                
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="location-length-update" name="length" placeholder="Enter length here" value="<%=location.length%>" required>
+                        </section>
+                
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="location-width-update" name="width" placeholder="Enter width here" value="<%=location.width%>" required>
+                        </section>
+                
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="location-height-update" name="height" placeholder="Enter height here" value="<%=location.height%>" required>
+                        </section>
+                
+                        <section>
+                            <button type="submit">Update</button>
+                            <button type="reset">Reset</button>
+                        </section>
+                    </form>
+                </section>
             </section>
             <section>
                 <button class="delete-location-button">Delete this Location</button>
-                <form class="delete-location-form hidden" action="/api/storage/delete/storageLocation">
-                    <h3>Are you sure you want to delete this location and all of its contents?</h3>
-                    <button type="submit">Confirm deletion</button>
-                </form>
+                <section class="overlay delete-location-form-container hidden">
+                    <form class="delete-location-form" action="/api/storage/delete/storageLocation">
+                        <h3>Are you sure you want to delete this location and all of its contents?</h3>
+                        <button type="submit">Confirm deletion</button>
+                    </form>
+                </section>
             </section>
         </section>
 
@@ -83,7 +87,7 @@
             <h2>Contents</h2>
 
             <header>
-                <h3>Containers:</h3>
+                <h4>Containers:</h4>
                 <section class="options">
                     <section>
                         <button class="add-container-button">Add new</button>
@@ -143,7 +147,7 @@
         <section>
 
             <header>
-                <h3>Items:</h3>
+                <h4>Items:</h4>
                 <section class="options">
                     <section>
                         <button class="add-item-button">Add new</button>

@@ -11,10 +11,18 @@ const locationID = document.querySelector("body").id;
 //=========================//
 const updateLocationButton = document.querySelector(".update-location-button");
 const updateLocationForm = document.querySelector(".update-location-form");
+const updateLocationFormContainer = document.querySelector(".update-location-form-container");
 
 // Toggle update location form open and close
 updateLocationButton.addEventListener("click", () => {
-    updateLocationForm.classList.toggle("hidden");
+    updateLocationFormContainer.classList.toggle("hidden");
+});
+
+// Close form and overlay when overlay is clicked
+updateLocationFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".update-location-form")) {
+        updateLocationFormContainer.classList.toggle("hidden");
+    }
 });
 
 updateLocationForm.addEventListener("submit", update_location);
@@ -56,9 +64,17 @@ async function update_location(event) {
 //=========================//
 const deleteLocationButton = document.querySelector(".delete-location-button");
 const deleteLocationForm = document.querySelector(".delete-location-form");
+const deleteLocationFormContainer = document.querySelector(".delete-location-form-container");
 
+// Open/Close when button is clicked
 deleteLocationButton.addEventListener("click", () => {
-    deleteLocationForm.classList.toggle("hidden");
+    deleteLocationFormContainer.classList.toggle("hidden");
+});
+
+deleteLocationFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".delete-location-form")) {
+        deleteLocationFormContainer.classList.toggle("hidden");
+    }
 });
 
 deleteLocationForm.addEventListener("submit", delete_location);

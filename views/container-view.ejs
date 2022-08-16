@@ -20,7 +20,7 @@
     <main>
         <!-- Route to container ending with underlined name of container, routes are hrefs to other containers -->
         <section>
-            <a class="back-button" href="/<%=container.parent.type%>/<%=container.parent.id%>">Back to Parent</a>
+            <a class="back-button" href="/<%=container.parent.type%>/<%=container.parent.id%>"> < <span>Back to parent</span></a>
 
             <h1><%=container.name%></h1>
         </section>
@@ -30,76 +30,90 @@
             <!-- Button will open a card in the center of the screen with relevant form -->
             <section>
                 <button class="edit-container-button">Edit</button>
-                <form class="edit-container-form hidden" action="/api/storage/update/container" method="PUT">
+                <section class="overlay edit-container-form">
+                    <form class="edit-container-form hidden" action="/api/storage/update/container" method="PUT">
 
-                    <section>
-                        <label for="name">Name:</label>
-                        <input type="text" id="container-name-update" name="name" placeholder="Enter updated name here" value="<%=container.name%>" required>
-                    </section>
+                        <section>
+                            <label for="name">Name:</label>
+                            <input type="text" id="container-name-update" name="name" placeholder="Enter updated name here" value="<%=container.name%>" required>
+                        </section>
 
-                    <section>
-                        <label for="description">Description:</label>
-                        <input type="text" id="container-description-update" name="description" placeholder="Enter updated description here" value="<%=container.description%>" required>
-                    </section>
+                        <section>
+                            <label for="description">Description:</label>
+                            <input type="text" id="container-description-update" name="description" placeholder="Enter updated description here" value="<%=container.description%>" required>
+                        </section>
 
-                    <section>
-                        <label for="length">Length:</label>
-                        <input type="text" id="container-length-update" name="length" placeholder="Enter updated length here" value="<%=container.length%>" required>
-                    </section>
+                        <section>
+                            <label for="length">Length:</label>
+                            <input type="text" id="container-length-update" name="length" placeholder="Enter updated length here" value="<%=container.length%>" required>
+                        </section>
 
-                    <section>
-                        <label for="width">Width:</label>
-                        <input type="text" id="container-width-update" name="width" placeholder="Enter updated width here" value="<%=container.width%>" required>
-                    </section>
+                        <section>
+                            <label for="width">Width:</label>
+                            <input type="text" id="container-width-update" name="width" placeholder="Enter updated width here" value="<%=container.width%>" required>
+                        </section>
 
-                    <section>
-                        <label for="height">Height:</label>
-                        <input type="text" id="container-height-update" name="height" placeholder="Enter updated height here" value="<%=container.height%>" required>
-                    </section>
+                        <section>
+                            <label for="height">Height:</label>
+                            <input type="text" id="container-height-update" name="height" placeholder="Enter updated height here" value="<%=container.height%>" required>
+                        </section>
 
-                    <section>
-                        <button type="submit">Edit</button>
-                        <button type="reset">Reset</button>
-                    </section>
+                        <section>
+                            <button type="submit">Edit</button>
+                            <button type="reset">Reset</button>
+                        </section>
 
-                </form>
+                    </form>
+                </section>
             </section>
 
             <section>
                 <button class="move-container-button">Move</button>
-                <form class="move-container-form hidden" action="/api/storage/move/container" method="PUT">
+                <section class="overlay move-container-form-container">
+                    <form class="move-container-form hidden" action="/api/storage/move/container" method="PUT">
 
-                    <section>
-                        <label for="destinations">Choose a new location or container for this container</label>
-                        <select class="destination" name="destinations">
-                            <% for(let i = 0; i < destinations.length; ++ i) { %>
-                                <option id="<%=destinations[i].id%>" name="<%=destinations[i].type%>"><%=destinations[i].name%></option>
-                            <% } %>
-                        </select>    
-                    </section>
+                        <section>
+                            <label for="destinations">Choose a new location or container for this container</label>
+                            <select class="destination" name="destinations">
+                                <% for(let i = 0; i < destinations.length; ++ i) { %>
+                                    <option id="<%=destinations[i].id%>" name="<%=destinations[i].type%>"><%=destinations[i].name%></option>
+                                <% } %>
+                            </select>    
+                        </section>
 
-                    <section>
-                        <button type="submit">Edit</button>
-                        <button type="reset">Reset</button>
-                    </section>
+                        <section>
+                            <button type="submit">Edit</button>
+                            <button type="reset">Reset</button>
+                        </section>
 
-                </form>
+                    </form>
+                </section>
             </section>
 
             <section>
                 <button class="delete-container-button">Delete</button>
-                <form class="delete-container-form hidden">
-                    <h2>Are you sure you want to delete this container and its contents?</h2>
+                <section class="overlay delete-container-form-container">
+                    <form class="delete-container-form hidden">
+                        <h2>Are you sure you want to delete this container and its contents?</h2>
 
-                    <button type="submit">Delete</button>
-                </form>
+                        <button type="submit">Delete</button>
+                    </form>
+                </section>
             </section>
         </section>
 
         <!-- Container Information -->
-        <section class="options">
-            <p><%=container.length%> x <%=container.width%> x <%=container.height%></p>
-            <p><%=container.description%></p>
+        <section>
+            <h2>Container Information</h2>
+            <section class="info-container">
+                <h4>Description</h4>
+                <p><%=container.description%></p>
+            </section>
+
+            <section class="info-container">
+                <h4>Dimensions</h4> 
+                <p><%=container.length%> x <%=container.width%> x <%=container.height%></p>
+            </section>
         </section>
 
         <!-- Container contents with simple cards that link to child page with add button -->
