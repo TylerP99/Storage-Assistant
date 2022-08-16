@@ -7,9 +7,16 @@ const containerID = document.querySelector("body").id;
 // Edit Container
 const editContainerButton = document.querySelector(".edit-container-button");
 const editContainerForm = document.querySelector(".edit-container-form");
+const editContainerFormContainer = document.querySelector(".edit-container-form-container");
 
 editContainerButton.addEventListener("click", () => {
-    editContainerForm.classList.toggle("hidden");
+    editContainerFormContainer.classList.toggle("hidden");
+});
+
+editContainerFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".edit-container-form")) {
+        editContainerFormContainer.classList.toggle("hidden");
+    }
 });
 
 editContainerForm.addEventListener("submit", edit_container)
@@ -42,9 +49,16 @@ async function edit_container(event) {
 // Move Container
 const moveContainerButton = document.querySelector(".move-container-button");
 const moveContainerForm = document.querySelector(".move-container-form");
+const moveContainerFormContainer = document.querySelector(".move-container-form-container");
 
 moveContainerButton.addEventListener("click", () => {
-    moveContainerForm.classList.toggle("hidden");
+    moveContainerFormContainer.classList.toggle("hidden");
+});
+
+moveContainerFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".move-container-form")) {
+        moveContainerFormContainer.classList.toggle("hidden");
+    }
 });
 
 moveContainerForm.addEventListener("submit", move_container)
@@ -74,9 +88,16 @@ async function move_container(event) {
 // Delete Container
 const deleteContainerButton = document.querySelector(".delete-container-button");
 const deleteContainerForm = document.querySelector(".delete-container-form");
+const deleteContainerFormContainer = document.querySelector(".delete-container-form-container");
 
 deleteContainerButton.addEventListener("click", () => {
-    deleteContainerForm.classList.toggle("hidden");
+    deleteContainerFormContainer.classList.toggle("hidden");
+});
+
+deleteContainerFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".delete-container-form")) {
+        deleteContainerFormContainer.classList.toggle("hidden");
+    }
 });
 
 deleteContainerForm.addEventListener("submit", delete_container)
@@ -118,9 +139,16 @@ async function delete_container(event) {
 // Add Container
 const addContainerButton = document.querySelector(".add-container-button");
 const addContainerForm = document.querySelector(".add-container-to-container-form");
+const addContainerFormContainer = document.querySelector(".add-container-to-container-form-container");
 
 addContainerButton.addEventListener("click", () => {
-    addContainerForm.classList.toggle("hidden");
+    addContainerFormContainer.classList.toggle("hidden");
+});
+
+addContainerFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".add-container-to-container-form")) {
+        addContainerFormContainer.classList.toggle("hidden");
+    }
 });
 
 addContainerForm.addEventListener("submit", add_new_container)
@@ -154,9 +182,16 @@ async function add_new_container(event) {
 // Add Item
 const addItemButton = document.querySelector(".add-item-button");
 const addItemForm = document.querySelector(".add-item-to-container-form");
+const addItemFormContainer = document.querySelector(".add-item-to-container-form-container");
 
 addItemButton.addEventListener("click", () => {
-    addItemForm.classList.toggle("hidden");
+    addItemFormContainer.classList.toggle("hidden");
+});
+
+addItemFormContainer.addEventListener("click", (e) => {
+    if(!e.target.closest(".add-item-to-container-form")) {
+        addItemFormContainer.classList.toggle("hidden");
+    }
 });
 
 addItemForm.addEventListener("submit", add_new_item)

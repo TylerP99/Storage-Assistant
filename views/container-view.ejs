@@ -30,8 +30,8 @@
             <!-- Button will open a card in the center of the screen with relevant form -->
             <section>
                 <button class="edit-container-button">Edit</button>
-                <section class="overlay edit-container-form">
-                    <form class="edit-container-form hidden" action="/api/storage/update/container" method="PUT">
+                <section class="overlay edit-container-form-container hidden">
+                    <form class="edit-container-form" action="/api/storage/update/container" method="PUT">
 
                         <section>
                             <label for="name">Name:</label>
@@ -69,8 +69,8 @@
 
             <section>
                 <button class="move-container-button">Move</button>
-                <section class="overlay move-container-form-container">
-                    <form class="move-container-form hidden" action="/api/storage/move/container" method="PUT">
+                <section class="overlay move-container-form-container hidden">
+                    <form class="move-container-form" action="/api/storage/move/container" method="PUT">
 
                         <section>
                             <label for="destinations">Choose a new location or container for this container</label>
@@ -92,8 +92,8 @@
 
             <section>
                 <button class="delete-container-button">Delete</button>
-                <section class="overlay delete-container-form-container">
-                    <form class="delete-container-form hidden">
+                <section class="overlay delete-container-form-container hidden">
+                    <form class="delete-container-form">
                         <h2>Are you sure you want to delete this container and its contents?</h2>
 
                         <button type="submit">Delete</button>
@@ -125,39 +125,41 @@
                 <section class="options">
                     <section>
                         <button class="add-container-button">Add new</button>
-                        <form id="container" class="add-container-to-container-form hidden" action="/api/storage/add/StorageLocation" method="PUT">
-                            <h2>Add container to this storage location</h2>
-                
-                            <section>
-                                <label for="name">Name:</label>
-                                <input type="text" id="container-name" name="name" placeholder="Enter name here" required>
-                            </section>
-                
-                            <section>
-                                <label for="description">Description:</label>
-                                <input type="text" id="container-description" name="description" placeholder="Enter description here" required>
-                            </section>
-                
-                            <section>
-                                <label for="length">Length:</label>
-                                <input type="text" id="container-length" name="length" placeholder="Enter length here" required>
-                            </section>
-                
-                            <section>
-                                <label for="width">Width:</label>
-                                <input type="text" id="container-width" name="width" placeholder="Enter width here" required>
-                            </section>
-                
-                            <section>
-                                <label for="height">Height:</label>
-                                <input type="text" id="container-height" name="height" placeholder="Enter height here" required>
-                            </section>
-                
-                            <section>
-                                <button type="submit">Create</button>
-                                <button type="reset">Reset</button>
-                            </section>
-                        </form>
+                        <section class="overlay add-container-to-container-form-container hidden">
+                            <form id="container" class="add-container-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
+                                <h2>Add container to this storage location</h2>
+                    
+                                <section>
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="container-name" name="name" placeholder="Enter name here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="description">Description:</label>
+                                    <input type="text" id="container-description" name="description" placeholder="Enter description here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="length">Length:</label>
+                                    <input type="text" id="container-length" name="length" placeholder="Enter length here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="width">Width:</label>
+                                    <input type="text" id="container-width" name="width" placeholder="Enter width here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="height">Height:</label>
+                                    <input type="text" id="container-height" name="height" placeholder="Enter height here" required>
+                                </section>
+                    
+                                <section>
+                                    <button type="submit">Create</button>
+                                    <button type="reset">Reset</button>
+                                </section>
+                            </form>
+                        </section>
                     </section>
                 </section>
 
@@ -178,49 +180,51 @@
                 <section class="options">
                     <section>
                         <button class="add-item-button">Add new</button>
-                        <form id="item" class="add-item-to-container-form hidden" action="/api/storage/add/StorageLocation" method="PUT">
-                            <h2>Add item to this storage location</h2>
-                
-                            <section>
-                                <label for="name">Name:</label>
-                                <input type="text" id="item-name" name="name" placeholder="Enter name here" required>
-                            </section>
-                
-                            <section>
-                                <label for="description">Description:</label>
-                                <input type="text" id="item-description" name="description" placeholder="Enter description here" required>
-                            </section>
-        
-                            <section>
-                                <label for="quantity">Quantity:</label>
-                                <input type="text" id="item-quantity" name="name" placeholder="Enter quantity here" required>
-                            </section>
-        
-                            <section>
-                                <label for="value">Estimated Value:</label>
-                                <input type="text" id="item-value" name="value" placeholder="Enter value here" required>
-                            </section>
-                
-                            <section>
-                                <label for="">Length:</label>
-                                <input type="text" id="item-length" name="length" placeholder="Enter length here" required>
-                            </section>
-                
-                            <section>
-                                <label for="">Width:</label>
-                                <input type="text" id="item-width" name="width" placeholder="Enter width here" required>
-                            </section>
-                
-                            <section>
-                                <label for="">Height:</label>
-                                <input type="text" id="item-height" name="height" placeholder="Enter height here" required>
-                            </section>
-                
-                            <section>
-                                <button type="submit">Create</button>
-                                <button type="reset">Reset</button>
-                            </section>
-                        </form>
+                        <section class="overlay add-item-to-container-form-container hidden">
+                            <form id="item" class="add-item-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
+                                <h2>Add item to this storage location</h2>
+                    
+                                <section>
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="item-name" name="name" placeholder="Enter name here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="description">Description:</label>
+                                    <input type="text" id="item-description" name="description" placeholder="Enter description here" required>
+                                </section>
+            
+                                <section>
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="text" id="item-quantity" name="name" placeholder="Enter quantity here" required>
+                                </section>
+            
+                                <section>
+                                    <label for="value">Estimated Value:</label>
+                                    <input type="text" id="item-value" name="value" placeholder="Enter value here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="">Length:</label>
+                                    <input type="text" id="item-length" name="length" placeholder="Enter length here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="">Width:</label>
+                                    <input type="text" id="item-width" name="width" placeholder="Enter width here" required>
+                                </section>
+                    
+                                <section>
+                                    <label for="">Height:</label>
+                                    <input type="text" id="item-height" name="height" placeholder="Enter height here" required>
+                                </section>
+                    
+                                <section>
+                                    <button type="submit">Create</button>
+                                    <button type="reset">Reset</button>
+                                </section>
+                            </form>
+                        </section>
                     </section>
                 </section>
 
