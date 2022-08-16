@@ -1,9 +1,23 @@
 <% for(let i = 0; i < containers.length; ++i) { %>
 
 
-    <section class="container-card-simple">
+    <section id="<%=containers[i].id%>" class="container-card-simple">
 
         <h4><%= containers[i].name %></h4>
+
+        <section>
+            <button class="open-button">Delete</button>
+            <section class="overlay hidden">
+                <form class="delete-container-form">
+                    <button type="button" class="close-button">x</button>
+
+                    <h2>Are you sure you want to delete this?</h2>
+
+                    <button type="submit">Delete</button>
+
+                </form>
+            </section>
+        </section>
 
         <p><%=containers[i].description%></p>
 
