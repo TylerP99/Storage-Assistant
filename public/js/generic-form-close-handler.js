@@ -21,11 +21,11 @@ Basic Structure:
 
 // Idea: add event listeners to all buttons, use event.target to get parent element, then queryselect for the overlay and open it. All overlays should also have their own event listeners making sure they close if they are clicked
 
+// This code relies heavily on my html structure. Html structure changes should result in some code changes as needed
+
 const formOpenButtons = document.querySelectorAll(".open-button");
 
-formOpenButtons.forEach(x => {
-    x.addEventListener("click", open_form);
-})
+formOpenButtons.forEach(x => x.addEventListener("click", open_form));
 
 function open_form(event) {
     const overlay = event.target.parentElement.querySelector(".overlay");
@@ -45,3 +45,13 @@ function click_off_form(event) {
 
 // So far so good, adding to all view pages for testing
 // Amazing... pushing this to github then refactoring the rest of the code
+
+// Really quick, lets add those close buttons to the forms
+const formCloseButtons = document.querySelectorAll(".close-button");
+
+formCloseButtons.forEach(x=> x.addEventListener("click", close_form));
+
+function close_form(event) {
+    // event is a button whose parent is the form whose parent is the overlay
+    event.target.parentElement.parentElement.classList.toggle("hidden");
+}
