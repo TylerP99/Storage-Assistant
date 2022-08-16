@@ -22,7 +22,7 @@
 
         <section class="options">
             <section>
-                <button class="update-location-button">Edit this Location</button>
+                <button class="open-button update-location-button">Edit this Location</button>
                 <section class="overlay update-location-form-container hidden">
                     <form class="update-location-form" action="/api/storage/create/StorageLocation" method="POST">
                         <h2>Update this storage location</h2>
@@ -60,7 +60,7 @@
                 </section>
             </section>
             <section>
-                <button class="delete-location-button">Delete this Location</button>
+                <button class="open-button delete-location-button">Delete this Location</button>
                 <section class="overlay delete-location-form-container hidden">
                     <form class="delete-location-form" action="/api/storage/delete/storageLocation">
                         <h3>Are you sure you want to delete this location and all of its contents?</h3>
@@ -90,7 +90,7 @@
                 <h4>Containers:</h4>
                 <section class="options">
                     <section>
-                        <button class="add-container-button">Add new</button>
+                        <button class="open-button add-container-button">Add new</button>
                         <section class="overlay add-container-to-location-form-container hidden">
                             <form id="container" class="add-container-to-location-form" action="/api/storage/add/StorageLocation" method="PUT">
                                 <h2>Add container to this storage location</h2>
@@ -152,7 +152,7 @@
                 <h4>Items:</h4>
                 <section class="options">
                     <section>
-                        <button class="add-item-button">Add new</button>
+                        <button class="open-button add-item-button">Add new</button>
                         <section class="overlay add-item-to-location-form-container hidden">
                             <form id="item" class="add-item-to-location-form" action="/api/storage/add/StorageLocation" method="PUT">
                                 <h2>Add item to this storage location</h2>
@@ -219,7 +219,7 @@
 
     </main>
     
-<script src="/js/location.js"></script>
+    <script src="/js/generic-form-close-handler.js"></script>
 <script src="/js/logout.js"></script>
 </body>
 </html>

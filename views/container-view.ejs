@@ -29,7 +29,7 @@
         <section class="options">
             <!-- Button will open a card in the center of the screen with relevant form -->
             <section>
-                <button class="edit-container-button">Edit</button>
+                <button class="open-button edit-container-button">Edit</button>
                 <section class="overlay edit-container-form-container hidden">
                     <form class="edit-container-form" action="/api/storage/update/container" method="PUT">
 
@@ -68,7 +68,7 @@
             </section>
 
             <section>
-                <button class="move-container-button">Move</button>
+                <button class="open-button move-container-button">Move</button>
                 <section class="overlay move-container-form-container hidden">
                     <form class="move-container-form" action="/api/storage/move/container" method="PUT">
 
@@ -91,7 +91,7 @@
             </section>
 
             <section>
-                <button class="delete-container-button">Delete</button>
+                <button class="open-button delete-container-button">Delete</button>
                 <section class="overlay delete-container-form-container hidden">
                     <form class="delete-container-form">
                         <h2>Are you sure you want to delete this container and its contents?</h2>
@@ -124,7 +124,7 @@
 
                 <section class="options">
                     <section>
-                        <button class="add-container-button">Add new</button>
+                        <button class="open-button add-container-button">Add new</button>
                         <section class="overlay add-container-to-container-form-container hidden">
                             <form id="container" class="add-container-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
                                 <h2>Add container to this storage location</h2>
@@ -179,7 +179,7 @@
 
                 <section class="options">
                     <section>
-                        <button class="add-item-button">Add new</button>
+                        <button class="open-button add-item-button">Add new</button>
                         <section class="overlay add-item-to-container-form-container hidden">
                             <form id="item" class="add-item-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
                                 <h2>Add item to this storage location</h2>
@@ -242,7 +242,7 @@
         </section>
     </main>
     
-<script src="/js/container-view.js"></script>
+    <script src="/js/generic-form-close-handler.js"></script>
 <script src="/js/logout.js"></script>
 </body>
 </html>
