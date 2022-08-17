@@ -59,3 +59,108 @@ function close_form(event) {
 
 // Gonna try adding the generic delete operations here as well
 // A delete operation requires: id of thing to be deleted
+
+// Location Card Delete
+const locationCardDeleteForms = document.querySelectorAll(".card-delete-location-form");
+locationCardDeleteForms.forEach( x => x.addEventListener("submit", card_delete_location));
+
+async function card_delete_location(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const locationID = form.id;
+
+    const reqData = {
+        id: locationID
+    };
+
+    console.log(reqData);
+
+    const reqLoc = "/api/storage/location/delete";
+
+    const reqType = "DELETE";
+
+    await request_and_handle_res(reqData, reqLoc, reqType);
+}
+
+
+// Container Card Delete
+const containerCardDeleteForms = document.querySelectorAll(".card-delete-container-form");
+containerCardDeleteForms.forEach( x => x.addEventListener("submit", card_delete_container));
+
+async function card_delete_container(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const containerID = form.id;
+
+    const reqData = {
+        id: containerID
+    };
+
+    console.log(reqData);
+
+    const reqLoc = "/api/storage/container/delete";
+
+    const reqType = "DELETE";
+
+    await request_and_handle_res(reqData, reqLoc, reqType);
+}
+
+// Item Card Delete
+const itemCardDeleteForms = document.querySelectorAll(".card-delete-item-form");
+itemCardDeleteForms.forEach( x => x.addEventListener("submit", card_delete_item));
+
+async function card_delete_item(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const itemID = form.id;
+
+    const reqData = {
+        id: itemID
+    };
+
+    console.log(reqData);
+
+    const reqLoc = "/api/storage/item/delete";
+
+    const reqType = "DELETE";
+
+    await request_and_handle_res(reqData, reqLoc, reqType);
+}
+
+
+//====================================//
+//          Request Handler           //
+//====================================//
+
+async function request_and_handle_res(reqData, reqLoc, reqType, error_function) {
+    // Make request to target route
+    const response = await fetch(
+        reqLoc,
+        {
+            method:reqType,
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(reqData)
+        }
+    )
+
+    // Parse response to check for errors
+    const data = await response.json();
+
+    console.log(data);
+
+    // If there are errors, handle them
+    if(!data.valid) {
+        return
+    }
+
+    // Otherwise, reload the page to display the page
+    window.location.reload();
+}
