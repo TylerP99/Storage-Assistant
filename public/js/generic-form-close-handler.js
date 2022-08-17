@@ -55,3 +55,7 @@ function close_form(event) {
     // event is a button whose parent is the form whose parent is the overlay
     event.target.parentElement.parentElement.classList.toggle("hidden");
 }
+
+
+// Gonna try adding the generic delete operations here as well
+// A delete operation requires: id of thing to be deleted
