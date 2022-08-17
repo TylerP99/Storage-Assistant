@@ -36,7 +36,7 @@ async function update_location(event) {
     };
 
     // Define route to send request
-    const reqLoc = "/api/storage/update/StorageLocation";
+    const reqLoc = "/api/storage/location/update";
 
     // Define type of request
     const reqType = "PUT";
@@ -62,7 +62,7 @@ async function delete_location(event) {
     }
 
     // Define route for request
-    const reqLoc = "/api/storage/delete/StorageLocation";
+    const reqLoc = "/api/storage/location/delete";
 
     // Define request type
     const reqType = "DELETE";
@@ -121,7 +121,7 @@ async function add_container_to_location(event) {
     }
 
     // Define the route to take to add to location
-    const reqLoc = "/api/storage/add/StorageLocation"
+    const reqLoc = "/api/storage/location/addTo"
 
     // Define the type of request
     const reqType = "PUT";
@@ -163,7 +163,7 @@ async function add_item_to_location(event) {
     };
 
     // Define location of request
-    const reqLoc = "/api/storage/add/StorageLocation";
+    const reqLoc = "/api/storage/location/addTo";
 
     // Define request type
     const reqType = "PUT"

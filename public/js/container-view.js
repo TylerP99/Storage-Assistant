@@ -27,7 +27,7 @@ async function edit_container(event) {
         id: containerID
     };
 
-    const reqLoc = "/api/storage/update/Container"
+    const reqLoc = "/api/storage/container/update"
 
     const reqType = "PUT";
 
@@ -54,7 +54,7 @@ async function move_container(event) {
         id: containerID
     };
 
-    const reqLoc = "/api/storage/move/Container"
+    const reqLoc = "/api/storage/container/move"
 
     const reqType = "PUT";
 
@@ -73,7 +73,7 @@ async function delete_container(event) {
         id: containerID
     };
 
-    const reqLoc = "/api/storage/delete/Container"
+    const reqLoc = "/api/storage/container/delete"
 
     const reqType = "DELETE";
 
@@ -124,7 +124,7 @@ async function add_new_container(event) {
         id: containerID
     };
 
-    const reqLoc = "/api/storage/add/Container"
+    const reqLoc = "/api/storage/container/addTo"
 
     const reqType = "PUT";
 
@@ -157,7 +157,7 @@ async function add_new_item(event) {
         id: containerID
     };
 
-    const reqLoc = "/api/storage/add/Container"
+    const reqLoc = "/api/storage/container/addTo"
 
     const reqType = "PUT";
 

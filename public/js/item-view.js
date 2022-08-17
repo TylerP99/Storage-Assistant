@@ -26,7 +26,7 @@ async function edit_item(event) {
         id: itemID
     };
 
-    const reqLoc = "/api/storage/update/Item";
+    const reqLoc = "/api/storage/item/update";
 
     const reqType = "PUT";
 
@@ -57,7 +57,7 @@ async function move_item(event) {
         id: itemID
     };
 
-    const reqLoc = "/api/storage/move/Item";
+    const reqLoc = "/api/storage/item/move";
 
     const reqType = "PUT";
 
@@ -78,7 +78,7 @@ async function delete_item(event) {
         id: itemID
     };
 
-    const reqLoc = "/api/storage/delete/Item";
+    const reqLoc = "/api/storage/item/delete";
 
     const reqType = "DELETE";
 

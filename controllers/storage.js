@@ -4,7 +4,7 @@ const Location = require("../models/StorageLocation.js");
 const Container = require("../models/Container.js");
 const Item = require("../models/Item.js");
 
-module.exports = {
+const StorageController = {
 
     /*
         All routes respond with: 
@@ -92,6 +92,7 @@ module.exports = {
         }
     */
     add_to_location: async (req, res, next) => {
+        console.log(this);
         // Get info from request body
         const newObj = req.body.obj;
         const locationID = req.body.id;
@@ -118,12 +119,12 @@ module.exports = {
 
         if( objType == "container" ) {
             // Function creates container, adds to db, and returns content object to add to location
-            objAndInfo = await this.create_new_container(newObj);
+            objAndInfo = await StorageController.create_container(newObj);
         }
 
         if( objType == "item") {
             // Function creates item, adds to db, and returns content object to add to location
-            objAndInfo = await this.create_new_item(newObj);
+            objAndInfo = await StorageController.create_item(newObj);
         }
 
         // Add new object to location contents array
@@ -161,7 +162,7 @@ module.exports = {
             location.contents.forEach( async x => {
                 // Determine type of x for correct delete method
                 if(x.type == "container") {
-                    return await delete_container(x.id);
+                    return await StorageController.delete_container_helper(x.id);
                 }
 
                 if(x.type == "item") {
@@ -254,10 +255,10 @@ module.exports = {
         try {
             // Create new obj in db, get content info object returned
             if(newObjType == "container") {
-                objAndInfo = await this.create_container(newObj);
+                objAndInfo = await StorageController.create_container(newObj);
             }
             else if( newObjType == "item") {
-                objAndInfo = await this.create_item(newObj);
+                objAndInfo = await StorageController.create_item(newObj);
             }
 
             // Add content info object to container contents array
@@ -333,7 +334,7 @@ module.exports = {
                     {
                         $push: {
                             contents: {
-                                id: container.id,
+                                id: new mongoose.mongo.ObjectId(container.id),
                                 type: "container"
                             }
                         }
@@ -347,7 +348,7 @@ module.exports = {
                     {
                         $push: {
                             contents: {
-                                id: container.id,
+                                id: new mongoose.mongo.ObjectId(container.id),
                                 type: "container"
                             }
                         }
@@ -383,19 +384,74 @@ module.exports = {
         }
     },
 
+    /*
+        Request body:
+        body: {
+            id: id of container to delete
+        }
+    */
     delete_container: async (req, res, next) => {
+        // Get info from req body
+        const containerID = req.body.id;
 
-        // Start Here today
+        // Call the helper function
+        try{
+            await StorageController.delete_container_helper(containerID);
+
+            res.status(200).json({valid:true});
+        }
+        catch(e) {
+            console.log(e);
+            next(e);
+        }
     },
 
     // Helper methods
 
-    create_container: async () => {
+    create_container: async (newContainer) => {
+        // Create object info object
+        const objAndInfo = {
+            newObj: {
+                id: "", // Get later
+                type: "container"
+            },
+            validation: {
+                valid: true,
+                errors: []
+            }
+        }
 
+        // Validate container later
+
+
+        // Make container in db
+        const container = await Container.create(newContainer);
+
+        // Add id to return obj
+        objAndInfo.newObj.id = new mongoose.mongo.ObjectId(container.id);
+
+        // Return obj
+        return objAndInfo;
     },
 
-    delete_container_helper: async () => {
+    delete_container_helper: async (containerID) => {
+        // Get container from db
+        const container = await Container.findById(containerID);
 
+        // Go through contents array and delete each item
+        container.contents.forEach( async x => {
+            if(x.type == "item") {
+                await Item.findByIdAndDelete(x.id);
+            }
+            else if(x.type == "container") {
+                await delete_container_helper(x.id);
+            }
+        });
+
+        // Delete container now
+        await Container.findByIdAndDelete(containerID);
+
+        // Possibly return success
     },
 
     //========================//
@@ -404,22 +460,186 @@ module.exports = {
 
     // Routed methods
 
+    /*
+        body: {
+            item: updated item
+            id: id of item to update
+        }
+    */
     update_item: async (req, res, next) => {
+        // Get info from request body
+        const updatedItem = req.body.item;
+        const itemID = req.body.id;
 
+        // Validate item later
+
+        //Update item
+        try{
+            await Item.findByIdAndUpdate(
+                itemID,
+                updatedItem,
+                { upsert: false }
+            )
+
+            // Successful response
+            res.status(200).json({valid:true});
+        }
+        catch(e) {
+            console.log(e);
+            next(e);
+        }
     },
 
+    /*
+        body: {
+            id: id of item to move
+            destination: {
+                id: id of destination
+                type: type of destination (container or location)
+            }
+        }
+    */
     move_item: async (req, res, next) => {
+        // Get info from req body
+        const itemID = req.body.id;
+        const destination = req.body.destination;
+
+        try{
+            // Get item from db to access parent
+            const item = await Item.findById(itemID);
+
+            // Remove item object from contents of parent
+            if(item.parent.type == "location") {
+                await Location.findByIdAndUpdate(
+                    item.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id)
+                            }
+                        }
+                    },
+                    { upsert: false }
+                );
+            }
+            else if( item.parent.type == "container") {
+                await Container.findByIdAndUpdate(
+                    item.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id)
+                            }
+                        }
+                    },
+                    { upsert: false }
+                );
+            }
+            else {
+                // Invalid parent type
+            }
+
+            // Add new content object to destination
+            if(destination.type == "location") {
+                await Location.findByIdAndUpdate(
+                    destination.id,
+                    {
+                        $push: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id),
+                                type: "item"
+                            }
+                        }
+                    },
+                    { upsert: false }
+                );
+            }
+            else if( destination.type == "container") {
+                await Container.findByIdAndUpdate(
+                    destination.id,
+                    {
+                        $push: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id),
+                                type: "item"
+                            }
+                        }
+                    },
+                    { upsert: false }
+                );
+            }
+            else
+            {
+                // Invalid destination type
+            }
+
+            // Update item parent
+            await Item.findByIdAndUpdate(
+                itemID,
+                {
+                    $set: {
+                        parent: {
+                            id: new mongoose.mongo.ObjectId(destination.id),
+                            type: destination.type
+                        }
+                    }
+                }
+            )
+
+            res.status(200).json({valid:true});
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
 
     },
 
+    /*
+        body: {
+            id: id of item to delete
+        }
+    */
     delete_item: async (req, res, next) => {
+        // Get info from req body
+        const itemID = req.body.id;
 
+        // Delete item and respond
+        try {
+            await Item.findByIdAndDelete(itemID);
+
+            res.status(200).json({valid:true});
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
     },
 
     // Helper methods
 
-    create_item: async (item) => {
+    create_item: async (newItem) => {
+        // Construct return object
+        const objAndInfo = {
+            newObj: {
+                id: "",
+                type: "item"
+            },
+            validation: {
+                valid:true,
+                errors: []
+            }
+        }
 
+        // Create item in db
+        const item = await Item.create(newItem);
+
+        // Add id to return
+        objAndInfo.newObj.id = new mongoose.mongo.ObjectId(item.id);
+
+        return objAndInfo;
     }
 
 }
+
+module.exports = StorageController;

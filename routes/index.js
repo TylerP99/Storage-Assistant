@@ -117,6 +117,7 @@ router.get("/container/:id", ensureAuthenticated, async (req, res) => {
         let destinations = await get_destinations(req.user.id);
         // Dont save the current container or its parent as a destination
         destinations = destinations.filter(x => x.id != container.id && x.id != container.parent.id);
+        // Also need to filter out all children containers at some point
 
         res.render("container-view.ejs", {container:container, items:items, containers:containers, destinations:destinations});
     }

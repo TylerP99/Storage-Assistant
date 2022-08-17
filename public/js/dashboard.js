@@ -56,7 +56,7 @@ async function create_location(event) {
     };
 
     // Define request route
-    const reqLoc = "/api/storage/create/StorageLocation";
+    const reqLoc = "/api/storage/location/create";
 
     // Define request type
     const reqType = "POST";
