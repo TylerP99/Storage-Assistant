@@ -468,6 +468,8 @@ const StorageController = {
         // Get container from db
         const container = await Container.findById(containerID);
 
+        if(!container) return;
+
         // Go through contents array and delete each item
         container.contents.forEach( async x => {
             if(x.type == "item") {
