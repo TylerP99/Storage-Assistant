@@ -2,23 +2,29 @@
 
     <section id="<%=locations[i].id%>" class="location-card-simple">
 
-        <h4><%=locations[i].name%></h4>
+        <header>
+            <h4><%=locations[i].name%></h4>
+
+            <section>
+                <button class="open-button">Delete</button>
+                <section class="overlay hidden">
+                    <form id="<%=locations[i].id%>" class="card-delete-location-form">
+                        <button type="button" class="close-button">x</button>
+    
+                        <h2>Are you sure you want to delete this?</h2>
+    
+                        <button type="submit">Delete</button>
+    
+                    </form>
+                </section>
+            </section>
+        </header>
+
 
         <section>
-            <button class="open-button">Delete</button>
-            <section class="overlay hidden">
-                <form id="<%=locations[i].id%>" class="card-delete-location-form">
-                    <button type="button" class="close-button">x</button>
-
-                    <h2>Are you sure you want to delete this?</h2>
-
-                    <button type="submit">Delete</button>
-
-                </form>
-            </section>
+            <span>Description:</span>
+            <p><%=locations[i].description%></p>
         </section>
-
-        <p><%=locations[i].description%></p>
 
         <a class="view-button" href="/location/<%=locations[i]._id%>">View Location</a>
 

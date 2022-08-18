@@ -2,21 +2,23 @@
 
     <section id="<%=items[i].id%>" class="item-card-simple">
 
-        <h4><%= items[i].name %></h4>
+        <header>
+            <h4><%= items[i].name %></h4>
 
-        <section>
-            <button class="open-button">Delete</button>
-            <section class="overlay hidden">
-                <form id="<%=items[i].id%>" class="card-delete-item-form">
-                    <button type="button" class="close-button">x</button>
+            <section>
+                <button class="open-button">Delete</button>
+                <section class="overlay hidden">
+                    <form id="<%=items[i].id%>" class="card-delete-item-form">
+                        <button type="button" class="close-button">x</button>
 
-                    <h2>Are you sure you want to delete this?</h2>
+                        <h2>Are you sure you want to delete this?</h2>
 
-                    <button type="submit">Delete</button>
+                        <button type="submit">Delete</button>
 
-                </form>
+                    </form>
+                </section>
             </section>
-        </section>
+        </header>
 
         <p><%= items[i].description %></p>
 
