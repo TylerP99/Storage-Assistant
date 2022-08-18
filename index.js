@@ -23,7 +23,6 @@ require("dotenv").config();
 
 // Mongoose Config
 const mongoose = require("mongoose");
-mongoose.set("debug", true);
 
 const dbName = "StorageApp";
 const dbConnectionString = process.env.MONGODB_CONNECTION_STRING;

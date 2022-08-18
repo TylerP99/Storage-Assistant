@@ -2,7 +2,6 @@
 const Location = require("../models/StorageLocation");
 const Container = require("../models/Container");
 const Item = require("../models/Item");
-const { findById } = require("../models/StorageLocation");
 
 const StorageViewController = {
     get_dashboard: async (req, res, next) => {
@@ -45,7 +44,7 @@ const StorageViewController = {
             items = await Item.find( {id: {$in:items }});
 
             // Render ejs
-            res.render({location:location, containers:containers, items:items});
+            res.render("storage-location-view.ejs", {location:location, containers:containers, items:items});
         }
         catch(e) {
             console.error(e);
@@ -63,28 +62,23 @@ const StorageViewController = {
             const container = await Container.findById(containerID);
 
             // Get contents from container
-            let containers = [];
-            let items = [];
-            container.contents.forEach(x => {
-                if(x.type == "container") {
-                    containers.push(x.id);
-                }
-                else if(x.type == "item") {
-                    items.push(x.id);
-                }
-                else {
-                    // Invalid type?
-                }
-            });
-
-            containers = await Container.find( {id: {$in: containers} });
-            items = await Item.find( {id: {$in:items }});
+            const contents = await StorageViewController.get_contents(container);
 
             // Get move destinations for container (invalid move locations are the container itself, its parent, and any of its descendants)
             const parentID = container.parent.id;
-            
+            console.log(parentID);
+            const invalidMoveIDs = await StorageViewController.get_descendants(containerID);
+            invalidMoveIDs.push(parentID.toString());
+            invalidMoveIDs.push(container.id);
+
+            console.log(invalidMoveIDs);
+
+            let destinations = await Location.find({owner: req.user.id});
+            destinations = destinations.concat(await Container.find({owner: req.user.id}));
+            destinations = destinations.filter( x => !invalidMoveIDs.includes(x.id));
 
             // Render ejs
+            res.render("container-view.ejs", {container:container, containers: contents.containers, items: contents.items, destinations:destinations});
         }
         catch(e) {
             console.error(e);
@@ -93,11 +87,63 @@ const StorageViewController = {
     },
 
     get_item_view: async (req, res, next) => {
-        // Get item from id provided
+        const itemID = req.params.id;
 
-        // Get move destinations for item (invalid move location is the item parent)
+        try{
+            // Get item from id provided
+            const item = await Item.findById(itemID);
 
-        // Render ejs
+            // Get move destinations for item (invalid move location is the item parent)
+            let destinations = await Location.find({owner: req.user.id});
+            destinations = destinations.concat( await Container.find({owner: req.user.id}));
+            destinations = destinations.filter( x => x.id != item.parent.id);
+
+            // Render ejs
+            res.render("item-view.ejs", {item:item, destinations:destinations});
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
+    },
+
+    // Helpers
+    get_contents: async (DBItem) => {
+        // Get contents
+        let containers = [];
+        let items = [];
+        DBItem.contents.forEach(x => {
+            if(x.type == "container") {
+                containers.push(x.id);
+            }
+            else if(x.type == "item") {
+                items.push(x.id);
+            }
+            else {
+                // Invalid type?
+            }
+        });
+
+        containers = await Container.find( {"_id": {$in: containers} });
+        items = await Item.find( {"_id": {$in:items }});
+
+        return {containers:containers, items:items};
+    },
+
+    get_descendants: async (containerID) => {
+        const container = await Container.findById(containerID);
+
+        // Get container contents, need all containers that are descendants
+        const contents = await StorageViewController.get_contents(container);
+
+        let descendants = contents.containers.map( x => x.id );
+
+        contents.containers.forEach(async x => {
+            const newDescendants = await StorageViewController.get_descendants(x);
+            descendants = descendants.concat( newDescendants );
+        })
+
+        return descendants;
     },
 };
 
