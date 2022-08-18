@@ -396,6 +396,36 @@ const StorageController = {
 
         // Call the helper function
         try{
+            const container = await Container.findById(containerID);
+
+            if(container.parent.type == "location") {
+                await Location.findByIdAndUpdate(
+                    container.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(container.id)
+                            }
+                        }
+                    }
+                );
+            }
+            else if (container.parent.type == "container") {
+                await Container.findByIdAndUpdate(
+                    container.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(container.id)
+                            }
+                        }
+                    }
+                );
+            }
+            else {
+                // Invalid type
+            }
+
             await StorageController.delete_container_helper(containerID);
 
             res.status(200).json({valid:true});
@@ -606,6 +636,33 @@ const StorageController = {
 
         // Delete item and respond
         try {
+            const item = await Item.findById(itemID);
+
+            if(item.parent.type == "location") {
+                await Location.findByIdAndUpdate(
+                    item.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id)
+                            }
+                        }
+                    }
+                );
+            }
+            else if (item.parent.type == "container") {
+                await Container.findByIdAndUpdate(
+                    item.parent.id,
+                    {
+                        $pull: {
+                            contents: {
+                                id: new mongoose.mongo.ObjectId(item.id)
+                            }
+                        }
+                    }
+                );
+            }
+
             await Item.findByIdAndDelete(itemID);
 
             res.status(200).json({valid:true});
