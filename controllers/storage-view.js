@@ -26,22 +26,9 @@ const StorageViewController = {
             const location = await Location.findById(locationID);
 
             // Get contents from location
-            let containers = [];
-            let items = [];
-            location.contents.forEach(x => {
-                if(x.type == "container") {
-                    containers.push(x.id);
-                }
-                else if(x.type == "item") {
-                    items.push(x.id);
-                }
-                else {
-                    // Invalid type?
-                }
-            });
-
-            containers = await Container.find( {id: {$in: containers} });
-            items = await Item.find( {id: {$in:items }});
+            const contents = await StorageViewController.get_contents(location);
+            const containers = contents.containers;
+            const items = contents.items;
 
             // Render ejs
             res.render("storage-location-view.ejs", {location:location, containers:containers, items:items});
