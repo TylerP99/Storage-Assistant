@@ -68,6 +68,9 @@ app.use("/", require("./routes/index.js"));
 // Api Router
 app.use("/api", require("./routes/api.js"));
 
+// Storage view route
+app.use("/storage", require("./routes/storage.js"));
+
 app.listen(PORT, () =>{
     console.log(`Listening on ${PORT}`);
 });

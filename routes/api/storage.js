@@ -3,7 +3,7 @@ const express = require("express");
 const { ensureAuthenticated } = require("../../config/auth-middleware");
 const router = express.Router();
 
-const storageController = require("../../controllers/storage");
+const storageController = require("../../controllers/storage-api");
 
 
 
