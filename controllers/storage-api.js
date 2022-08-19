@@ -476,7 +476,7 @@ const StorageController = {
                 await Item.findByIdAndDelete(x.id);
             }
             else if(x.type == "container") {
-                await delete_container_helper(x.id);
+                await StorageController.delete_container_helper(x.id);
             }
         });
 

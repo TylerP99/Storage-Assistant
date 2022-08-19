@@ -78,6 +78,17 @@ const AccountController = {
         )(req,res,next);
     },
 
+    // Logout account
+    logout_account: (req, res, next) => {
+        req.logout((e) => {
+            if(e) {
+                console.error(e);
+                return res.json({valid:false});
+            }
+            res.json({valid:true});
+        });
+    },
+
     // Update account
 
     // Delete account

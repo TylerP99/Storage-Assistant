@@ -7,7 +7,7 @@ async function logout(e) {
     e.preventDefault();
 
     const res  = await fetch(
-        "/logout",
+        "/api/account/logout",
         {
             method:"DELETE",
         }

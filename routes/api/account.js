@@ -8,4 +8,6 @@ router.post("/create", AccountController.create_account);
 
 router.post("/authenticate", AccountController.authenticate_account)
 
+router.delete("/logout", AccountController.logout_account);
+
 module.exports = router;
