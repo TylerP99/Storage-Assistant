@@ -86,7 +86,7 @@ async function delete_location(event) {
         return;
     }
 
-    window.location.replace("/dashboard");
+    window.location.replace("/stroage/");
 }
 
 

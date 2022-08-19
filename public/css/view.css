@@ -55,12 +55,6 @@ nav a:hover {
 /*====================*/
 /*    Page Heading    */
 /*====================*/
-.options {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
 .info-container {
     width: 50%;
     margin-bottom: 2rem;
@@ -101,7 +95,7 @@ main > section {
     display: grid;
 
     grid-template-columns: repeat(auto-fit, 275px);
-    grid-auto-rows: 20rem;
+    grid-auto-rows: 26rem;
     gap: 1rem;
 
     max-height: 450px;
@@ -117,7 +111,7 @@ main > section {
     flex-direction: column;
     justify-content: space-around;
 
-    height: 200px;
+    height: 250px;
 
     padding: 1rem;
 }

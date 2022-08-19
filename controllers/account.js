@@ -1,6 +1,8 @@
 //New user controller
 const User = require("../models/User.js");
 
+const bcrypt = require("bcrypt");
+
 const passport = require("passport");
 
 const AccountController = {
