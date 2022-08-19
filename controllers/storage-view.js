@@ -58,6 +58,7 @@ const StorageViewController = {
             invalidMoveIDs.push(parentID.toString());
             invalidMoveIDs.push(container.id);
 
+            console.log("Invalid move ids:")
             console.log(invalidMoveIDs);
 
             let destinations = await Location.find({owner: req.user.id});
@@ -120,15 +121,20 @@ const StorageViewController = {
     get_descendants: async (containerID) => {
         const container = await Container.findById(containerID);
 
+
+        console.log(`Called on ${container.name}`)
+
         // Get container contents, need all containers that are descendants
         const contents = await StorageViewController.get_contents(container);
 
         let descendants = contents.containers.map( x => x.id );
 
-        contents.containers.forEach(async x => {
-            const newDescendants = await StorageViewController.get_descendants(x);
+        for(let i = 0; i < contents.containers.length; ++i) {
+            const newDescendants = await StorageViewController.get_descendants(contents.containers[i]);
             descendants = descendants.concat( newDescendants );
-        })
+        }
+
+        console.log(`Returning from ${container.name}`);
 
         return descendants;
     },
