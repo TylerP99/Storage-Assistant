@@ -57,7 +57,7 @@ nav a:hover {
 /*====================*/
 .info-display {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, 250px);
     grid-auto-rows: auto;
 
     width: 50%;
