@@ -55,10 +55,24 @@ nav a:hover {
 /*====================*/
 /*    Page Heading    */
 /*====================*/
+.info-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+
+    width: 50%;
+}
+
+.info-display h4 {
+    width: 100%;
+}
+
 .info-container {
     width: 50%;
     margin-bottom: 2rem;
 }
+
+
 
 .back-button {
     display: block;
