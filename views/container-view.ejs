@@ -32,7 +32,7 @@
                 <button class="open-button edit-container-button">Edit</button>
                 <section class="overlay edit-container-form-container hidden">
                     <form class="edit-container-form" action="/api/storage/update/container" method="PUT">
-                        <button class="close-button">x</button>
+                        <button type="button" class="close-button">x</button>
 
                         <section>
                             <label for="name">Name:</label>
@@ -72,7 +72,7 @@
                 <button class="open-button move-container-button">Move</button>
                 <section class="overlay move-container-form-container hidden">
                     <form class="move-container-form" action="/api/storage/move/container" method="PUT">
-                        <button class="close-button">x</button>
+                        <button type="button" class="close-button">x</button>
 
                         <section>
                             <label for="destinations">Choose a new location or container for this container</label>
@@ -84,8 +84,7 @@
                         </section>
 
                         <section>
-                            <button type="submit">Edit</button>
-                            <button type="reset">Reset</button>
+                            <button type="submit">Move</button>
                         </section>
 
                     </form>
@@ -96,7 +95,7 @@
                 <button class="open-button delete-container-button">Delete</button>
                 <section class="overlay delete-container-form-container hidden">
                     <form class="delete-container-form">
-                        <button class="close-button">x</button>
+                        <button type="button" class="close-button">x</button>
                         <h2>Are you sure you want to delete this container and its contents?</h2>
 
                         <button type="submit">Delete</button>
@@ -132,7 +131,7 @@
                         <button class="open-button add-container-button">Add new</button>
                         <section class="overlay add-container-to-container-form-container hidden">
                             <form id="container" class="add-container-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
-                                <button class="close-button">x</button>
+                                <button type="button" class="close-button">x</button>
                                 <h2>Add container to this storage location</h2>
                     
                                 <section>
@@ -188,7 +187,7 @@
                         <button class="open-button add-item-button">Add new</button>
                         <section class="overlay add-item-to-container-form-container hidden">
                             <form id="item" class="add-item-to-container-form" action="/api/storage/add/StorageLocation" method="PUT">
-                                <button class="close-button">x</button>
+                                <button type="button" class="close-button">x</button>
                                 <h2>Add item to this storage location</h2>
                     
                                 <section>

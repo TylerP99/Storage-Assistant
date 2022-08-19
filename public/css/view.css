@@ -115,7 +115,7 @@ main > section {
     gap: 1rem;
 
     max-height: 450px;
-    overflow: scroll;
+    overflow: auto;
 
     justify-content: center;
 }
@@ -133,7 +133,7 @@ main > section {
 }
 
 .location-card-simple p, .container-card-simple p, .item-card-simple p {
-    overflow: scroll;
+    overflow: auto;
     height: 75px;
     margin-bottom: 1rem;
 }

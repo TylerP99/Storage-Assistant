@@ -121,9 +121,6 @@ const StorageViewController = {
     get_descendants: async (containerID) => {
         const container = await Container.findById(containerID);
 
-
-        console.log(`Called on ${container.name}`)
-
         // Get container contents, need all containers that are descendants
         const contents = await StorageViewController.get_contents(container);
 
@@ -133,8 +130,6 @@ const StorageViewController = {
             const newDescendants = await StorageViewController.get_descendants(contents.containers[i]);
             descendants = descendants.concat( newDescendants );
         }
-
-        console.log(`Returning from ${container.name}`);
 
         return descendants;
     },
