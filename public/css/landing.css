@@ -72,4 +72,8 @@ section {
     main {
         padding: 2rem;
     }
+
+    a {
+        margin-bottom: 1rem;
+    }
 }

@@ -55,7 +55,25 @@ form label {
 }
 
 button {
+    border: 2px solid #13B2B1;
+    background: inherit;
+
+    cursor: pointer;
+
+    color: black;
+
+    padding: 0.5rem 1rem;
+
     margin-bottom: 0.5rem;
+
+    font-size: 1.6rem;
+
+    transition: background 0.5s;
+}
+
+button:hover {
+    background: #eee;
+    border-color: #B21314;
 }
 
 a {
