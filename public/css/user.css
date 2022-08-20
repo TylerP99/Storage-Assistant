@@ -54,7 +54,7 @@ form label {
     margin-bottom: 0.5rem;
 }
 
-button {
+button, a {
     border: 2px solid #13B2B1;
     background: inherit;
 
@@ -71,7 +71,7 @@ button {
     transition: background 0.5s;
 }
 
-button:hover {
+button:hover, a:hover {
     background: #eee;
     border-color: #B21314;
 }
@@ -83,6 +83,12 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+input {
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
 }
 
 @media screen and (max-width:700px) {

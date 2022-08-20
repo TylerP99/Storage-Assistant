@@ -26,7 +26,7 @@ main {
     margin-top: -10%;
     padding: 2rem 10rem;
 
-    width: 95%;
+    max-width: 95%;
 }
 
 h1 {
@@ -43,18 +43,27 @@ h1 {
 }
 
 a {
-    padding: 1rem 2rem;
+    border: 2px solid #13B2B1;
+    background: inherit;
+
+    cursor: pointer;
+
+    color: black;
+
+    padding: 0.5rem 1rem;
+
+    margin-bottom: 0.5rem;
+
     font-size: 1.6rem;
 
-    border: 3px solid #ddd;
-    border-radius: 10px;
-
-    color: inherit;
     text-decoration: none;
+
+    transition: background 0.5s;
 }
 
 a:hover {
     background: #eee;
+    border-color: #B21314;
 }
 
 section {
@@ -71,6 +80,7 @@ section {
 
     main {
         padding: 2rem;
+        width: 95%;
     }
 
     a {
