@@ -4,11 +4,11 @@ const ContainerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        max: 50
+        maxLength: 50
     },
     description: {
         type: String,
-        max: 250
+        maxLength: 250
     },
     contents: {
         type: Array,
@@ -16,15 +16,15 @@ const ContainerSchema = new mongoose.Schema({
     },
     length: {
         type: String,
-        max: 50
+        maxLength: 50
     },
     width: {
         type: String,
-        max: 50
+        maxLength: 50
     },
     height: {
         type: String,
-        max: 50
+        maxLength: 50
     },
     parent: {
         id: {

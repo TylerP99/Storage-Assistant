@@ -35,6 +35,11 @@ const StorageController = {
 
         // Validate object later
         // Validation tells user what they entered wrong
+        const validation = StorageController.validate_storage_object(newLocation);
+
+        if(!validation.valid) {
+            return res.status(400).json(validation);
+        }
 
         // Try catch for async/await error handling
         try {
@@ -42,7 +47,7 @@ const StorageController = {
             await Location.create(newLocation);
 
             // Send successful response
-            res.status(201).json({valid:true});
+            res.status(201).json(validation);
         }
         catch(e) {
             console.error(e);
@@ -65,6 +70,11 @@ const StorageController = {
         const locationID = req.body.id;
 
         // Eventually will validate
+        const validation = StorageController.validate_storage_object(updatedLocation);
+
+        if(!validation.valid) {
+            return res.status(400).json(validation);
+        }
 
         try {
             await Location.findByIdAndUpdate(
@@ -75,7 +85,7 @@ const StorageController = {
                 }
             );
 
-            res.status(200).json({valid:true});
+            res.status(200).json(validation);
         }
         catch(e) {
             console.error(e);
@@ -125,6 +135,10 @@ const StorageController = {
         if( objType == "item") {
             // Function creates item, adds to db, and returns content object to add to location
             objAndInfo = await StorageController.create_item(newObj);
+        }
+
+        if(!objAndInfo.validation.valid) {
+            return res.status(400).json(objAndInfo.validation);
         }
 
         // Add new object to location contents array
@@ -185,14 +199,89 @@ const StorageController = {
     },
 
     // Location Helpers
-    validate_location: (location) => {
+    validate_storage_object: (storageObj) => {
         // Validation functions return a validation object
         const validation = {
             valid: true,
-            errors: [] // Two options for errors: a flag object or an array of error messages
+            errors: {
+                nameErrors: {
+                    undefined: false,
+                    tooLarge: false
+                },
+                descriptionErrors: {
+                    tooLarge: false
+                },
+                lengthErrors: {
+                    tooLarge: false
+                },
+                widthErrors: {
+                    tooLarge: false
+                },
+                heightErrors: {
+                    tooLarge: false
+                },
+                quantityErrors: {
+                    tooLarge: false,
+                    notPositive: false
+                },
+                valueErrors: {
+                    tooLarge: false
+                }
+            }
         };
 
+        // Name checks
+        if(storageObj.name == undefined) {
+            validation.errors.nameErrors.undefined = true;
+            validation.valid = false;
+        }
+        else if(storageObj.name.length > 50) {
+            validation.errors.nameErrors.tooLarge = true;
+            validation.valid = false;
+        }
 
+        // Description check
+        if(storageObj.description != undefined && storageObj.description.length > 250) {
+            validation.errors.descriptionErrors.tooLarge = true;
+            validation.valid = false;
+        }
+
+        // Length check
+        if(storageObj.length != undefined && storageObj.length.length > 50) {
+            validation.errors.lengthErrors.tooLarge = true;
+            validation.valid = false
+        }
+
+        // Width check
+        if(storageObj.width != undefined && storageObj.width.length > 50) {
+            validation.errors.widthErrors.tooLarge = true;
+            validation.valid = false;
+        }
+
+        // Height check
+        if(storageObj.height != undefined && storageObj.height.length > 50) {
+            validation.errors.lengthErrors.tooLarge = true;
+            validation.valid = false;
+        }
+
+        // Item quantity check
+        if(storageObj.quantity != undefined && storageObj.quantity < 1) {
+            validation.errors.quantityErrors.notPositive = true;
+            validation.valid = false;
+        }
+
+        if(storageObj.quantity != undefined && storageObj.quantity.toString().length > 50) {
+            validation.errors.quantityErrors.tooLarge = true;
+            validation.valid = false;
+        }
+
+        // Item estimatedValue check
+        if(storageObj.estimatedValue != undefined && storageObj.estimatedValue.length > 50) {
+            validation.errors.valueErrors.tooLarge = true;
+            validation.valid = false;
+        }
+
+        return validation;
     },
 
     //========================//
@@ -214,6 +303,11 @@ const StorageController = {
         const containerID = req.body.id;
 
         // Validate it
+        const validation = StorageController.validate_storage_object(updatedContainer);
+
+        if(!validation.valid) {
+            return res.status(400).json(validation);
+        }
 
         try{
             // Update container in db
@@ -224,7 +318,7 @@ const StorageController = {
             );
 
             // Send success response
-            res.status(200).json({valid:true});
+            res.status(200).json(validation);
 
         }
         catch(e) {
@@ -272,6 +366,10 @@ const StorageController = {
                 objAndInfo = await StorageController.create_item(newObj);
             }
 
+            if(!objAndInfo.validation.valid) {
+                return res.status(400).json(objAndInfo.validation);
+            }
+
             // Add content info object to container contents array
             await Container.findByIdAndUpdate(
                 containerID,
@@ -280,7 +378,7 @@ const StorageController = {
             )
 
             // Respond with success
-            res.status(200).json({valid:true});
+            res.status(200).json(objAndInfo.validation);
         }
         catch(e) {
             console.error(e);
@@ -463,7 +561,11 @@ const StorageController = {
         }
 
         // Validate container later
+        objAndInfo.validation = StorageController.validate_storage_object(newContainer);
 
+        if(!validation.valid) {
+            return objAndInfo;
+        }
 
         // Make container in db
         const container = await Container.create(newContainer);
@@ -515,6 +617,7 @@ const StorageController = {
         const itemID = req.body.id;
 
         // Validate item later
+        const validation = StorageController.validate_storage_object(updatedItem);
 
         //Update item
         try{
@@ -525,7 +628,7 @@ const StorageController = {
             )
 
             // Successful response
-            res.status(200).json({valid:true});
+            res.status(200).json(validation);
         }
         catch(e) {
             console.log(e);
@@ -701,6 +804,12 @@ const StorageController = {
             }
         }
 
+        objAndInfo.validation = StorageController.validate_storage_object(newItem);
+
+        if(!validation.valid) {
+            return objAndInfo;
+        }
+
         // Create item in db
         const item = await Item.create(newItem);
 
@@ -708,7 +817,7 @@ const StorageController = {
         objAndInfo.newObj.id = new mongoose.mongo.ObjectId(item.id);
 
         return objAndInfo;
-    }
+    },
 
 }
 

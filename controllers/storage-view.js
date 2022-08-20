@@ -1,5 +1,5 @@
 // Storage views controller
-const Location = require("../models/StorageLocation");
+const Location = require("../models/Location");
 const Container = require("../models/Container");
 const Item = require("../models/Item");
 
