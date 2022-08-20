@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ItemSchema = new mongoose.Schema({
+const LocationSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -8,17 +8,11 @@ const ItemSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        max: 250
+        max: 250,
     },
-    quantity: {
-        type: Number,
-        default: 1,
-        min: 1
-    },
-    estimatedValue: {
-        type: String,
-        max: 50,
-        default: "0"
+    contents: {
+        type: Array,
+        default: []
     },
     length: {
         type: String,
@@ -32,23 +26,13 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         max: 50
     },
-    parent: {
-        id: {
-            type: mongoose.Types.ObjectId,
-            required: true
-        },
-        type: {
-            type: String,
-            required: true
-        }
-    },
     owner: {
         type: mongoose.Types.ObjectId,
         required: true
     },
     type: {
         type: String,
-        default: "item"
+        default: "location"
     },
     date: {
         type: Date,
@@ -56,6 +40,6 @@ const ItemSchema = new mongoose.Schema({
     }
 });
 
-const Item = mongoose.model("Item", ItemSchema);
+const Location = mongoose.model("Location", LocationSchema);
 
-module.exports = Item;
+module.exports = Location;

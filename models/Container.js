@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const ContainerSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        max: 50
     },
     description: {
         type: String,
-        required: false
+        max: 250
     },
     contents: {
         type: Array,
@@ -15,23 +16,15 @@ const ContainerSchema = new mongoose.Schema({
     },
     length: {
         type: String,
-        required: false
+        max: 50
     },
     width: {
         type: String,
-        required: false
+        max: 50
     },
     height: {
         type: String,
-        required: false
-    },
-    date: {
-        type: Date,
-        default: Date.now()
-    },
-    type: {
-        type: String,
-        default: "container"
+        max: 50
     },
     parent: {
         id: {
@@ -46,6 +39,14 @@ const ContainerSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Types.ObjectId,
         required: true
+    },
+    type: {
+        type: String,
+        default: "container"
+    },
+    date: {
+        type: Date,
+        default: Date.now()
     }
 });
 

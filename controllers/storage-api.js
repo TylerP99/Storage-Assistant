@@ -1,6 +1,6 @@
 // Storage controller
 const mongoose = require("mongoose");
-const Location = require("../models/StorageLocation.js");
+const Location = require("../models/Location.js");
 const Container = require("../models/Container.js");
 const Item = require("../models/Item.js");
 
@@ -182,6 +182,17 @@ const StorageController = {
             console.error(e);
             next(e);
         }
+    },
+
+    // Location Helpers
+    validate_location: (location) => {
+        // Validation functions return a validation object
+        const validation = {
+            valid: true,
+            errors: [] // Two options for errors: a flag object or an array of error messages
+        };
+
+
     },
 
     //========================//
