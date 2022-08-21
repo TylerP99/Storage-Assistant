@@ -15,11 +15,11 @@ async function edit_container(event) {
     const form = event.target;
 
     const updatedContainer = {
-        name: form.querySelector("#container-name-update").value,
-        description: form.querySelector("#container-description-update").value,
-        length: form.querySelector("#container-length-update").value,
-        width: form.querySelector("#container-width-update").value,
-        height: form.querySelector("#container-height-update").value
+        name: form.querySelector("#name").value,
+        description: form.querySelector("#description").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value
     };
 
     const reqData = {
@@ -31,7 +31,7 @@ async function edit_container(event) {
 
     const reqType = "PUT";
 
-    request_and_handle_res(reqData, reqLoc, reqType);
+    request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 // Move Container
@@ -111,11 +111,11 @@ async function add_new_container(event) {
     const form = event.target;
 
     const newContainer = {
-        name: form.querySelector("#container-name").value,
-        description: form.querySelector("#container-description").value,
-        length: form.querySelector("#container-length").value,
-        width: form.querySelector("#container-width").value,
-        height: form.querySelector("#container-height").value
+        name: form.querySelector("#name").value,
+        description: form.querySelector("#description").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value
     }
 
     const reqData = {
@@ -128,7 +128,7 @@ async function add_new_container(event) {
 
     const reqType = "PUT";
 
-    request_and_handle_res(reqData, reqLoc, reqType);
+    request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 // Add Item
@@ -142,13 +142,13 @@ async function add_new_item(event) {
     const form = event.target;
 
     const newItem = {
-        name: form.querySelector("#item-description").value,
-        description: form.querySelector("#item-description").value,
-        quantity: form.querySelector("#item-quantity").value,
-        estimatedValue: form.querySelector("#item-value").value,
-        length: form.querySelector("#item-length").value,
-        width: form.querySelector("#item-width").value,
-        height: form.querySelector("#item-height").value,
+        name: form.querySelector("#description").value,
+        description: form.querySelector("#description").value,
+        quantity: form.querySelector("#quantity").value,
+        estimatedValue: form.querySelector("#value").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value,
     };
 
     const reqData = {
@@ -161,7 +161,7 @@ async function add_new_item(event) {
 
     const reqType = "PUT";
 
-    request_and_handle_res(reqData, reqLoc, reqType);
+    request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 
@@ -171,7 +171,7 @@ async function add_new_item(event) {
 //          Request Handler           //
 //====================================//
 
-async function request_and_handle_res(reqData, reqLoc, reqType, error_function) {
+async function request_and_handle_res(reqData, reqLoc, reqType, reqForm) {
     // Make request to target route
     const response = await fetch(
         reqLoc,
@@ -191,9 +191,59 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
 
     // If there are errors, handle them
     if(!data.valid) {
-        return
-    }
+        return error_handler(reqForm, data.errors);
+    };
 
     // Otherwise, reload the page to display the page
     window.location.reload();
+}
+
+
+function error_handler(formElement, errors) {
+    // Just check for each error, and adjust form accordingly
+    // Forms will be changed to have generic input ids rather than object specific ones
+
+    if(errors.nameErrors.undefined) {
+        formElement.querySelector("#name").classList.add("error");
+        formElement.querySelector("#name-error").innerText = "Name is required";
+    }
+    else if(errors.nameErrors.tooLarge) {
+        formElement.querySelector("#name").classList.add("error");
+        formElement.querySelector("#name-error").innerText = "Name is too long";
+    }
+
+    if(errors.descriptionErrors.tooLarge) {
+        formElement.querySelector("#description").classList.add("error");
+        formElement.querySelector("#description-error").innerText = "Description is too long";
+    }
+
+    if(errors.lengthErrors.tooLarge) {
+        formElement.querySelector("#length").classList.add("error");
+        formElement.querySelector("#length-error").innerText = "Length is too long";
+    }
+
+    if(errors.widthErrors.tooLarge) {
+        formElement.querySelector("#width").classList.add("error");
+        formElement.querySelector("#width-error").innerText = "Width is too long";
+    }
+
+    if(errors.heightErrors.tooLarge) {
+        formElement.querySelector("#height").classList.add("error");
+        formElement.querySelector("#height-error").innerText = "Height is too long";
+    }
+
+    if(errors.quantityErrors.tooLarge) {
+        formElement.querySelector("#quantity").classList.add("error");
+        formElement.querySelector("#quantity-error").innerText = "Quantity is too long";
+    }
+
+    if(errors.quantityErrors.negative) {
+        formElement.querySelector("#quantity").classList.add("error");
+        formElement.querySelector("#quantity-error").innerText = "Quantity cannot be negative";
+    }
+
+    if(errors.valueErrors.tooLarge) {
+        formElement.querySelector("#value").classList.add("error");
+        formElement.querySelector("#value-error").innerText = "Value is too long";
+    }
 }

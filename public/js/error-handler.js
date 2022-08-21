@@ -1,69 +1,37 @@
-//====================================//
-//          Request Handler           //
-//====================================//
+// Form error handler
+// Validation object is generic, I can make error handler generic as well
+/* Current validation object
 
-async function request_and_handle_res(reqData, reqLoc, reqType, reqForm) {
-    // Make request to target route
-    const response = await fetch(
-        reqLoc,
-        {
-            method:reqType,
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(reqData)
-        }
-    )
+    const validation = {
+            valid: true,
+            errors: {
+                nameErrors: {
+                    undefined: false,
+                    tooLarge: false
+                },
+                descriptionErrors: {
+                    tooLarge: false
+                },
+                lengthErrors: {
+                    tooLarge: false
+                },
+                widthErrors: {
+                    tooLarge: false
+                },
+                heightErrors: {
+                    tooLarge: false
+                },
+                quantityErrors: {
+                    tooLarge: false,
+                    notPositive: false
+                },
+                valueErrors: {
+                    tooLarge: false
+                }
+            }
+        };
 
-    // Parse response to check for errors
-    const data = await response.json();
-
-    console.log(data);
-
-    // If there are errors, handle them
-    if(!data.valid) {
-        return error_handler(reqForm, data.errors);
-    }
-
-    // Otherwise, reload the page to display the page
-    window.location.reload();
-}
-
-// Only need to be able to create a new location from here
-const createLocationForm = document.querySelector(".create-location-form");
-
-createLocationForm.addEventListener("submit", create_location);
-
-async function create_location(event) {
-    // Prevent default form submission
-    event.preventDefault();
-
-    // Get form from event
-    const form = event.target;
-
-    // Construct new location object from form data
-    const newLocation = {
-        name: form.querySelector("#name").value,
-        description: form.querySelector("#description").value,
-        length: form.querySelector("#length").value,
-        width: form.querySelector("#width").value,
-        height: form.querySelector("#height").value
-    };
-
-    // Construct request data object
-    const reqData = {
-        location: newLocation
-    };
-
-    // Define request route
-    const reqLoc = "/api/storage/location/create";
-
-    // Define request type
-    const reqType = "POST";
-
-    // Send request
-    request_and_handle_res(reqData, reqLoc, reqType, form)
-}
+*/
 
 function error_handler(formElement, errors) {
     // Just check for each error, and adjust form accordingly

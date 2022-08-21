@@ -563,7 +563,7 @@ const StorageController = {
         // Validate container later
         objAndInfo.validation = StorageController.validate_storage_object(newContainer);
 
-        if(!validation.valid) {
+        if(!objAndInfo.validation.valid) {
             return objAndInfo;
         }
 
@@ -806,7 +806,7 @@ const StorageController = {
 
         objAndInfo.validation = StorageController.validate_storage_object(newItem);
 
-        if(!validation.valid) {
+        if(!objAndInfo.validation.valid) {
             return objAndInfo;
         }
 

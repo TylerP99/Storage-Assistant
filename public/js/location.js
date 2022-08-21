@@ -22,11 +22,11 @@ async function update_location(event) {
 
     // Construct new location object from form fields
     const updatedLocation = {
-        name: form.querySelector("#location-name-update").value,
-        description: form.querySelector("#location-description-update").value,
-        length: form.querySelector("#location-length-update").value,
-        width: form.querySelector("#location-width-update").value,
-        height: form.querySelector("#location-height-update").value
+        name: form.querySelector("#name").value,
+        description: form.querySelector("#description").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value
     };
 
     // Construct request data object
@@ -42,7 +42,7 @@ async function update_location(event) {
     const reqType = "PUT";
 
     // Send request and handle response
-    request_and_handle_res(reqData, reqLoc, reqType);
+    request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 //=========================//
@@ -106,11 +106,11 @@ async function add_container_to_location(event) {
 
     // Construct new container object
     const container = {
-        name: form.querySelector("#container-name").value,
-        description: form.querySelector("#container-description").value,
-        length: form.querySelector("#container-length").value,
-        width: form.querySelector("#container-width").value,
-        height: form.querySelector("#container-height").value
+        name: form.querySelector("#name").value,
+        description: form.querySelector("#description").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value
     }
 
     // Construct request data object containing container to add, the type of object to add, and the id of the location to add to
@@ -127,7 +127,7 @@ async function add_container_to_location(event) {
     const reqType = "PUT";
 
     // Send request and handle the response
-    await request_and_handle_res(reqData, reqLoc, reqType);
+    await request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 //==============//
@@ -146,13 +146,13 @@ async function add_item_to_location(event) {
 
     // Construct new item from form data
     const item = {
-        name: form.querySelector("#item-name").value,
-        description: form.querySelector("#item-description").value,
-        quantity: form.querySelector("#item-quantity").value,
-        estimatedValue: form.querySelector("#item-value").value,
-        length: form.querySelector("#item-length").value,
-        width: form.querySelector("#item-width").value,
-        height: form.querySelector("#item-height").value
+        name: form.querySelector("#name").value,
+        description: form.querySelector("#description").value,
+        quantity: form.querySelector("#quantity").value,
+        estimatedValue: form.querySelector("#value").value,
+        length: form.querySelector("#length").value,
+        width: form.querySelector("#width").value,
+        height: form.querySelector("#height").value
     };
 
     // Construct request data object
@@ -169,7 +169,7 @@ async function add_item_to_location(event) {
     const reqType = "PUT"
 
     // Send request and handle the response
-    await request_and_handle_res(reqData, reqLoc, reqType);
+    await request_and_handle_res(reqData, reqLoc, reqType, form);
 }
 
 
@@ -179,7 +179,7 @@ async function add_item_to_location(event) {
 //          Request Handler           //
 //====================================//
 
-async function request_and_handle_res(reqData, reqLoc, reqType, error_function) {
+async function request_and_handle_res(reqData, reqLoc, reqType, reqForm) {
     // Make request to target route
     const response = await fetch(
         reqLoc,
@@ -199,9 +199,58 @@ async function request_and_handle_res(reqData, reqLoc, reqType, error_function) 
 
     // If there are errors, handle them
     if(!data.valid) {
-        return
+        return error_handler(reqForm, data.errors);
     }
 
     // Otherwise, reload the page to display the page
     window.location.reload();
+}
+
+function error_handler(formElement, errors) {
+    // Just check for each error, and adjust form accordingly
+    // Forms will be changed to have generic input ids rather than object specific ones
+
+    if(errors.nameErrors.undefined) {
+        formElement.querySelector("#name").classList.add("error");
+        formElement.querySelector("#name-error").innerText = "Name is required";
+    }
+    else if(errors.nameErrors.tooLarge) {
+        formElement.querySelector("#name").classList.add("error");
+        formElement.querySelector("#name-error").innerText = "Name is too long";
+    }
+
+    if(errors.descriptionErrors.tooLarge) {
+        formElement.querySelector("#description").classList.add("error");
+        formElement.querySelector("#description-error").innerText = "Description is too long";
+    }
+
+    if(errors.lengthErrors.tooLarge) {
+        formElement.querySelector("#length").classList.add("error");
+        formElement.querySelector("#length-error").innerText = "Length is too long";
+    }
+
+    if(errors.widthErrors.tooLarge) {
+        formElement.querySelector("#width").classList.add("error");
+        formElement.querySelector("#width-error").innerText = "Width is too long";
+    }
+
+    if(errors.heightErrors.tooLarge) {
+        formElement.querySelector("#height").classList.add("error");
+        formElement.querySelector("#height-error").innerText = "Height is too long";
+    }
+
+    if(errors.quantityErrors.tooLarge) {
+        formElement.querySelector("#quantity").classList.add("error");
+        formElement.querySelector("#quantity-error").innerText = "Quantity is too long";
+    }
+
+    if(errors.quantityErrors.negative) {
+        formElement.querySelector("#quantity").classList.add("error");
+        formElement.querySelector("#quantity-error").innerText = "Quantity cannot be negative";
+    }
+
+    if(errors.valueErrors.tooLarge) {
+        formElement.querySelector("#value").classList.add("error");
+        formElement.querySelector("#value-error").innerText = "Value is too long";
+    }
 }

@@ -30,6 +30,7 @@ formOpenButtons.forEach(x => x.addEventListener("click", open_form));
 function open_form(event) {
     const overlay = event.target.parentElement.querySelector(".overlay");
     overlay.classList.toggle("hidden");
+    console.log("Open sesame");
 }
 
 
@@ -39,6 +40,7 @@ formOverlays.forEach(x => x.addEventListener("click", click_off_form));
 
 function click_off_form(event) {
     if(!event.target.closest("form")) {
+        console.log("click off close")
         event.target.classList.toggle("hidden");
     }
 }
@@ -53,6 +55,8 @@ formCloseButtons.forEach(x=> x.addEventListener("click", close_form));
 
 function close_form(event) {
     // event is a button whose parent is the form whose parent is the overlay
+    event.preventDefault();
+    console.log("Button close close")
     event.target.parentElement.parentElement.classList.toggle("hidden");
 }
 

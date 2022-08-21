@@ -26,33 +26,38 @@
                     <section class="overlay create-location-form-container hidden">
                         <form class="create-location-form" action="/api/storage/create/StorageLocation" method="POST">
 
-                            <button class="close-button">x</button>
+                            <button type="button" class="close-button">x</button>
         
                             <h2>Create New Location</h2>
                             
                             <section>
+                                <section id="name-error"></section>
                                 <label for="name">Name:</label>
-                                <input type="text" id="location-name" name="name" placeholder="Enter name here" required>
+                                <input type="text" id="name" name="name" placeholder="Enter name here" required>
                             </section>
                     
                             <section>
+                                <section id="description-error"></section>
                                 <label for="description">Description:</label>
-                                <input type="text" id="location-description" name="description" placeholder="Enter description here" required>
+                                <input type="text" id="description" name="description" placeholder="Enter description here" required>
                             </section>
                     
                             <section>
+                                <section id="length-error"></section>
                                 <label for="length">Length:</label>
-                                <input type="text" id="location-length" name="length" placeholder="Enter length here" required>
+                                <input type="text" id="length" name="length" placeholder="Enter length here" required>
                             </section>
                     
                             <section>
+                                <section id="width-error"></section>
                                 <label for="width">Width:</label>
-                                <input type="text" id="location-width" name="width" placeholder="Enter width here" required>
+                                <input type="text" id="width" name="width" placeholder="Enter width here" required>
                             </section>
                     
                             <section>
+                                <section id="height-error"></section>
                                 <label for="height">Height:</label>
-                                <input type="text" id="location-height" name="height" placeholder="Enter height here" required>
+                                <input type="text" id="height" name="height" placeholder="Enter height here" required>
                             </section>
                     
                             <section>
