@@ -260,7 +260,7 @@ const StorageController = {
 
         // Height check
         if(storageObj.height != undefined && storageObj.height.length > 50) {
-            validation.errors.lengthErrors.tooLarge = true;
+            validation.errors.heightErrors.tooLarge = true;
             validation.valid = false;
         }
 
