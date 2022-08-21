@@ -25,6 +25,11 @@ const StorageViewController = {
             // Get location from id provided
             const location = await Location.findById(locationID);
 
+            // Verify ownership
+            if(location.owner != req.user.id) {
+                return res.redirect("/unauthorized");
+            }
+
             // Get contents from location
             const contents = await StorageViewController.get_contents(location);
             const containers = contents.containers;
@@ -47,6 +52,10 @@ const StorageViewController = {
         try{
             // Get container from id provided
             const container = await Container.findById(containerID);
+
+            if(container.owner != req.user.id) {
+                res.redirect("/unauthorized");
+            }
 
             // Get contents from container
             const contents = await StorageViewController.get_contents(container);
@@ -80,6 +89,10 @@ const StorageViewController = {
         try{
             // Get item from id provided
             const item = await Item.findById(itemID);
+
+            if(item.owner != req.user.id) {
+                res.redirect("/unauthorized");
+            }
 
             // Get move destinations for item (invalid move location is the item parent)
             let destinations = await Location.find({owner: req.user.id});
