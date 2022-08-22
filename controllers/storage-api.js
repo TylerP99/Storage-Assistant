@@ -4,6 +4,8 @@ const Location = require("../models/Location.js");
 const Container = require("../models/Container.js");
 const Item = require("../models/Item.js");
 
+const ChangelogController = require("./changelog");
+
 const StorageController = {
 
     /*
@@ -44,7 +46,9 @@ const StorageController = {
         // Try catch for async/await error handling
         try {
             // Create new location in db
-            await Location.create(newLocation);
+            const createdLocation = await Location.create(newLocation);
+
+            await ChangelogController.log_creation(createdLocation, req.user.id);
 
             // Send successful response
             res.status(201).json(validation);
@@ -77,13 +81,17 @@ const StorageController = {
         }
 
         try {
-            await Location.findByIdAndUpdate(
+            const oldLocation = await Location.findByIdAndUpdate(
                 locationID, // ID to search for
                 updatedLocation, // Properties to update
                 { // Options
                     upsert: false // Do not make new location if the targeted location was not found
                 }
             );
+
+            const newLocation = await Location.findById(locationID);
+
+            await ChangelogController.log_update(newLocation, oldLocation, req.user.id);
 
             res.status(200).json(validation);
         }
@@ -113,6 +121,7 @@ const StorageController = {
             id: new mongoose.mongo.ObjectId(locationID),
             type: "location"
         };
+        newObj.type = objType;
 
         let objAndInfo = {
             // Object to be created
@@ -143,11 +152,19 @@ const StorageController = {
 
         // Add new object to location contents array
         try{
-            await Location.findByIdAndUpdate(
+            const location = await Location.findByIdAndUpdate(
                 locationID,
                 { $push: {contents: objAndInfo.newObj} },
-                { upsert: false}
+                { 
+                    upsert: false,
+                    new: true
+                }
             );
+
+            console.log("newObj");
+            console.log(newObj);
+
+            await ChangelogController.log_addition(newObj, location, req.user.id)
 
             res.status(200).json({valid:true});
         }
@@ -188,6 +205,8 @@ const StorageController = {
 
             // Delete the location
             await Location.findByIdAndDelete(locationID);
+
+            await ChangelogController.log_deletion(location, req.user.id);
 
             // Respond with success
             res.status(200).json({valid:true});
@@ -311,11 +330,15 @@ const StorageController = {
 
         try{
             // Update container in db
-            await Container.findByIdAndUpdate(
+            const oldContainer = await Container.findByIdAndUpdate(
                 containerID,
                 updatedContainer,
                 { upsert: false }
             );
+
+            const newContainer = await Container.findById(containerID);
+
+            await ChangelogController.log_update(newContainer, oldContainer, req.user.id);
 
             // Send success response
             res.status(200).json(validation);
@@ -345,6 +368,7 @@ const StorageController = {
             type: "container"
         };
         const newObjType = req.body.type;
+        newObj.type = newObjType;
 
         let objAndInfo = {
             newObj: {
@@ -371,11 +395,16 @@ const StorageController = {
             }
 
             // Add content info object to container contents array
-            await Container.findByIdAndUpdate(
+            const container = await Container.findByIdAndUpdate(
                 containerID,
                 { $push: { contents: objAndInfo.newObj } },
-                { upsert: false }
-            )
+                { 
+                    upsert: false,
+                    new: true
+                }
+            );
+
+            await ChangelogController.log_addition(newObj, container, req.user.id);
 
             // Respond with success
             res.status(200).json(objAndInfo.validation);
@@ -400,6 +429,8 @@ const StorageController = {
         // Get information from request
         const containerID = req.body.id;
         const destination = req.body.destination;
+        let originObj;
+        let destinationObj
 
         try{
             // Get container to move from db, need parent info
@@ -409,7 +440,7 @@ const StorageController = {
             // First determine parent type, then delete using the right model
             if(container.parent.type == "location") {
                 // Delete from location
-                await Location.findByIdAndUpdate(
+                originObj = await Location.findByIdAndUpdate(
                     container.parent.id,
                     {
                         $pull: {
@@ -418,12 +449,15 @@ const StorageController = {
                             }
                         }
                     },
-                    { upsert: false }
+                    { 
+                        upsert: false,
+                        new: true
+                    }
                 );
             }
             else if( container.parent.type == "container") {
                 // Delete from container
-                await Container.findByIdAndUpdate(
+                originObj = await Container.findByIdAndUpdate(
                     container.parent.id,
                     {
                         $pull: {
@@ -432,13 +466,16 @@ const StorageController = {
                             }
                         }
                     },
-                    { upsert: false }
+                    { 
+                        upsert: false,
+                        new: true
+                    }
                 );
             }
 
             // Add container type and id object to destination contents array
             if( destination.type == "location") {
-                await Location.findByIdAndUpdate(
+                destinationObj = await Location.findByIdAndUpdate(
                     destination.id,
                     {
                         $push: {
@@ -448,11 +485,14 @@ const StorageController = {
                             }
                         }
                     },
-                    { upsert: false }
+                    { 
+                        upsert: false,
+                        new: true
+                    }
                 )
             }
             else if( destination.type == "container") {
-                await Container.findByIdAndUpdate(
+                destinationObj = await Container.findByIdAndUpdate(
                     destination.id,
                     {
                         $push: {
@@ -462,7 +502,10 @@ const StorageController = {
                             }
                         }
                     },
-                    { upsert: false }
+                    { 
+                        upsert: false, 
+                        new:true
+                    }
                 )
             }
             else {
@@ -471,7 +514,7 @@ const StorageController = {
 
 
             // Change container parent object to new parent info
-            await Container.findByIdAndUpdate(
+            const target = await Container.findByIdAndUpdate(
                 container.id,
                 {
                     $set: {
@@ -482,7 +525,9 @@ const StorageController = {
                     }
                 },
                 { upsert: false }
-            )
+            );
+
+            await ChangelogController.log_move(target, originObj, destinationObj, req.user.id);
 
             // Send successful response
             res.status(200).json({valid:true});
@@ -570,6 +615,8 @@ const StorageController = {
         // Make container in db
         const container = await Container.create(newContainer);
 
+        await ChangelogController.log_creation(container, container.owner);
+
         // Add id to return obj
         objAndInfo.newObj.id = new mongoose.mongo.ObjectId(container.id);
 
@@ -586,7 +633,8 @@ const StorageController = {
         // Go through contents array and delete each item
         container.contents.forEach( async x => {
             if(x.type == "item") {
-                await Item.findByIdAndDelete(x.id);
+                const item = await Item.findByIdAndDelete(x.id);
+                await ChangelogController.log_deletion(item, item.owner);
             }
             else if(x.type == "container") {
                 await StorageController.delete_container_helper(x.id);
@@ -594,9 +642,10 @@ const StorageController = {
         });
 
         // Delete container now
-        await Container.findByIdAndDelete(containerID);
+        const deletedContainer = await Container.findByIdAndDelete(containerID);
 
-        // Possibly return success
+        // Log deletion
+        await ChangelogController.log_deletion(deletedContainer, deletedContainer.owner);
     },
 
     //========================//
@@ -621,11 +670,15 @@ const StorageController = {
 
         //Update item
         try{
-            await Item.findByIdAndUpdate(
+            const oldItem = await Item.findByIdAndUpdate(
                 itemID,
                 updatedItem,
                 { upsert: false }
-            )
+            );
+
+            const newItem = await Item.findById(itemID);
+
+            await ChangelogController.log_update(newItem, oldItem, req.user.id);
 
             // Successful response
             res.status(200).json(validation);
@@ -649,6 +702,8 @@ const StorageController = {
         // Get info from req body
         const itemID = req.body.id;
         const destination = req.body.destination;
+        let destinationObj;
+        let originObj;
 
         try{
             // Get item from db to access parent
@@ -656,7 +711,7 @@ const StorageController = {
 
             // Remove item object from contents of parent
             if(item.parent.type == "location") {
-                await Location.findByIdAndUpdate(
+                originObj = await Location.findByIdAndUpdate(
                     item.parent.id,
                     {
                         $pull: {
@@ -669,7 +724,7 @@ const StorageController = {
                 );
             }
             else if( item.parent.type == "container") {
-                await Container.findByIdAndUpdate(
+                originObj = await Container.findByIdAndUpdate(
                     item.parent.id,
                     {
                         $pull: {
@@ -687,7 +742,7 @@ const StorageController = {
 
             // Add new content object to destination
             if(destination.type == "location") {
-                await Location.findByIdAndUpdate(
+                destinationObj = await Location.findByIdAndUpdate(
                     destination.id,
                     {
                         $push: {
@@ -701,7 +756,7 @@ const StorageController = {
                 );
             }
             else if( destination.type == "container") {
-                await Container.findByIdAndUpdate(
+                destinationObj = await Container.findByIdAndUpdate(
                     destination.id,
                     {
                         $push: {
@@ -720,7 +775,7 @@ const StorageController = {
             }
 
             // Update item parent
-            await Item.findByIdAndUpdate(
+            const updatedItem = await Item.findByIdAndUpdate(
                 itemID,
                 {
                     $set: {
@@ -729,8 +784,14 @@ const StorageController = {
                             type: destination.type
                         }
                     }
+                },
+                {
+                    upsert: false,
+                    new: true
                 }
-            )
+            );
+
+            await ChangelogController.log_move(updatedItem, originObj, destinationObj, req.user.id);
 
             res.status(200).json({valid:true});
         }
@@ -779,7 +840,9 @@ const StorageController = {
                 );
             }
 
-            await Item.findByIdAndDelete(itemID);
+            const deletedItem = await Item.findByIdAndDelete(itemID);
+
+            await ChangelogController.log_deletion(deletedItem, req.user.id);
 
             res.status(200).json({valid:true});
         }
@@ -812,6 +875,8 @@ const StorageController = {
 
         // Create item in db
         const item = await Item.create(newItem);
+
+        await ChangelogController.log_creation(item, item.owner);
 
         // Add id to return
         objAndInfo.newObj.id = new mongoose.mongo.ObjectId(item.id);

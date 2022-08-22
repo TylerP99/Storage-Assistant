@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 
 const passport = require("passport");
 
+const ChangelogController = require("./changelog");
+
 const AccountController = {
 
     // Create account
@@ -35,7 +37,10 @@ const AccountController = {
                 password: hashedPassword
             };
 
-            await User.create(newAccount);
+            const newUser = await User.create(newAccount);
+
+            // Also, create user's changelog
+            await ChangelogController.create_log_document(newUser.id);
 
             res.status(200).json(validation);
         }
