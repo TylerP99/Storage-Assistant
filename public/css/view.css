@@ -51,7 +51,10 @@ nav a:hover {
     nav li {
         width: 33%;
         font-size: 1.6rem;
-    }    
+    }
+    nav a {
+        padding: 2rem;
+    }
 }
 
 /*====================*/
