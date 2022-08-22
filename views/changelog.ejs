@@ -20,16 +20,10 @@
 
         <section class="log-display">
 
-            <% for(let i = 0; i < changelog.length; ++i)  { %>
-
-                <section class="log-card <%=changelog[i].type%>-card">
-
-                    <p><%=changelog[i].entry%></p>
-
-                    <p>At <%=changelog[i].date%></p>
-
-                </section>
-
+            <% if(changelog != undefined) { %>
+                <%-include("./partials/log-card")%>
+            <% } else { %>
+                <h6>No logs found</h6>
             <% } %>
 
         </section>

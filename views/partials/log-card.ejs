@@ -1,0 +1,11 @@
+<% for(let i = 0; i < changelog.length; ++i)  { %>
+
+    <section class="log-card <%=changelog[i].type%>-card">
+
+        <p><%=changelog[i].entry%></p>
+
+        <p>At <%=new Date(changelog[i].date)%></p>
+
+    </section>
+
+<% } %>

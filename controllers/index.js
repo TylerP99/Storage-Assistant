@@ -29,9 +29,9 @@ const indexViewController = {
     },
 
     get_changelog: async (req, res, next) => {
-        const changelog = await Changelog.find( {owner: req.user.id} );
+        const changelog = await Changelog.findOne( {owner: req.user.id} );
 
-        res.render("changelog.ejs", {changelog: changelog.logs});
+        res.render("changelog.ejs", {changelog: changelog.log});
     },
 
     // 404
