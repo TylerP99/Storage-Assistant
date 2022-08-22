@@ -15,4 +15,6 @@ router.get("/settings", IndexViewController.get_settings);
 
 router.get("/unauthorized", IndexViewController.get_403);
 
+router.get("/notfound", IndexViewController.get_404);
+
 module.exports = router;

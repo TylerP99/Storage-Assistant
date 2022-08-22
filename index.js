@@ -74,7 +74,7 @@ app.use("/api", require("./routes/api.js"));
 app.use("/storage", require("./routes/storage.js"));
 
 app.get("*", (req,res) => {
-    res.render("404.ejs")
+    res.redirect("/notfound");
 });
 
 app.listen(PORT, () =>{
