@@ -21,7 +21,8 @@ module.exports = {
                 $push: {
                     log: {
                         entry: entry,
-                        type: "creation"
+                        type: "creation",
+                        date: Date.now()
                     }
                 }
             },
@@ -40,7 +41,8 @@ module.exports = {
                 $push: {
                     log: {
                         entry: entry,
-                        type: "addition"
+                        type: "addition",
+                        date: Date.now()
                     }
                 }
             },
@@ -57,7 +59,8 @@ module.exports = {
                 $push: {
                     log: {
                         entry: entry,
-                        type: "update"
+                        type: "update",
+                        date: Date.now()
                     }
                 }
             },
@@ -74,7 +77,8 @@ module.exports = {
                 $push: {
                     log: {
                         entry: entry,
-                        type: "move"
+                        type: "move",
+                        date: Date.now()
                     }
                 }
             },
@@ -91,7 +95,8 @@ module.exports = {
                 $push: {
                     log: {
                         entry: entry,
-                        type: "deletion"
+                        type: "deletion",
+                        date: Date.now()
                     }
                 }
             },
