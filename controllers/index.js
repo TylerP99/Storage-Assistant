@@ -1,5 +1,7 @@
 // Index views controller
 
+const Changelog = require("../models/Changelog");
+
 const indexViewController = {
     // Landing page
     get_landing: (req,res,next) => {
@@ -24,6 +26,12 @@ const indexViewController = {
     // Logout
     get_logout: (req,res,next) => {
         res.render("logout.ejs");
+    },
+
+    get_changelog: async (req, res, next) => {
+        const changelog = await Changelog.find( {owner: req.user.id} );
+
+        res.render("changelog.ejs", {changelog: changelog.logs});
     },
 
     // 404

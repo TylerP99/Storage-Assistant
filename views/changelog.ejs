@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog</title>
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/view.css">
+
+</head>
+<body>
+
+    <%- include("./partials/navbar.ejs") %>
+
+    <main>
+
+        <h1>Storage Changelog</h1>
+
+        <section class="log-display">
+
+            <% for(let i = 0; i < changelog.length; ++i)  { %>
+
+                <section class="log-card <%=changelog[i].type%>-card">
+
+                    <p><%=changelog[i].entry%></p>
+
+                    <p>At <%=changelog[i].date%></p>
+
+                </section>
+
+            <% } %>
+
+        </section>
+
+    </main>
+    
+</body>
+</html>
