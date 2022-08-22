@@ -19,6 +19,9 @@ app.use(express.static("public")); // Allows router to easily grab from public f
 
 require("dotenv").config();
 
+// Favicon
+const favicon = require("serve-favicon");
+app.use(favicon(__dirname + "/public/images/favicon.ico"));
 
 
 // Mongoose Config
@@ -69,6 +72,10 @@ app.use("/api", require("./routes/api.js"));
 
 // Storage view route
 app.use("/storage", require("./routes/storage.js"));
+
+app.get("*", (req,res) => {
+    res.render("404.ejs")
+});
 
 app.listen(PORT, () =>{
     console.log(`Listening on ${PORT}`);
