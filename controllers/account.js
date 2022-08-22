@@ -1,11 +1,14 @@
 //New user controller
 const User = require("../models/User.js");
+const Changelog = require("../models/Changelog");
 
 const bcrypt = require("bcrypt");
 
 const passport = require("passport");
 
 const ChangelogController = require("./changelog");
+
+const StorageAPIController = require("./storage-api");
 
 const AccountController = {
 
@@ -97,8 +100,143 @@ const AccountController = {
     },
 
     // Update account
+    update_account_email: async (req,res,next) => {
+        const email = req.body.email;
+        const validation = {
+            valid: true,
+            errors: {
+                emailErrors: {
+                    emailEmpty: false,
+                    emailInUse: false
+                }
+            }
+        }
+
+        if(email == undefined) {
+            validation.valid = false;
+            validation.errors.emailErrors.emailEmpty = true;
+        }
+
+        try {
+            const emailTest = await User.findOne({email: email});
+
+            if(emailTest) {
+                validation.valid = false;
+                validation.errors.emailErrors.emailInUse = true;
+            }
+
+            if(!validation.valid) {
+                return res.status(400).json(validation);
+            }
+
+            await User.findByIdAndUpdate(
+                req.user.id,
+                {
+                    $set: {
+                        email: email
+                    }
+                },
+                {
+                    upsert: false
+                }
+            );
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
+    },
+
+    update_account_password: async (req, res, next) => {
+        const saltRounds = 10;
+        // Req should provide the old password, the new password, and a new password confirmation
+        const oldPassword = req.body.oldPassword;
+        const newPassword1 = req.body.newPassword1;
+        const newPassword2 = req.body.newPassword2;
+
+        const validation = {
+            valid: true,
+            errors: {
+                passwordErrors: {
+                    passwordShort: false,
+                    passwordsNotMatch: false,
+                    oldPasswordIncorrect: false
+                }
+            }
+        }
+
+        // Validate new password
+        if(newPassword1.length < 8) {
+            // Password too short
+            validation.valid = false;
+            validation.errors.passwordErrors.passwordShort = true;
+        }
+        if(newPassword1 != newPassword2) {
+            // Passwords dont match
+            validation.valid = false;
+            validation.errors.passwordErrors.passwordsNotMatch = true;
+        }
+
+        if(!validation.valid) {
+            return res.status(400).json(validation);
+        }
+
+        try {
+            // Get user from db for password
+            const user = await User.findById(req.user.id);
+
+            // Old password needs to match database password
+            const match = await bcrypt.compare(oldPassword, user.password);
+
+            if(!match) {
+                // Bad, return bad response
+                validation.valid = false;
+                validation.errors.passwordErrors.oldPasswordIncorrect = true;
+
+                return res.status(400).json(validation);
+            }
+
+            const newHashedPassword = await bcrypt.hash(newPassword1, saltRounds);
+
+            await User.findByIdAndUpdate(
+                req.user.id,
+                {
+                    $set: {
+                        password: newHashedPassword
+                    },
+                },
+                {
+                    upsert: false
+                }
+            );
+
+            res.status(200).json(validation);
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
+    },
 
     // Delete account
+    delete_account: async (req, res, next) => {
+        // Need to delete all info tied to the account
+        try{
+            // Delete changelog
+            await Changelog.findOneAndDelete({owner:req.user.id});
+
+            // Delete locations (which should delete containers and items)
+
+            // Delete account
+            await User.findByIdAndRemove(req.user.id);
+
+            res.status(200).json({valid:true});
+        }
+        catch(e) {
+            console.error(e);
+            next(e);
+        }
+    },
 
     // Validate account
     validate_account: async (account) => {
