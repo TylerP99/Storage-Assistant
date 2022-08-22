@@ -55,6 +55,9 @@ nav a:hover {
     nav a {
         padding: 2rem;
     }
+    nav ul {
+        justify-content: space-evenly;
+    }
 }
 
 /*====================*/
