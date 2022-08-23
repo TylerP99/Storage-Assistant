@@ -1,6 +1,8 @@
 //New user controller
 const User = require("../models/User.js");
 const Changelog = require("../models/Changelog");
+const Location = require("../models/Location");
+const Item = require("../models/Item");
 
 const bcrypt = require("bcrypt");
 
@@ -226,6 +228,28 @@ const AccountController = {
             await Changelog.findOneAndDelete({owner:req.user.id});
 
             // Delete locations (which should delete containers and items)
+            const locations = await Location.find({owner:req.user.id});
+
+            console.log(locations);
+
+            for(let i = 0; i < locations.length; ++i) {
+                locations[i].contents.forEach( async x => {
+                    // Determine type of x for correct delete method
+                    if(x.type == "container") {
+                        return await StorageAPIController.delete_container_helper(x.id);
+                    }
+    
+                    if(x.type == "item") {
+                        return await Item.findByIdAndDelete(x.id);
+                    }
+    
+                    throw("Invalid item type");
+                });
+    
+                // Delete the location
+                await Location.findByIdAndDelete(locations[i].id);
+            }
+            
 
             // Delete account
             await User.findByIdAndRemove(req.user.id);

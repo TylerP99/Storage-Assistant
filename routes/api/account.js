@@ -14,6 +14,8 @@ router.put("/updateEmail", ensureAuthenticated, AccountController.update_account
 
 router.put("/updatePassword", ensureAuthenticated, AccountController.update_account_password);
 
+router.delete("/delete", ensureAuthenticated, AccountController.delete_account);
+
 router.delete("/logout", AccountController.logout_account);
 
 module.exports = router;

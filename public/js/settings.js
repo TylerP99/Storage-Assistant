@@ -111,3 +111,33 @@ function display_password_errors(form, errors) {
 function display_success(form, msg) {
     form.querySelector(".success-container").innerText = msg;
 }
+
+
+// Delete account handler
+const deleteAccountForm = document.querySelector(".delete-account-form");
+deleteAccountForm.addEventListener("submit", delete_account);
+
+async function delete_account(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const check = form.querySelector("#confirmation");
+
+    if(!check.checked) {
+        return;
+    }
+
+    const res = await fetch(
+        "/api/account/delete",
+        {
+            method: "DELETE"
+        }
+    );
+
+    const data = await res.json();
+
+    console.log(data);
+
+    window.location.replace("/");
+}
