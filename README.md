@@ -203,9 +203,7 @@ Project Link: [https://github.com/TylerP99/Storage-Assistant](https://github.com
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Passport.js used for authentication](https://www.passportjs.org/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
