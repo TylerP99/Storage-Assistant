@@ -127,9 +127,10 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Add .env file and add the following:
+   ```text
+   MONGODB_CONNECTION_STRING = your connection string from mongo atlas
+   SESSION_SECRET = A secret string (any string works)
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -150,9 +151,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
+- [x] Feature 1
+- [x] Feature 2
+- [x] Feature 3
     - [ ] Nested Feature
 
 See the [open issues](https://github.com/TylerP99/Storage-Assistant/issues) for a full list of proposed features (and known issues).
@@ -191,7 +192,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@@TylerMP99](https://twitter.com/@TylerMP99) - tylerperata@gmail.com
+Tyler Perata - [@TylerMP99](https://twitter.com/@TylerMP99) - tylerperata@gmail.com
 
 Project Link: [https://github.com/TylerP99/Storage-Assistant](https://github.com/TylerP99/Storage-Assistant)
 
