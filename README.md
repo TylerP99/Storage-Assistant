@@ -220,7 +220,7 @@ Project Link: [https://github.com/TylerP99/Storage-Assistant](https://github.com
 [issues-shield]: https://img.shields.io/github/issues/TylerP99/Storage-Assistant.svg?style=for-the-badge
 [issues-url]: https://github.com/TylerP99/Storage-Assistant/issues
 [license-shield]: https://img.shields.io/github/license/TylerP99/Storage-Assistant.svg?style=for-the-badge
-[license-url]: https://github.com/TylerP99/Storage-Assistant/blob/master/LICENSE.txt
+[license-url]: https://github.com/TylerP99/Storage-Assistant/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/tylerperata
 [product-screenshot]: images/screenshot.png
