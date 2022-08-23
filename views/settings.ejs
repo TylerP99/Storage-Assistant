@@ -5,11 +5,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/view.css">
 </head>
 <body>
 
-    <h1>Account Settings</h1>
+    <%-include("./partials/navbar")%>
 
-<script src="/js/logout.js"></script>
+    <main>
+        <h1>Account Settings</h1>
+
+        <form class="change-email-form" action="/api/account/updateEmail" method="PUT">
+
+            <section>
+                <section></section>
+                <label for="new-email">New email:</label>
+                <input id="new-email" name="new-email" type="text" placeholder="Enter new email" required>
+            </section>
+
+            <section>
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </section>
+
+        </form>
+
+        <form class="change-password-form" action="/api/account/updatePassword" method="PUT">
+
+            <section>
+                <section></section>
+                <label for="old-password">Old password:</label>
+                <input id="old-password" name="old-password" type="text" placeholder="Enter old password" required>
+            </section>
+
+            <section>
+                <section></section>
+                <label>New password:</label>
+                <input id="new-password1" name="new-password1" type="text" placeholder="Enter new password" required>
+            </section>
+
+            <section>
+                <section></section>
+                <label>Confirm new password:</label>
+                <input id="new-password2" name="new-password2" type="text" placeholder="Confirm new password" required>
+            </section>
+
+            <section>
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </section>
+
+        </form>
+
+    </main>
+
+    <script src="/js/logout.js"></script>
+    <script src="/js/settings.js"></script>
 </body>
 </html>

@@ -140,6 +140,8 @@ const AccountController = {
                     upsert: false
                 }
             );
+
+            res.status(200).json(validation);
         }
         catch(e) {
             console.error(e);
