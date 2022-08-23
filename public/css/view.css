@@ -285,6 +285,11 @@ form > section:last-child {
     margin-bottom: 0.5rem;
 }
 
+.success-container {
+    color: #13B2B1;
+    font-size: 2rem;
+}
+
 /*====================*/
 /*   General Styles   */
 /*====================*/

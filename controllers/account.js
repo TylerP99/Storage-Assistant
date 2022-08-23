@@ -167,22 +167,6 @@ const AccountController = {
             }
         }
 
-        // Validate new password
-        if(newPassword1.length < 8) {
-            // Password too short
-            validation.valid = false;
-            validation.errors.passwordErrors.passwordShort = true;
-        }
-        if(newPassword1 != newPassword2) {
-            // Passwords dont match
-            validation.valid = false;
-            validation.errors.passwordErrors.passwordsNotMatch = true;
-        }
-
-        if(!validation.valid) {
-            return res.status(400).json(validation);
-        }
-
         try {
             // Get user from db for password
             const user = await User.findById(req.user.id);
@@ -194,7 +178,21 @@ const AccountController = {
                 // Bad, return bad response
                 validation.valid = false;
                 validation.errors.passwordErrors.oldPasswordIncorrect = true;
+            }
 
+            // Validate new password
+            if(newPassword1.length < 8) {
+                // Password too short
+                validation.valid = false;
+                validation.errors.passwordErrors.passwordShort = true;
+            }
+            if(newPassword1 != newPassword2) {
+                // Passwords dont match
+                validation.valid = false;
+                validation.errors.passwordErrors.passwordsNotMatch = true;
+            }
+
+            if(!validation.valid) {
                 return res.status(400).json(validation);
             }
 

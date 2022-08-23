@@ -30,10 +30,10 @@ async function change_email(event) {
     const data = await res.json();
 
     if(!data.valid) {
-        return;
+        return display_email_errors(form, data.errors);
     }
 
-    window.location.reload();
+    display_success(form, "Email has been changed!");
 }
 
 // Change password form handler
@@ -69,9 +69,45 @@ async function change_password(event) {
 
     const data = await res.json();
 
+    console.log(data);
+
     if(!data.valid) {
-        return;
+        return display_password_errors(form, data.errors);
     }
 
-    window.location.reload();
+    display_success(form, "Password has been changed");
+}
+
+function display_email_errors(form, errors) {
+    const emailErrorContainer = form.querySelector("#email-error");
+
+    if(errors.emailErrors.emailInUse) {
+        emailErrorContainer.innerText = "That email is in use"
+    }
+
+    if(errors.emailErrors.emailEmpty) {
+        emailErrorContainer.innerText = "Email is required"
+    }
+}
+
+function display_password_errors(form, errors) {
+    const oldPasswordError = form.querySelector("#old-password-error");
+    const newPassword1Error = form.querySelector("#new-password1-error");
+    const newPassword2Error = form.querySelector("#new-password2-error");
+
+    if(errors.passwordErrors.passwordShort) {
+        newPassword1Error.innerText = "That password is too short";
+    }
+
+    if(errors.passwordErrors.passwordsNotMatch) {
+        newPassword2Error.innerText = "Passwords must match";
+    }
+
+    if(errors.passwordErrors.oldPasswordIncorrect) {
+        oldPasswordError.innerText = "That password is incorrect";
+    }
+}
+
+function display_success(form, msg) {
+    form.querySelector(".success-container").innerText = msg;
 }

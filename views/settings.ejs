@@ -18,9 +18,11 @@
 
         <form class="change-email-form" action="/api/account/updateEmail" method="PUT">
 
+            <section class="success-container"></section>
+
             <section>
-                <section></section>
                 <label for="new-email">New email:</label>
+                <section id="email-error" class="error-container"></section>
                 <input id="new-email" name="new-email" type="text" placeholder="Enter new email" required>
             </section>
 
@@ -33,22 +35,24 @@
 
         <form class="change-password-form" action="/api/account/updatePassword" method="PUT">
 
+            <section class="success-container"></section>
+
             <section>
-                <section></section>
                 <label for="old-password">Old password:</label>
-                <input id="old-password" name="old-password" type="text" placeholder="Enter old password" required>
+                <section id="old-password-error" class="error-container"></section>
+                <input id="old-password" name="old-password" type="password" placeholder="Enter old password" required>
             </section>
 
             <section>
-                <section></section>
                 <label>New password:</label>
-                <input id="new-password1" name="new-password1" type="text" placeholder="Enter new password" required>
+                <section id="new-password1-error" class="error-container"></section>
+                <input id="new-password1" name="new-password1" type="password" placeholder="Enter new password" required>
             </section>
 
             <section>
-                <section></section>
                 <label>Confirm new password:</label>
-                <input id="new-password2" name="new-password2" type="text" placeholder="Confirm new password" required>
+                <section id="new-password2-error" class="error-container"></section>
+                <input id="new-password2" name="new-password2" type="password" placeholder="Confirm new password" required>
             </section>
 
             <section>
