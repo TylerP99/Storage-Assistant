@@ -214,6 +214,7 @@ form {
 
 form label {
     font-size: 1.6rem;
+    margin-bottom: 0.5rem;
 }
 
 form h2 {
@@ -273,6 +274,15 @@ form > section:last-child {
         width: 95%;
         margin-bottom: 1rem;
     }
+}
+
+/*====================*/
+/*    Error Styles    */
+/*====================*/
+.error-container {
+    color: #B21314;    
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
 }
 
 /*====================*/
