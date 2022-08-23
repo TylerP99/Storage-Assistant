@@ -47,7 +47,7 @@ function display_errors(errors) {
     }
 
     if(errors.passwordWeak) {
-        display_password1_error("Password must be at least 6 characters long!");
+        display_password1_error("Password must be at least 8 characters long!");
     }
 
     if(errors.passwordNotMatch) {

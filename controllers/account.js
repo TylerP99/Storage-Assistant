@@ -246,7 +246,11 @@ const AccountController = {
 
         const validation = {
             valid: true,
-            errors: []
+            errors: {
+                emailInUse: false,
+                passwordWeak: false,
+                passwordNotMatch: false
+            }
         };
 
         const emailInUse = await User.findOne(
@@ -255,17 +259,17 @@ const AccountController = {
 
         if(emailInUse) {
             validation.valid = false;
-            validation.errors.push("Email in use");
+            validation.errors.emailInUse = true;
         }
 
         if(account.password1.length < MIN_PASSWORD_LEN) {
             validation.valid = false;
-            validation.errors.push("Password too short");
+            validation.errors.passwordWeak = true;;
         }
 
         if(account.password1 !== account.password2) {
             validation.valid = false;
-            validation.errors.push("Passwords do not match");
+            validation.errors.passwordNotMatch = true;
         }
 
         return validation;

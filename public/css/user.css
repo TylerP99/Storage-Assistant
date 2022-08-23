@@ -4,6 +4,7 @@
 
 html {
     height: 100%;
+    font-size: 62.5%;
 }
 
 body {
@@ -51,7 +52,12 @@ form > section {
 }
 
 form label {
+    font-size: 1.6rem;
     margin-bottom: 0.5rem;
+}
+
+form input {
+    font-size: 1.6rem;
 }
 
 button, a {
@@ -74,6 +80,12 @@ button, a {
 button:hover, a:hover {
     background: #eee;
     border-color: #B21314;
+}
+
+.error-container {
+    color: #B21314;    
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
 }
 
 a {
